@@ -1,0 +1,243 @@
+BOLIWALA.COM
+We Know Auctions!
+Product Feature List
+User Requirements Document — v2.0
+July 2026  ·  Confidential
+1. Product Overview
+Boliwala.com is India's first dedicated platform for SARFAESI bank auction properties — properties seized by banks from loan defaulters and sold through public e-auctions. An estimated ₹3.5 lakh crore of bank auction properties go unsold annually because there is no single platform where buyers can discover, evaluate, and bid on them.
+Boliwala solves this with three things: free, transparent property listings (including the full address — unlike competitors who paywall it), a paid service that manages the entire auction process for serious buyers, and a channel partner program where brokers earn commissions on all revenue streams.
+Business Model
+Tier
+Details
+Free Browse
+All listings, search, alerts — no signup needed. Full address always visible.
+5 Free Credits
+Every signup gets 5 credits. 1 credit unlocks hidden fields on 1 property.
+₹999 / year
+Annual subscription — unlimited unlocking of all hidden property details. Price adjustable from admin.
+₹9,999 + 1%
+End-to-end service package per auction. Includes title search + end-to-end bid support. 1% success fee charged only if client wins. Price adjustable from admin.
+2. Public Website — Pages & Features
+2.1  Homepage
+Full-width hero section with headline, stat band (live listings, cities, banks, ₹0 to browse)
+Property Screener — the main search tool:
+Location, keyword, price range, bank, property type, possession type filters
+Search Auctions + Reset Filters buttons
+How It Works section — 4 steps: Browse Free → Shortlist & Alerts → Due Diligence → Bid & Win
+Auctions by City — searchable grid of 140+ Indian cities with live listing counts
+CTA strip — Sign Up and Browse Properties buttons
+2.2  Search Results Page
+Sticky search bar, active filter chips, create alert banner
+Left sidebar filters with result counts; sort and view toggle (grid/list)
+Property cards: bank, type, auction date, reserve price, address, EMD, Save/View buttons
+Pagination
+2.3  Individual Property Listing Page
+The most important page. Fields model real Indian bank SARFAESI auction notices.
+Always-visible: full address, reserve price, EMD, auction date/time, possession type, legal basis
+Gated fields (require login + credit): flat number, inspection details, officer contact, bank phone/email
+Four viewer states: Guest (preview + signup CTA) / Has credits (unlock button) / No credits (paywall) / Subscriber (all visible)
+Sticky action card: reserve price, EMD, auction date, Shortlist, Hire Boliwala CTA, Download Notice
+Request Free Callback — green button, no payment required, frictionless lead capture
+Package pricing box — ₹9,999 + 1% with service checklist
+Similar properties in same locality at bottom
+2.4  Pricing Page
+Three tiers: Free (₹0) / Annual Member (₹999/year) / Full Service (₹9,999 + 1%)
+All prices read live from admin Settings
+2.5  Services Page
+Single package card (₹9,999 + 1% success fee)
+Four service breakdowns: Due Diligence & Legal Search / Bid Management / Possession Support / Loan Assistance
+FAQ accordion
+2.6  Channel Partner Program Page
+Three-tier programme: Associate → Silver → Gold
+Enrolment form: name, phone, email, profession, city, target localities
+No partner portal or directory at launch — submissions go to admin
+2.7  Contact & About Pages
+Contact — callback form + WhatsApp click-to-chat
+About — brand story
+3. Authentication & User Accounts
+3.1  Sign Up / Login Page
+Two-column layout: left (brand pitch + trust stats), right (signup form)
+Fields: first name, last name, email, WhatsApp number, city, property type, password
+T&C checkbox, Create Account button, Continue with Google
+Welcome toast on signup: "5 free credits added"
+3.2  User Profile (logged-in)
+Profile header — name, email, city, member-since, stats
+Tab 1: Shortlisted Properties
+Tab 2: My Alerts (saved searches with criteria)
+Tab 3: My Services (4-step progress tracker)
+Tab 4: My Subscription (current tier, expiry, renewal options)
+Tab 5: My Reports (assigned documents from admin, linked to specific packages)
+Tab 6: My Details (editable personal info, preferences)
+4. Channel Partner Portal
+Channel partners (brokers/agents) have their own login where they build a referral network, earn commissions on three revenue streams, and access co-branded marketing creatives.
+4.1  Channel Partner Signup & Onboarding
+Partners visit /channel-partner-signup
+Enter: name, email, phone, business name (optional)
+Email verification required
+First login shows onboarding: commission structure, copy referral link, invite contacts
+4.2  Dashboard & Earnings
+Summary cards: Total Referrals, Active Users, Purchased (₹999), Purchased (₹9,999), Auction Wins
+Earnings breakdown:
+₹999 subscriptions commission
+₹9,999 packages commission
+Success fees commission (% of 1%)
+Total earnings this month
+Filterable referral table: Name, Email, Status, Package, Earnings, Date joined
+Commission rates display (read-only, set by admin)
+4.3  Referral Link & Unlimited Invites
+Unique referral link with copy button: boliwala.com/join?ref=CP_abc123xyz
+Manual invite: paste emails or phone numbers (comma-separated)
+System sends invite email/SMS with personalized link
+NO LIMIT on invites — partners can send unlimited
+Invitations tab shows status (pending/accepted/converted)
+4.4  Co-Branded Marketing Creatives
+Partner gallery at /channel-partner/creatives with auto-personalized creatives
+Each creative automatically branded with:
+Partner name
+Partner phone number
+Partner unique referral link
+Formats (no QR code):
+WhatsApp status/post (1080×1080)
+Instagram post (1080×1080)
+Instagram story (1080×1920)
+Facebook post
+Partners filter by format, download, and share
+Admin uploads base templates once; system auto-overlays partner details
+4.5  Commission Rates & Payouts
+Partners earn on all three streams:
+₹999 subscription — configured % per sub
+₹9,999 per-auction package — configured % per package
+Success fees — configured % of our 1% fee
+Rates set globally by admin, displayed to all partners
+Payouts monthly — ledger aggregates per calendar month
+5. Admin Backend Panel  ( /admin )
+Password-protected. Sidebar with: Listings, Leads & Sales, Finance, Users & Partners, Engagement, Settings & Commission.
+5.1  Dashboard
+KPI cards: Active Listings, Revenue This Month, Callback Requests, Package Purchases, Subscribers, Registered Users, Auctions Won, Success Fees Pending
+Alert banners for urgent actions
+Activity feed + 8-month revenue chart
+5.2  Listings Management
+All Listings table — searchable, view count, PDF indicator
+Add/Edit form with gated-field toggles
+Image upload (drag-to-reorder, first = cover)
+Bulk upload via Excel — preview, confirm as drafts
+5.3  Callback Requests
+Free leads from "Request Callback" button
+Status: New / Called / Converted / Closed
+Actions: Call Now, Add Note, Convert to Package
+5.4  Package Purchases (₹9,999 per-auction)
+All paid service engagements
+Columns: client, property, date, transaction ID, status, documents
+Each package tied to one auction; users buy separate packages for different properties
+5.5  Service Pipeline
+By status: All / New / In Progress / Completed / Dropped
+4-step progress: Due Diligence → Bid → Possession → Loan
+5.6  Report & Document Upload
+Upload documents for ₹9,999 package holders:
+Search user by email/phone
+Select which ₹9,999 package (property)
+Choose type: Legal Search, Due Diligence, Title Search, Valuation, Possession Certificate, Other
+Upload file
+Multiple documents per package (no limit)
+User notified; documents viewable in their Profile → My Reports
+5.7  Finance
+Payments — all transactions (₹999 / ₹9,999 / 1% fees)
+Subscriptions — active, ARR, renewals, free→paid conversion
+Success Fee Tracker — won auctions, 1% due, invoice & mark paid
+5.8  Users
+Full table with filters: All / Subscribers / Free (credits remaining/exhausted) / Callback requesters / Shortlisters
+Columns: credits used, membership, properties unlocked
+5.9  Channel Partners
+Pending applications — Approve/Reject, assign tier (Associate/Silver/Gold)
+Active partners list: Name, Email, Referrals, Conversions, Earnings, Status
+Sortable & filterable
+5.10  Commission Settings
+Admin sets three editable rates (apply globally):
+Commission on ₹999: [__]%
+Commission on ₹9,999: [__]%
+Commission on success fees: [__]%
+Changes apply to new commissions only; audit-logged with timestamp
+5.11  Creative Templates Management
+Admin uploads base templates:
+Select format (WhatsApp / IG post / IG story / Facebook)
+Set text placement (name, phone, link)
+Upload master image
+Auto-personalizes for every partner
+Can edit, replace, deactivate anytime
+5.12  Settings — Pricing Controls
+Editable fields (nothing hardcoded):
+Free Credits per User (default: 5)
+Annual Subscription Price (default: ₹999)
+Service Package Price (default: ₹9,999)
+Success Fee % (default: 1%)
+Changes apply to new transactions; existing users grandfather existing rates
+6. Marketing & User Engagement
+6.1  Property Match Alerts
+Real-time trigger on new/edited listings against all active subscriptions
+Email instant; WhatsApp Phase 1 (manual), Phase 2 (Business API)
+Also: auction reminders, shortlist changes, inspection day reminders
+6.2  Email Lifecycle (10 templates)
+Welcome (3 parts), Weekly Digest, Re-engagement (3 milestones), Post-Callback, Post-Auction, Abandoned Alert
+6.3  Credit Lifecycle (free → ₹999)
+2 credits left → soft nudge
+Last credit used → paywall alert
+After 3 days unpaid → social proof nudge
+6.4  Subscription Lifecycle (₹999/year)
+Purchase → receipt + renewal date
+Renewal reminders at 30, 7 days, and on expiry
+Win-back 14 days after lapse
+6.5  Cross-Sell (₹999 → ₹9,999)
+On 3+ unlocks or heavy shortlisting: "Found one serious? Let experts handle — ₹9,999, 1% only if you win"
+6.6  WhatsApp Strategy
+Phase 1: click-to-chat links, manual alert queue, export segments
+Phase 2: Business API, automated alerts, two-way replies to Callback queue
+6.7  Admin Engagement Tools
+Alert Engine, Email Campaigns, WhatsApp Tools, Segments & Export, Analytics
+7. Technology & Integrations
+Component
+Technology
+Frontend
+Next.js 14, TypeScript, Tailwind CSS
+Database
+Supabase (PostgreSQL + Auth + Storage)
+ORM
+Prisma
+Hosting
+Vercel
+Payments
+Razorpay
+Email
+Resend
+WhatsApp Phase 1
+Click-to-chat (wa.me)
+WhatsApp Phase 2
+WATI or Interakt (Business API)
+Auction Data
+IBAPI.in / Bank websites / Newspaper notices
+8. Key Requirements
+Fully responsive (mobile, tablet, desktop)
+SEO optimized with server-side rendering
+Indian formatting (₹, lakh/crore grouping)
+No hardcoded prices or credit values — all adjustable from admin
+Auth: browse/search/address/callback = no login; shortlist/unlock/purchase = login required
+View counts are real server-tracked counters
+Alerts match in real-time, not nightly batch
+Bulk Excel upload with row preview before commit
+Channel partner referral links are unique and tracked; commissions automatic
+Commission rates adjustable by admin, globally applied, audit-logged
+Marketing creatives auto-personalized per partner; admin uploads templates once
+₹9,999 package is per-auction (one property); users buy separate packages for multiple properties
+Admin can upload unlimited documents per package; users view in profile
+Appendix — Prototype HTML Files
+File
+Contents
+boliwala-frontend-complete.html
+All public pages — Home, Search, Listing, Signup, Profile, Services.
+boliwala-admin-v3.html
+Full admin panel with all modules.
+boliwala-monetization-spec-visual.html
+Visual spec for credit and pricing model.
+boliwala-listing-final2.html
+Individual listing page with gated fields, similar properties, callback.
+boliwala-emergent-prompt.md
+Complete build prompt.
