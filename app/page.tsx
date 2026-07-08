@@ -4,9 +4,7 @@ import { SearchSection } from "@/components/search-section"
 import { TrustBanner } from "@/components/trust-banner"
 import { Philosophy } from "@/components/philosophy"
 import { AuctionsByCity } from "@/components/auctions-by-city"
-import { Projects } from "@/components/projects"
-import { Expertise } from "@/components/expertise"
-import { FAQ } from "@/components/faq"
+
 import { AlertsSection } from "@/components/alerts-section"
 import { CallToAction } from "@/components/call-to-action"
 import { Footer } from "@/components/footer"
@@ -20,9 +18,7 @@ export default function Home() {
       <TrustBanner />
       <Philosophy />
       <AuctionsByCity />
-      <Projects />
-      <Expertise />
-      <FAQ />
+
       <AlertsSection />
       <CallToAction />
       <Footer />

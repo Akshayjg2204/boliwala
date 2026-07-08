@@ -3,7 +3,11 @@
 import { useState } from "react"
 import { Search, MapPin, Building, CreditCard, Key, RotateCcw, Home, Factory, Store, Tractor, LayoutGrid, Building2 } from "lucide-react"
 
-export function SearchSection() {
+interface SearchSectionProps {
+  onSearch?: () => void;
+}
+
+export function SearchSection({ onSearch }: SearchSectionProps = {}) {
   const [propertyType, setPropertyType] = useState("all")
   const [possessionType, setPossessionType] = useState("all")
 
@@ -144,7 +148,10 @@ export function SearchSection() {
 
             {/* Bottom Row: Actions */}
             <div className="flex flex-col sm:flex-row gap-4 mt-2">
-              <button className="flex-1 bg-foreground hover:bg-foreground/90 text-background font-medium py-3 rounded-md flex items-center justify-center gap-2 transition-colors">
+              <button 
+                onClick={onSearch}
+                className="flex-1 bg-foreground hover:bg-foreground/90 text-background font-medium py-3 rounded-md flex items-center justify-center gap-2 transition-colors"
+              >
                 <Search className="w-4 h-4" />
                 Search Auctions
               </button>

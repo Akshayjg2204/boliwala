@@ -39,16 +39,24 @@ export function Header() {
     >
       <nav className="container mx-auto px-6 flex items-center justify-between md:px-[24]">
         <Link href="/" className="flex items-center gap-2 group" onClick={scrollToTop}>
-          <Image src="/images/hously-logo.svg" alt="Hously" width={120} height={32} className="w-auto h-6" />
+          <div className="w-8 h-8 bg-blue-600 rounded-md flex items-center justify-center font-bold text-white shrink-0 font-display">B</div>
+          <div className="flex flex-col">
+            <div className="text-xl font-extrabold text-white tracking-tight leading-none font-display">
+              Boli<span className="text-blue-500">wala</span>
+            </div>
+            <div className="text-[9px] font-bold text-white/70 uppercase tracking-widest mt-0.5">
+              We Know Auctions!
+            </div>
+          </div>
         </Link>
 
         <ul className="hidden md:flex items-center gap-10 text-sm tracking-wide">
           {[
-            { label: "Search Auctions", href: "#search" },
-            { label: "Pricing", href: "#pricing" },
-            { label: "Services", href: "#services" },
-            { label: "Channel Partner", href: "#partner" },
-            { label: "FAQ", href: "#faq" },
+            { label: "Home", href: "/" },
+            { label: "Properties", href: "/search" },
+            { label: "Services", href: "/services" },
+            { label: "Channel Partner", href: "/partner" },
+            { label: "About", href: "/about" },
           ].map((item) => (
             <li key={item.label}>
               <Link
@@ -62,7 +70,7 @@ export function Header() {
         </ul>
 
         <Link
-          href="#login"
+          href="/login"
           className={cn(
             "hidden md:inline-flex items-center gap-2 text-sm px-5 py-2.5 transition-all duration-300",
             scrolled
@@ -70,7 +78,7 @@ export function Header() {
               : "bg-white text-foreground border border-foreground/20 hover:bg-foreground hover:text-white",
           )}
         >
-          Sign Up / Login
+          Free Consultation
         </Link>
 
         <button
@@ -101,11 +109,11 @@ export function Header() {
         <div className="container mx-auto px-6">
           <ul className="flex flex-col gap-6 mb-8">
             {[
-              { label: "Search Auctions", href: "#search" },
-              { label: "Pricing", href: "#pricing" },
-              { label: "Services", href: "#services" },
-              { label: "Channel Partner", href: "#partner" },
-              { label: "FAQ", href: "#faq" },
+              { label: "Home", href: "/" },
+              { label: "Properties", href: "/search" },
+              { label: "Services", href: "/services" },
+              { label: "Channel Partner", href: "/partner" },
+              { label: "About", href: "/about" },
             ].map((item) => (
               <li key={item.label}>
                 <Link
@@ -120,11 +128,11 @@ export function Header() {
           </ul>
 
           <Link
-            href="#login"
+            href="/login"
             className="inline-flex items-center justify-center gap-2 text-sm px-5 py-2.5 bg-white text-foreground border border-foreground/20 hover:bg-foreground hover:text-white transition-all duration-300 mb-4"
             onClick={closeMobileMenu}
           >
-            Sign Up / Login
+            Free Consultation
           </Link>
         </div>
       </div>
