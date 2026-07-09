@@ -7,10 +7,15 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
 import { Logo } from "@/components/logo"
+import { usePathname } from "next/navigation"
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const pathname = usePathname()
+  
+  const isHome = pathname === "/"
+  const isDarkBg = isHome || scrolled || mobileMenuOpen
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,7 +45,7 @@ export function Header() {
     >
       <nav className="container mx-auto px-6 flex items-center justify-between md:px-[24]">
         <Link href="/" onClick={scrollToTop}>
-          <Logo forceWhite />
+          <Logo forceWhite={isDarkBg} />
         </Link>
 
         <ul className="hidden md:flex items-center gap-10 text-sm tracking-wide">
@@ -54,7 +59,10 @@ export function Header() {
             <li key={item.label}>
               <Link
                 href={item.href}
-                className="hover:text-[rgb(251,146,60)] transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 hover:after:w-full after:bg-[rgb(251,146,60)] after:transition-all after:duration-300 text-white"
+                className={cn(
+                  "hover:text-[rgb(251,146,60)] transition-colors duration-300 relative after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 hover:after:w-full after:bg-[rgb(251,146,60)] after:transition-all after:duration-300",
+                  isDarkBg ? "text-white" : "text-foreground font-medium"
+                )}
               >
                 {item.label}
               </Link>
@@ -75,7 +83,10 @@ export function Header() {
         </Link>
 
         <button
-          className="md:hidden z-50 transition-colors duration-300 text-white"
+          className={cn(
+            "md:hidden z-50 transition-colors duration-300",
+            isDarkBg ? "text-white" : "text-foreground"
+          )}
           aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
