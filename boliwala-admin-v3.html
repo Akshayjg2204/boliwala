@@ -1,0 +1,3837 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boliwala Admin — Dashboard</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --brand: #1B4FD8;
+      --brand-dark: #1139A8;
+      --brand-light: #EEF2FF;
+      --gold: #D97706;
+      --gold-light: #FEF3C7;
+      --success: #059669;
+      --success-light: #ECFDF5;
+      --danger: #DC2626;
+      --danger-light: #FEF2F2;
+      --warning: #D97706;
+      --warning-light: #FFFBEB;
+      --purple: #7C3AED;
+      --purple-light: #F3E8FF;
+      --ink: #111827;
+      --ink2: #374151;
+      --ink3: #6B7280;
+      --border: #E5E7EB;
+      --surface: #F9FAFB;
+      --surface2: #F3F4F6;
+      --white: #fff;
+      --sidebar: 240px;
+      --sh: 0 1px 3px rgba(0, 0, 0, 0.07);
+      --sh2: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--surface);
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font-family: var(--font-body);
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar);
+      background: var(--ink);
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 100;
+      overflow-y: auto;
+    }
+
+    .sb-logo {
+      padding: 18px 20px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .sb-logo-inner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sb-logo-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--brand);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 800;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .sb-logo-text {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.3px;
+    }
+
+    .sb-logo-text span {
+      color: #FCD34D;
+    }
+
+    .sb-logo-sub {
+      font-size: 9px;
+      color: rgba(255, 255, 255, 0.35);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      display: block;
+      margin-top: 2px;
+    }
+
+    .sb-section-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: rgba(255, 255, 255, 0.3);
+      padding: 14px 20px 5px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 20px;
+      cursor: pointer;
+      transition: all .15s;
+      position: relative;
+    }
+
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .nav-item.active {
+      background: var(--brand);
+    }
+
+    .nav-item.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: #FCD34D;
+      border-radius: 0 2px 2px 0;
+    }
+
+    .nav-item .ico {
+      font-size: 15px;
+      flex-shrink: 0;
+      width: 20px;
+      text-align: center;
+    }
+
+    .nav-item .label {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.65);
+      flex: 1;
+    }
+
+    .nav-item.active .label,
+    .nav-item:hover .label {
+      color: white;
+    }
+
+    .nav-item.active .label {
+      font-weight: 600;
+    }
+
+    .nav-badge {
+      font-size: 10px;
+      font-weight: 700;
+      background: var(--danger);
+      color: white;
+      padding: 2px 7px;
+      border-radius: 100px;
+      min-width: 20px;
+      text-align: center;
+    }
+
+    .nav-badge.g {
+      background: var(--gold);
+    }
+
+    .sb-user {
+      padding: 14px 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: auto;
+      flex-shrink: 0;
+    }
+
+    .sb-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--brand);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .sb-user-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+    }
+
+    .sb-user-role {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* ── MAIN ── */
+    .main {
+      margin-left: var(--sidebar);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .topbar {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 0 28px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .tb-page-title {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .tb-crumb {
+      font-size: 12px;
+      color: var(--ink3);
+      margin-left: 12px;
+    }
+
+    .tb-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .tb-search {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      padding: 0 12px;
+      height: 34px;
+    }
+
+    .tb-search input {
+      background: transparent;
+      border: none;
+      outline: none;
+      font-size: 13px;
+      color: var(--ink);
+      width: 180px;
+    }
+
+    .tb-search input::placeholder {
+      color: var(--ink3);
+    }
+
+    .tb-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 15px;
+      position: relative;
+    }
+
+    .tb-icon:hover {
+      background: var(--surface2);
+    }
+
+    .notif-dot {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 7px;
+      height: 7px;
+      background: var(--danger);
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+
+    .tb-btn {
+      height: 34px;
+      padding: 0 16px;
+      background: var(--brand);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tb-btn:hover {
+      background: var(--brand-dark);
+    }
+
+    .content {
+      padding: 24px 28px;
+      flex: 1;
+    }
+
+    /* ── PAGES ── */
+    .page-section {
+      display: none;
+    }
+
+    .page-section.active {
+      display: block;
+    }
+
+    /* ── STAT CARDS ── */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: var(--sh);
+    }
+
+    .stat-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .stat-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+    }
+
+    .si-b {
+      background: var(--brand-light);
+    }
+
+    .si-g {
+      background: var(--success-light);
+    }
+
+    .si-o {
+      background: var(--gold-light);
+    }
+
+    .si-p {
+      background: var(--purple-light);
+    }
+
+    .si-r {
+      background: var(--danger-light);
+    }
+
+    .trend {
+      display: flex;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 100px;
+    }
+
+    .t-up {
+      background: #DCFCE7;
+      color: #16a34a;
+    }
+
+    .t-dn {
+      background: var(--danger-light);
+      color: var(--danger);
+    }
+
+    .t-fl {
+      background: var(--surface2);
+      color: var(--ink3);
+    }
+
+    .stat-val {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.5px;
+      margin-bottom: 2px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--ink3);
+    }
+
+    /* ── TABLE CARD ── */
+    .tc {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: var(--sh);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .tc-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tc-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tc-acts {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tc-btn {
+      height: 32px;
+      padding: 0 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .tc-primary {
+      background: var(--brand);
+      color: white;
+      border: none;
+    }
+
+    .tc-primary:hover {
+      background: var(--brand-dark);
+    }
+
+    .tc-outline {
+      background: white;
+      color: var(--ink2);
+      border: 1.5px solid var(--border);
+    }
+
+    .tc-outline:hover {
+      border-color: var(--ink2);
+    }
+
+    .tc-search {
+      height: 32px;
+      padding: 0 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      color: var(--ink);
+      outline: none;
+      width: 180px;
+    }
+
+    .tc-search:focus {
+      border-color: var(--brand);
+    }
+
+    .tc-filter {
+      height: 32px;
+      padding: 0 10px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--ink2);
+      background: white;
+      outline: none;
+      cursor: pointer;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead tr {
+      background: var(--surface);
+    }
+
+    th {
+      text-align: left;
+      padding: 9px 16px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: var(--ink3);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 11px 16px;
+      font-size: 13px;
+      color: var(--ink2);
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: var(--surface);
+    }
+
+    .td-b {
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .td-m {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: var(--ink3);
+    }
+
+    /* PILLS */
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      padding: 3px 9px;
+      border-radius: 100px;
+    }
+
+    .p-green {
+      background: var(--success-light);
+      color: var(--success);
+    }
+
+    .p-gold {
+      background: var(--gold-light);
+      color: var(--gold);
+    }
+
+    .p-red {
+      background: var(--danger-light);
+      color: var(--danger);
+    }
+
+    .p-purple {
+      background: var(--purple-light);
+      color: var(--purple);
+    }
+
+    .p-gray {
+      background: var(--surface2);
+      color: var(--ink3);
+    }
+
+    .p-blue {
+      background: var(--brand-light);
+      color: var(--brand);
+    }
+
+    .p-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* ROW ACTIONS */
+    .ra {
+      display: flex;
+      gap: 5px;
+    }
+
+    .ra-btn {
+      height: 27px;
+      padding: 0 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1.5px solid var(--border);
+      background: white;
+      color: var(--ink2);
+      white-space: nowrap;
+      transition: all .15s;
+    }
+
+    .ra-btn:hover {
+      border-color: var(--brand);
+      color: var(--brand);
+    }
+
+    .ra-btn.d:hover {
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .ra-btn.g {
+      background: var(--brand);
+      color: white;
+      border-color: var(--brand);
+    }
+
+    /* ALERT STRIP */
+    .alert-card {
+      border-radius: 10px;
+      padding: 13px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      border: 1px solid;
+      margin-bottom: 10px;
+    }
+
+    .ac-w {
+      background: var(--warning-light);
+      border-color: rgba(217, 119, 6, 0.25);
+    }
+
+    .ac-d {
+      background: var(--danger-light);
+      border-color: rgba(220, 38, 38, 0.2);
+    }
+
+    .ac-i {
+      background: var(--brand-light);
+      border-color: rgba(27, 79, 216, 0.2);
+    }
+
+    .ac-ico {
+      font-size: 17px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .ac-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+
+    .ac-sub {
+      font-size: 12px;
+      color: var(--ink3);
+      line-height: 1.4;
+    }
+
+    .ac-link {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--brand);
+      cursor: pointer;
+      margin-top: 4px;
+      display: inline-block;
+    }
+
+    /* FORM */
+    .form-section {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: var(--sh);
+      margin-bottom: 18px;
+    }
+
+    .fs-head {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .fs-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .fs-body {
+      padding: 18px 20px;
+    }
+
+    .fg {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .flbl {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--ink3);
+    }
+
+    .finp,
+    .fsel,
+    .ftxt {
+      width: 100%;
+      height: 38px;
+      padding: 0 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      color: var(--ink);
+      background: var(--surface);
+      outline: none;
+      transition: border-color .15s;
+    }
+
+    .ftxt {
+      height: auto;
+      min-height: 72px;
+      padding: 10px 12px;
+      resize: vertical;
+    }
+
+    .finp:focus,
+    .fsel:focus,
+    .ftxt:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(27, 79, 216, 0.1);
+    }
+
+    .fsel {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%236B7280' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 28px;
+    }
+
+    .fgrid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .fgrid3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .fgrid4 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 14px;
+    }
+
+    .ffull {
+      grid-column: 1/-1;
+    }
+
+    .fs-foot {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      background: var(--surface);
+    }
+
+    .btn-save {
+      height: 36px;
+      padding: 0 20px;
+      background: var(--brand);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-save:hover {
+      background: var(--brand-dark);
+    }
+
+    .btn-cancel {
+      height: 36px;
+      padding: 0 14px;
+      background: white;
+      color: var(--ink2);
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    /* UPLOAD ZONE */
+    .upzone {
+      border: 2px dashed var(--border);
+      border-radius: 10px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all .2s;
+      background: var(--surface);
+    }
+
+    .upzone:hover {
+      border-color: var(--brand);
+      background: var(--brand-light);
+    }
+
+    .upz-ico {
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
+
+    .upz-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink2);
+      margin-bottom: 3px;
+    }
+
+    .upz-sub {
+      font-size: 12px;
+      color: var(--ink3);
+    }
+
+    /* TOGGLE */
+    .toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .tog-sw {
+      width: 36px;
+      height: 20px;
+      background: var(--border);
+      border-radius: 100px;
+      position: relative;
+      transition: background .2s;
+      flex-shrink: 0;
+    }
+
+    .tog-sw::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 14px;
+      height: 14px;
+      background: white;
+      border-radius: 50%;
+      transition: transform .2s;
+    }
+
+    .toggle.on .tog-sw {
+      background: var(--brand);
+    }
+
+    .toggle.on .tog-sw::after {
+      transform: translateX(16px);
+    }
+
+    .tog-label {
+      font-size: 13px;
+      color: var(--ink2);
+    }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 18px;
+      overflow-x: auto;
+    }
+
+    .tab {
+      padding: 9px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink3);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: all .15s;
+      white-space: nowrap;
+    }
+
+    .tab.active {
+      color: var(--brand);
+      border-bottom-color: var(--brand);
+      font-weight: 600;
+    }
+
+    /* DASH GRID */
+    .dash-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+
+    /* ACTIVITY FEED */
+    .af-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .af-item:last-child {
+      border-bottom: none;
+    }
+
+    .af-ico {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    .af-b {
+      background: var(--brand-light);
+    }
+
+    .af-g {
+      background: var(--success-light);
+    }
+
+    .af-o {
+      background: var(--gold-light);
+    }
+
+    .af-r {
+      background: var(--danger-light);
+    }
+
+    .af-msg {
+      font-size: 13px;
+      color: var(--ink2);
+      line-height: 1.4;
+    }
+
+    .af-msg strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .af-time {
+      font-size: 11px;
+      color: var(--ink3);
+      margin-top: 2px;
+    }
+
+    /* QA GRID */
+    .qa-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .qa-card {
+      background: white;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      cursor: pointer;
+      transition: all .2s;
+      text-align: center;
+    }
+
+    .qa-card:hover {
+      border-color: var(--brand);
+      transform: translateY(-2px);
+      box-shadow: var(--sh2);
+    }
+
+    .qa-ico {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    .qa-lbl {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--ink2);
+    }
+
+    .qa-card:hover .qa-lbl {
+      color: var(--brand);
+    }
+
+    /* MINI CHART */
+    .mini-chart {
+      display: flex;
+      align-items: flex-end;
+      gap: 5px;
+      height: 52px;
+    }
+
+    .mc-bar {
+      flex: 1;
+      border-radius: 4px 4px 0 0;
+      background: var(--brand-light);
+    }
+
+    .mc-bar.act {
+      background: var(--brand);
+    }
+
+    .mc-labels {
+      display: flex;
+      gap: 5px;
+      margin-top: 4px;
+    }
+
+    .mc-lbl {
+      flex: 1;
+      text-align: center;
+      font-size: 10px;
+      color: var(--ink3);
+    }
+
+    /* PROG BAR */
+    .prog {
+      height: 6px;
+      background: var(--surface2);
+      border-radius: 100px;
+      overflow: hidden;
+    }
+
+    .prog-f {
+      height: 100%;
+      border-radius: 100px;
+      background: var(--brand);
+    }
+
+    /* IMAGE GALLERY */
+    .img-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+    }
+
+    .img-thumb {
+      border-radius: 8px;
+      aspect-ratio: 1;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: border-color .15s;
+    }
+
+    .img-thumb:hover {
+      border-color: var(--brand);
+    }
+
+    .img-thumb-inner {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+
+    .it1 {
+      background: linear-gradient(150deg, #0f3d20, #1a6b35);
+    }
+
+    .it2 {
+      background: linear-gradient(150deg, #0f1929, #1a3352);
+    }
+
+    .it3 {
+      background: linear(150deg, #2a1a0f, #5c3d1a);
+    }
+
+    .it4 {
+      background: linear-gradient(150deg, #2a0f2a, #5c1a5c);
+    }
+
+    .img-del {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 18px;
+      height: 18px;
+      background: rgba(220, 38, 38, 0.85);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .img-add {
+      border: 2px dashed var(--border);
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      aspect-ratio: 1;
+      cursor: pointer;
+      transition: all .2s;
+      font-size: 20px;
+      color: var(--ink3);
+    }
+
+    .img-add:hover {
+      border-color: var(--brand);
+      color: var(--brand);
+      background: var(--brand-light);
+    }
+
+    /* VIEW COUNT BADGE */
+    .view-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      color: var(--ink3);
+      background: var(--surface2);
+      padding: 2px 8px;
+      border-radius: 100px;
+    }
+
+    /* PAYMENT SUMMARY */
+    .pay-summ {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .ps-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: var(--sh);
+    }
+
+    .ps-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--ink3);
+      margin-bottom: 5px;
+    }
+
+    .ps-val {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 3px;
+    }
+
+    .ps-sub {
+      font-size: 12px;
+      color: var(--ink3);
+    }
+
+    /* RESPONSIVE */
+    @media(max-width:1200px) {
+      .stat-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .fgrid4 {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media(max-width:900px) {
+      .main {
+        margin-left: 0;
+      }
+
+      .sidebar {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-inner">
+        <div class="sb-logo-mark">B</div>
+        <div>
+          <div class="sb-logo-text">Boli<span>wala</span></div>
+          <div class="sb-logo-sub">Admin Panel</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sb-section-label">Listings</div>
+    <div class="nav-item active" onclick="go('dashboard')"><span class="ico">📊</span><span
+        class="label">Dashboard</span></div>
+    <div class="nav-item" onclick="go('listings')"><span class="ico">🏠</span><span class="label">All
+        Listings</span><span class="nav-badge g">247</span></div>
+    <div class="nav-item" onclick="go('add-listing')"><span class="ico">➕</span><span class="label">Add Listing</span>
+    </div>
+    <div class="nav-item" onclick="go('bulk-upload')"><span class="ico">📂</span><span class="label">Bulk Upload
+        Excel</span></div>
+
+    <div class="sb-section-label">Leads & Sales</div>
+    <div class="nav-item" onclick="go('callbacks')"><span class="ico">📞</span><span class="label">Callback
+        Requests</span><span class="nav-badge">18</span></div>
+    <div class="nav-item" onclick="go('packages')"><span class="ico">💼</span><span class="label">Package
+        Purchases</span><span class="nav-badge g">9</span></div>
+    <div class="nav-item" onclick="go('requests')"><span class="ico">📋</span><span class="label">Service
+        Pipeline</span></div>
+
+    <div class="sb-section-label">Finance</div>
+    <div class="nav-item" onclick="go('payments')"><span class="ico">💰</span><span class="label">Payments</span></div>
+    <div class="nav-item" onclick="go('success-fees')"><span class="ico">🏆</span><span class="label">Success
+        Fees</span><span class="nav-badge">4</span></div>
+
+    <div class="sb-section-label">Users & Partners</div>
+    <div class="nav-item" onclick="go('users')"><span class="ico">👥</span><span class="label">All Users</span></div>
+    <div class="nav-item" onclick="go('partners')"><span class="ico">🤝</span><span class="label">Channel
+        Partners</span><span class="nav-badge g">6</span></div>
+
+    <div class="sb-section-label">Engagement</div>
+    <div class="nav-item" onclick="go('alerts')"><span class="ico">🔔</span><span class="label">Alert Subscribers</span>
+    </div>
+    <div class="nav-item" onclick="go('alert-engine')"><span class="ico">⚡</span><span class="label">Alert Engine &
+        Log</span></div>
+    <div class="nav-item" onclick="go('email-campaigns')"><span class="ico">📧</span><span class="label">Email
+        Campaigns</span></div>
+    <div class="nav-item" onclick="go('whatsapp')"><span class="ico">💬</span><span class="label">WhatsApp Tools</span>
+    </div>
+    <div class="nav-item" onclick="go('segments')"><span class="ico">🎯</span><span class="label">Segments &
+        Export</span></div>
+    <div class="nav-item" onclick="go('engagement')"><span class="ico">📊</span><span class="label">Engagement
+        Analytics</span></div>
+
+    <div class="sb-section-label">Tools</div>
+    <div class="nav-item" onclick="go('analytics')"><span class="ico">📈</span><span class="label">Site Analytics</span>
+    </div>
+    <div class="nav-item" onclick="go('settings')"><span class="ico">⚙️</span><span class="label">Settings</span></div>
+
+    <div class="sb-user">
+      <div class="sb-avatar">D</div>
+      <div>
+        <div class="sb-user-name">Dipak</div>
+        <div class="sb-user-role">Super Admin</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;">
+        <div class="tb-page-title" id="pgTitle">Dashboard</div>
+        <div class="tb-crumb" id="pgCrumb">Boliwala Admin › Overview</div>
+      </div>
+      <div class="tb-right">
+        <div class="tb-search"><span>🔍</span><input type="text" placeholder="Search…"></div>
+        <div class="tb-icon">🔔<div class="notif-dot"></div>
+        </div>
+        <button class="tb-btn" onclick="go('add-listing')">➕ Add Listing</button>
+        <button class="tb-btn" style="background:var(--success);" onclick="go('bulk-upload')">📂 Bulk Upload</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ════════ DASHBOARD ════════ -->
+      <div class="page-section active" id="pg-dashboard">
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-b">🏠</div>
+              <div class="trend t-up">↑ 12%</div>
+            </div>
+            <div class="stat-val">247</div>
+            <div class="stat-label">Active Listings</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-g">💰</div>
+              <div class="trend t-up">↑ 28%</div>
+            </div>
+            <div class="stat-val">₹3,84,000</div>
+            <div class="stat-label">Revenue This Month</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-r">📞</div>
+              <div class="trend t-up">↑ 5</div>
+            </div>
+            <div class="stat-val">18</div>
+            <div class="stat-label">Callback Requests</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-o">💼</div>
+              <div class="trend t-up">↑ 3</div>
+            </div>
+            <div class="stat-val">9</div>
+            <div class="stat-label">Package Purchases</div>
+          </div>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-p">👥</div>
+              <div class="trend t-up">↑ 34%</div>
+            </div>
+            <div class="stat-val">1,842</div>
+            <div class="stat-label">Registered Users</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-g">🏆</div>
+              <div class="trend t-up">↑ 2</div>
+            </div>
+            <div class="stat-val">38</div>
+            <div class="stat-label">Auctions Won</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-b">🔔</div>
+              <div class="trend t-up">↑ 18%</div>
+            </div>
+            <div class="stat-val">4,291</div>
+            <div class="stat-label">Alert Subscribers</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-r">🏆</div>
+              <div class="trend t-dn">↑ 4</div>
+            </div>
+            <div class="stat-val">4</div>
+            <div class="stat-label">Success Fees Pending</div>
+          </div>
+        </div>
+
+        <div class="alert-card ac-d"><span class="ac-ico">📞</span>
+          <div>
+            <div class="ac-title">18 callback requests unread — 6 waiting over 2 hours</div>
+            <div class="ac-sub">Users have requested a call from Boliwala. Call them back immediately.</div><span
+              class="ac-link" onclick="go('callbacks')">View Callback Requests →</span>
+          </div>
+        </div>
+        <div class="alert-card ac-w"><span class="ac-ico">🏆</span>
+          <div>
+            <div class="ac-title">4 success fees outstanding — ₹1,12,400 due</div>
+            <div class="ac-sub">Clients won auctions. Collect 1% success fee.</div><span class="ac-link"
+              onclick="go('success-fees')">Collect Fees →</span>
+          </div>
+        </div>
+        <div class="alert-card ac-i"><span class="ac-ico">🤝</span>
+          <div>
+            <div class="ac-title">6 new channel partner applications pending</div><span class="ac-link"
+              onclick="go('partners')">Review Applications →</span>
+          </div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="tc">
+            <div class="tc-head">
+              <div class="tc-title">⚡ Recent Activity</div>
+            </div>
+            <div style="padding:4px 18px;">
+              <div class="af-item">
+                <div class="af-ico af-r">📞</div>
+                <div class="af-text">
+                  <div class="af-msg"><strong>Priya Mehta</strong> requested a callback — Flat 303 Airoli, interested in
+                    full package</div>
+                  <div class="af-time">4 minutes ago</div>
+                </div>
+              </div>
+              <div class="af-item">
+                <div class="af-ico af-g">💼</div>
+                <div class="af-text">
+                  <div class="af-msg"><strong>Rajesh Kumar</strong> purchased ₹9,999 package — Due Diligence + Bid
+                    Management</div>
+                  <div class="af-time">18 minutes ago</div>
+                </div>
+              </div>
+              <div class="af-item">
+                <div class="af-ico af-b">🏠</div>
+                <div class="af-text">
+                  <div class="af-msg">New listing added — <strong>Flat 303, Vithai Apartment, Airoli</strong></div>
+                  <div class="af-time">1 hour ago</div>
+                </div>
+              </div>
+              <div class="af-item">
+                <div class="af-ico af-g">🏆</div>
+                <div class="af-text">
+                  <div class="af-msg"><strong>Amit Sharma</strong> won auction — ₹82,00,000. 1% fee (₹82,000) due.</div>
+                  <div class="af-time">3 hours ago</div>
+                </div>
+              </div>
+              <div class="af-item">
+                <div class="af-ico af-o">🔔</div>
+                <div class="af-text">
+                  <div class="af-msg"><strong>47 alert emails</strong> sent — new SBI listings in Mumbai</div>
+                  <div class="af-time">6 hours ago</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="tc" style="margin-bottom:16px;">
+              <div class="tc-head">
+                <div class="tc-title">⚡ Quick Actions</div>
+              </div>
+              <div style="padding:14px 18px;">
+                <div class="qa-grid">
+                  <div class="qa-card" onclick="go('add-listing')">
+                    <div class="qa-ico">🏠</div>
+                    <div class="qa-lbl">Add Listing</div>
+                  </div>
+                  <div class="qa-card" onclick="go('bulk-upload')">
+                    <div class="qa-ico">📂</div>
+                    <div class="qa-lbl">Bulk Upload</div>
+                  </div>
+                  <div class="qa-card" onclick="go('callbacks')">
+                    <div class="qa-ico">📞</div>
+                    <div class="qa-lbl">Callbacks</div>
+                  </div>
+                  <div class="qa-card" onclick="go('packages')">
+                    <div class="qa-ico">💼</div>
+                    <div class="qa-lbl">Packages</div>
+                  </div>
+                  <div class="qa-card" onclick="go('payments')">
+                    <div class="qa-ico">💰</div>
+                    <div class="qa-lbl">Payments</div>
+                  </div>
+                  <div class="qa-card" onclick="go('users')">
+                    <div class="qa-ico">👥</div>
+                    <div class="qa-lbl">Users</div>
+                  </div>
+                  <div class="qa-card" onclick="go('alerts')">
+                    <div class="qa-ico">🔔</div>
+                    <div class="qa-lbl">Alerts</div>
+                  </div>
+                  <div class="qa-card" onclick="go('analytics')">
+                    <div class="qa-ico">📈</div>
+                    <div class="qa-lbl">Analytics</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tc">
+              <div class="tc-head">
+                <div class="tc-title">📈 Revenue — Last 8 Months</div>
+              </div>
+              <div style="padding:14px 18px;">
+                <div class="mini-chart">
+                  <div class="mc-bar" style="height:35%"></div>
+                  <div class="mc-bar" style="height:50%"></div>
+                  <div class="mc-bar" style="height:42%"></div>
+                  <div class="mc-bar" style="height:65%"></div>
+                  <div class="mc-bar" style="height:58%"></div>
+                  <div class="mc-bar" style="height:72%"></div>
+                  <div class="mc-bar" style="height:80%"></div>
+                  <div class="mc-bar act" style="height:100%"></div>
+                </div>
+                <div class="mc-labels">
+                  <div class="mc-lbl">Nov</div>
+                  <div class="mc-lbl">Dec</div>
+                  <div class="mc-lbl">Jan</div>
+                  <div class="mc-lbl">Feb</div>
+                  <div class="mc-lbl">Mar</div>
+                  <div class="mc-lbl">Apr</div>
+                  <div class="mc-lbl">May</div>
+                  <div class="mc-lbl" style="color:var(--brand);font-weight:700;">Jun</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════════ ALL LISTINGS ════════ -->
+      <div class="page-section" id="pg-listings">
+        <div class="tc">
+          <div class="tc-head">
+            <div class="tc-title">🏠 All Listings <span style="font-size:12px;font-weight:400;color:var(--ink3);">247
+                total</span></div>
+            <div class="tc-acts">
+              <input type="text" class="tc-search" placeholder="City, bank, ID…">
+              <select class="tc-filter">
+                <option>All Banks</option>
+                <option>Bank of Baroda</option>
+                <option>SBI</option>
+                <option>HDFC</option>
+              </select>
+              <select class="tc-filter">
+                <option>All Status</option>
+                <option>Active</option>
+                <option>Upcoming</option>
+                <option>Closed</option>
+                <option>Won</option>
+              </select>
+              <button class="tc-btn tc-outline">⬇️ Export CSV</button>
+              <button class="tc-btn tc-outline" onclick="go('bulk-upload')">📂 Bulk Upload</button>
+              <button class="tc-btn tc-primary" onclick="go('add-listing')">➕ Add Listing</button>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th><input type="checkbox"></th>
+                <th>Property ID</th>
+                <th>Property</th>
+                <th>Bank</th>
+                <th>Reserve Price</th>
+                <th>EMD</th>
+                <th>Auction Date</th>
+                <th>Views</th>
+                <th>PDF</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="td-m">BARBNANDY303</td>
+                <td>
+                  <div class="td-b">Flat 303, Vithai Apt, Airoli</div>
+                  <div style="font-size:11px;color:var(--ink3);">Navi Mumbai, Maharashtra</div>
+                </td>
+                <td>Bank of Baroda</td>
+                <td class="td-b">₹60,12,000</td>
+                <td>₹6,12,000</td>
+                <td>07 Jul 2026</td>
+                <td>
+                  <div class="view-count">👁 342</div>
+                </td>
+                <td><span style="color:var(--success);">✅</span></td>
+                <td><span class="pill p-green"><span class="p-dot"></span>Active</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn" onclick="go('listing-detail')">Edit</button><button
+                      class="ra-btn" onclick="go('listing-detail')">📷 Images</button><button
+                      class="ra-btn">Preview</button><button class="ra-btn d">✕</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="td-m">BARBNANDY401</td>
+                <td>
+                  <div class="td-b">Flat 401, Vithai Apt, Airoli</div>
+                  <div style="font-size:11px;color:var(--ink3);">Navi Mumbai, Maharashtra</div>
+                </td>
+                <td>Bank of Baroda</td>
+                <td class="td-b">₹42,03,540</td>
+                <td>₹4,20,354</td>
+                <td>07 Jul 2026</td>
+                <td>
+                  <div class="view-count">👁 218</div>
+                </td>
+                <td><span style="color:var(--success);">✅</span></td>
+                <td><span class="pill p-green"><span class="p-dot"></span>Active</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn" onclick="go('listing-detail')">Edit</button><button
+                      class="ra-btn" onclick="go('listing-detail')">📷 Images</button><button
+                      class="ra-btn">Preview</button><button class="ra-btn d">✕</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="td-m">SBI-AND-303</td>
+                <td>
+                  <div class="td-b">3 BHK Apartment, Andheri West</div>
+                  <div style="font-size:11px;color:var(--ink3);">Mumbai, Maharashtra</div>
+                </td>
+                <td>SBI</td>
+                <td class="td-b">₹78,00,000</td>
+                <td>₹7,80,000</td>
+                <td>18 Jul 2026</td>
+                <td>
+                  <div class="view-count">👁 891</div>
+                </td>
+                <td><span style="color:var(--danger);">❌</span></td>
+                <td><span class="pill p-green"><span class="p-dot"></span>Active</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">Edit</button><button class="ra-btn"
+                      onclick="go('listing-detail')">📷 Images</button><button class="ra-btn">Preview</button><button
+                      class="ra-btn d">✕</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox"></td>
+                <td class="td-m">HDFC-DEL-22</td>
+                <td>
+                  <div class="td-b">Commercial Shop, Connaught Place</div>
+                  <div style="font-size:11px;color:var(--ink3);">New Delhi</div>
+                </td>
+                <td>HDFC Bank</td>
+                <td class="td-b">₹1,45,00,000</td>
+                <td>₹14,50,000</td>
+                <td>05 Jun 2026</td>
+                <td>
+                  <div class="view-count">👁 104</div>
+                </td>
+                <td><span style="color:var(--success);">✅</span></td>
+                <td><span class="pill p-gray">Closed</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">Edit</button><button class="ra-btn"
+                      onclick="go('listing-detail')">📷 Images</button><button class="ra-btn">Mark Won</button><button
+                      class="ra-btn d">✕</button></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ════════ LISTING DETAIL / IMAGE UPLOAD ════════ -->
+      <div class="page-section" id="pg-listing-detail">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;">
+          <button class="btn-cancel" onclick="go('listings')">← Back to Listings</button>
+          <div style="font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--ink);">Flat 303, Vithai
+            Apartment, Airoli — Edit Listing</div>
+          <div class="view-count" style="margin-left:auto;">👁 342 total views this listing</div>
+        </div>
+
+        <div class="tabs">
+          <div class="tab active">Property Details</div>
+          <div class="tab">Bank & Auction</div>
+          <div class="tab" id="imgTab" onclick="switchDetailTab('images')">📷 Images & PDF</div>
+          <div class="tab">Gated Fields</div>
+          <div class="tab">Analytics</div>
+        </div>
+
+        <!-- Images & PDF tab content (shown here as default for demo) -->
+        <div class="form-section">
+          <div class="fs-head">
+            <div class="fs-title">📷 Property Images</div>
+            <div><span style="font-size:12px;color:var(--ink3);">4 images uploaded · Max 10</span></div>
+          </div>
+          <div class="fs-body">
+            <div class="img-grid">
+              <div class="img-thumb">
+                <div class="img-thumb-inner it1">🏢</div>
+                <div class="img-del">✕</div>
+              </div>
+              <div class="img-thumb">
+                <div class="img-thumb-inner it2">🚪</div>
+                <div class="img-del">✕</div>
+              </div>
+              <div class="img-thumb">
+                <div class="img-thumb-inner it1" style="background:linear-gradient(150deg,#2a1a0f,#5c3d1a);">🛋️</div>
+                <div class="img-del">✕</div>
+              </div>
+              <div class="img-thumb">
+                <div class="img-thumb-inner it2" style="background:linear-gradient(150deg,#2a0f2a,#5c1a5c);">🏞️</div>
+                <div class="img-del">✕</div>
+              </div>
+              <div class="img-add" onclick="document.getElementById('imgUpload').click()">＋<div
+                  style="font-size:11px;margin-top:4px;color:var(--ink3);">Add</div>
+              </div>
+              <input type="file" id="imgUpload" style="display:none" multiple accept="image/*">
+            </div>
+            <div style="margin-top:14px;font-size:12px;color:var(--ink3);">Drag to reorder. First image is the cover
+              image shown on cards. JPG, PNG. Max 5MB each.</div>
+            <div class="upzone" style="margin-top:14px;" onclick="document.getElementById('imgUpload2').click()">
+              <div class="upz-ico">🖼️</div>
+              <div class="upz-title">Click or drag images here to upload more</div>
+              <div class="upz-sub">JPG, PNG, WebP · Max 5MB each · Up to 10 total</div>
+              <input type="file" id="imgUpload2" style="display:none" multiple accept="image/*">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="fs-head">
+            <div class="fs-title">📄 Bank Notice PDF</div>
+          </div>
+          <div class="fs-body">
+            <div
+              style="display:flex;align-items:center;gap:12px;padding:14px;background:var(--success-light);border:1px solid rgba(5,150,105,0.2);border-radius:8px;margin-bottom:12px;">
+              <span style="font-size:20px;">📄</span>
+              <div>
+                <div style="font-size:13px;font-weight:600;color:var(--ink);">b10753ea-332c-44e7-b7e7-80e6b36c15ae.pdf
+                </div>
+                <div style="font-size:11px;color:var(--ink3);">Uploaded 30 Jun 2026 · 2.3 MB · 5 pages</div>
+              </div>
+              <button class="ra-btn" style="margin-left:auto;">View</button>
+              <button class="ra-btn d">Replace</button>
+            </div>
+            <div class="upzone" onclick="document.getElementById('pdfUpload').click()">
+              <div class="upz-ico">📄</div>
+              <div class="upz-title">Replace Bank Notice PDF</div>
+              <div class="upz-sub">PDF only · Max 10MB</div>
+              <input type="file" id="pdfUpload" style="display:none" accept=".pdf">
+            </div>
+          </div>
+          <div class="fs-foot"><button class="btn-cancel" onclick="go('listings')">Cancel</button><button
+              class="btn-save">Save Changes</button></div>
+        </div>
+      </div>
+
+      <!-- ════════ BULK UPLOAD ════════ -->
+      <div class="page-section" id="pg-bulk-upload">
+        <div class="form-section">
+          <div class="fs-head">
+            <div class="fs-title">📂 Bulk Upload Listings via Excel</div>
+          </div>
+          <div class="fs-body">
+            <div class="alert-card ac-i" style="margin-bottom:18px;"><span class="ac-ico">💡</span>
+              <div>
+                <div class="ac-title">How bulk upload works</div>
+                <div class="ac-sub">Download the Boliwala Excel template, fill in your auction data (one row per
+                  property), and upload it below. All listings will be created as drafts — review and publish from the
+                  Listings page.</div>
+              </div>
+            </div>
+
+            <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+              <button class="tc-btn tc-primary" style="height:40px;font-size:13px;">⬇️ Download Excel Template</button>
+              <button class="tc-btn tc-outline" style="height:40px;font-size:13px;">📄 Download Sample File (3
+                rows)</button>
+            </div>
+
+            <div class="upzone" style="margin-bottom:18px;" id="excelZone"
+              ondragover="event.preventDefault();this.style.borderColor='var(--brand)'"
+              ondragleave="this.style.borderColor=''" ondrop="handleDrop(event)">
+              <div class="upz-ico">📊</div>
+              <div class="upz-title">Click or drag your Excel file here</div>
+              <div class="upz-sub">.xlsx or .xls · Max 5MB · Up to 500 rows per upload</div>
+              <input type="file" id="excelUpload" style="display:none" accept=".xlsx,.xls" onchange="showPreview()">
+              <button
+                style="margin-top:12px;height:34px;padding:0 18px;background:var(--brand);color:white;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;"
+                onclick="document.getElementById('excelUpload').click()">Choose File</button>
+            </div>
+
+            <!-- Preview table (shown after file selected) -->
+            <div id="uploadPreview" style="display:none;">
+              <div
+                style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding:12px 16px;background:var(--success-light);border:1px solid rgba(5,150,105,0.2);border-radius:8px;">
+                <div>
+                  <div style="font-size:13px;font-weight:700;color:var(--ink);">📊 auction_listings_june.xlsx</div>
+                  <div style="font-size:12px;color:var(--ink3);">12 rows detected · All columns matched ✅</div>
+                </div>
+                <div style="display:flex;gap:8px;"><button class="ra-btn d"
+                    onclick="document.getElementById('uploadPreview').style.display='none'">Remove File</button></div>
+              </div>
+              <div class="tc" style="margin-bottom:14px;">
+                <div class="tc-head">
+                  <div class="tc-title">Preview — First 3 Rows</div>
+                </div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Property ID</th>
+                      <th>Address</th>
+                      <th>Bank</th>
+                      <th>Reserve Price</th>
+                      <th>EMD</th>
+                      <th>Auction Date</th>
+                      <th>Possession</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td class="td-m">BARBNANDY303</td>
+                      <td>Flat 303, Vithai Apt, Airoli</td>
+                      <td>Bank of Baroda</td>
+                      <td>₹60,12,000</td>
+                      <td>₹6,12,000</td>
+                      <td>07 Jul 2026</td>
+                      <td><span class="pill p-green" style="font-size:10px;">Physical</span></td>
+                      <td><span class="pill p-blue" style="font-size:10px;">Draft</span></td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td class="td-m">BARBNANDY401</td>
+                      <td>Flat 401, Vithai Apt, Airoli</td>
+                      <td>Bank of Baroda</td>
+                      <td>₹42,03,540</td>
+                      <td>₹4,20,354</td>
+                      <td>07 Jul 2026</td>
+                      <td><span class="pill p-green" style="font-size:10px;">Physical</span></td>
+                      <td><span class="pill p-blue" style="font-size:10px;">Draft</span></td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td class="td-m">SBI-AND-303</td>
+                      <td>3 BHK, Andheri West, Mumbai</td>
+                      <td>SBI</td>
+                      <td>₹78,00,000</td>
+                      <td>₹7,80,000</td>
+                      <td>18 Jul 2026</td>
+                      <td><span class="pill p-green" style="font-size:10px;">Physical</span></td>
+                      <td><span class="pill p-blue" style="font-size:10px;">Draft</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div style="display:flex;gap:10px;">
+                <button class="btn-cancel"
+                  onclick="document.getElementById('uploadPreview').style.display='none'">Cancel</button>
+                <button class="btn-save">✅ Upload All 12 Listings as Drafts</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tc">
+          <div class="tc-head">
+            <div class="tc-title">📋 Excel Template — Required Columns</div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Column</th>
+                <th>Required?</th>
+                <th>Example Value</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-b">property_id</td>
+                <td><span class="pill p-red" style="font-size:10px;">Required</span></td>
+                <td class="td-m">BARBNANDY303</td>
+                <td>Unique ID from bank notice</td>
+              </tr>
+              <tr>
+                <td class="td-b">full_address</td>
+                <td><span class="pill p-red" style="font-size:10px;">Required</span></td>
+                <td>Flat 303, 3rd Floor, Vithai Apartment, Plot F-33/3, Airoli, Navi Mumbai 400708</td>
+                <td>Full address from notice</td>
+              </tr>
+              <tr>
+                <td class="td-b">bank_name</td>
+                <td><span class="pill p-red" style="font-size:10px;">Required</span></td>
+                <td>Bank of Baroda</td>
+                <td>Use exact bank name</td>
+              </tr>
+              <tr>
+                <td class="td-b">reserve_price</td>
+                <td><span class="pill p-red" style="font-size:10px;">Required</span></td>
+                <td>6012000</td>
+                <td>In rupees, numbers only</td>
+              </tr>
+              <tr>
+                <td class="td-b">emd_amount</td>
+                <td><span class="pill p-red" style="font-size:10px;">Required</span></td>
+                <td>612000</td>
+                <td>In rupees, numbers only</td>
+              </tr>
+              <tr>
+                <td class="td-b">bid_increment</td>
+                <td><span class="pill p-red" style="font-size:10px;">Required</span></td>
+                <td>25000</td>
+                <td>In rupees</td>
+              </tr>
+              <tr>
+                <td class="td-b">auction_date</td>
+                <td><span class="pill p-red" style="font-size:10px;">Required</span></td>
+                <td>2026-07-07</td>
+                <td>YYYY-MM-DD format</td>
+              </tr>
+              <tr>
+                <td class="td-b">auction_start_time</td>
+                <td><span class="pill p-red" style="font-size:10px;">Required</span></td>
+                <td>14:00</td>
+                <td>24-hour format</td>
+              </tr>
+              <tr>
+                <td class="td-b">auction_end_time</td>
+                <td><span class="pill p-red" style="font-size:10px;">Required</span></td>
+                <td>16:00</td>
+                <td>24-hour format</td>
+              </tr>
+              <tr>
+                <td class="td-b">possession_type</td>
+                <td><span class="pill p-red" style="font-size:10px;">Required</span></td>
+                <td>Physical</td>
+                <td>Physical or Symbolic</td>
+              </tr>
+              <tr>
+                <td class="td-b">property_type</td>
+                <td><span class="pill p-gold" style="font-size:10px;">Optional</span></td>
+                <td>Flat</td>
+                <td>Flat, House, Commercial, Plot, Industrial</td>
+              </tr>
+              <tr>
+                <td class="td-b">area_sqft</td>
+                <td><span class="pill p-gold" style="font-size:10px;">Optional</span></td>
+                <td>807</td>
+                <td>Numbers only</td>
+              </tr>
+              <tr>
+                <td class="td-b">inspection_date</td>
+                <td><span class="pill p-gold" style="font-size:10px;">Optional</span></td>
+                <td>2026-07-01</td>
+                <td>YYYY-MM-DD format</td>
+              </tr>
+              <tr>
+                <td class="td-b">authorised_officer</td>
+                <td><span class="pill p-gold" style="font-size:10px;">Optional</span></td>
+                <td>Preetam Angadi</td>
+                <td></td>
+              </tr>
+              <tr>
+                <td class="td-b">officer_phone</td>
+                <td><span class="pill p-gold" style="font-size:10px;">Optional</span></td>
+                <td>9740143818</td>
+                <td>Numbers only</td>
+              </tr>
+              <tr>
+                <td class="td-b">total_dues</td>
+                <td><span class="pill p-gold" style="font-size:10px;">Optional</span></td>
+                <td>9850816</td>
+                <td>In rupees</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ════════ CALLBACK REQUESTS ════════ -->
+      <div class="page-section" id="pg-callbacks">
+        <div class="stat-grid" style="grid-template-columns:repeat(4,1fr);">
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-r">📞</div>
+            </div>
+            <div class="stat-val">18</div>
+            <div class="stat-label">Total Callbacks</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-r">🆕</div>
+            </div>
+            <div class="stat-val" style="color:var(--danger);">6</div>
+            <div class="stat-label">Unread — Call Now</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-o">🕐</div>
+            </div>
+            <div class="stat-val">8</div>
+            <div class="stat-label">In Progress</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-g">✅</div>
+            </div>
+            <div class="stat-val">4</div>
+            <div class="stat-label">Converted to Package</div>
+          </div>
+        </div>
+        <div class="tc">
+          <div class="tc-head">
+            <div class="tc-title">📞 Callback Requests <span
+                style="font-size:12px;font-weight:400;color:var(--ink3);">18 total</span></div>
+            <div class="tc-acts"><input class="tc-search" placeholder="Search name, city…"><select class="tc-filter">
+                <option>All Status</option>
+                <option>New</option>
+                <option>Called</option>
+                <option>Converted</option>
+                <option>Closed</option>
+              </select><button class="tc-btn tc-outline">⬇️ Export</button></div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Property Interest</th>
+                <th>City</th>
+                <th>Budget</th>
+                <th>Requested</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="background:#FEF2F2;">
+                <td>
+                  <div class="td-b">Priya Mehta</div>
+                  <div style="font-size:11px;color:var(--ink3);">📞 9765432109 · priya@yahoo.com</div>
+                </td>
+                <td>Flat 303, Vithai Apt — Full package interest</td>
+                <td>Navi Mumbai</td>
+                <td>₹50L–1Cr</td>
+                <td style="color:var(--danger);font-weight:600;">4 min ago</td>
+                <td><span class="pill p-red">New</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn g">📞 Call Now</button><button class="ra-btn">Add
+                      Note</button><button class="ra-btn">Convert</button></div>
+                </td>
+              </tr>
+              <tr style="background:#FEF2F2;">
+                <td>
+                  <div class="td-b">Suresh Rathi</div>
+                  <div style="font-size:11px;color:var(--ink3);">📞 9654321098</div>
+                </td>
+                <td>SBI listings in Andheri — Bid Management</td>
+                <td>Mumbai</td>
+                <td>₹75L–1.5Cr</td>
+                <td style="color:var(--danger);font-weight:600;">22 min ago</td>
+                <td><span class="pill p-red">New</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn g">📞 Call Now</button><button class="ra-btn">Add
+                      Note</button><button class="ra-btn">Convert</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-b">Anita Rao</div>
+                  <div style="font-size:11px;color:var(--ink3);">📞 9543210987 · anita@gmail.com</div>
+                </td>
+                <td>General — First time auction buyer query</td>
+                <td>Bengaluru</td>
+                <td>₹30L–60L</td>
+                <td>2 hours ago</td>
+                <td><span class="pill p-gold">Called</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">📞 Call Again</button><button class="ra-btn">Add
+                      Note</button><button class="ra-btn">Convert to Package</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-b">Vikram Patel</div>
+                  <div style="font-size:11px;color:var(--ink3);">📞 9432109876</div>
+                </td>
+                <td>Flat 401, Airoli — Due Diligence query</td>
+                <td>Pune</td>
+                <td>₹40L–80L</td>
+                <td>Yesterday</td>
+                <td><span class="pill p-green">Converted</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">View Package</button></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ════════ PACKAGE PURCHASES ════════ -->
+      <div class="page-section" id="pg-packages">
+        <div class="pay-summ">
+          <div class="ps-card">
+            <div class="ps-label">Total Packages Sold</div>
+            <div class="ps-val">47</div>
+            <div class="ps-sub">All time · ₹4,69,953 revenue</div>
+          </div>
+          <div class="ps-card">
+            <div class="ps-label">This Month</div>
+            <div class="ps-val">9</div>
+            <div class="ps-sub">₹89,991 · Jun 2026</div>
+          </div>
+          <div class="ps-card">
+            <div class="ps-label">Conversion Rate</div>
+            <div class="ps-val">18.4%</div>
+            <div class="ps-sub">Signups → Package purchase</div>
+          </div>
+        </div>
+        <div class="tc">
+          <div class="tc-head">
+            <div class="tc-title">💼 ₹9,999 Package Purchases</div>
+            <div class="tc-acts"><input class="tc-search" placeholder="Search name…"><select class="tc-filter">
+                <option>All Time</option>
+                <option>This Month</option>
+                <option>Last Month</option>
+              </select><button class="tc-btn tc-outline">⬇️ Export CSV</button></div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Client</th>
+                <th>Property of Interest</th>
+                <th>Package</th>
+                <th>Paid On</th>
+                <th>Txn ID</th>
+                <th>Amount</th>
+                <th>Pipeline Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="td-b">Rajesh Kumar</div>
+                  <div style="font-size:11px;color:var(--ink3);">rajesh@gmail.com · 9876543210</div>
+                </td>
+                <td>Flat 303, Vithai Apt, Airoli</td>
+                <td><span class="pill p-blue">DD + Bid Mgmt</span></td>
+                <td>30 Jun 2026</td>
+                <td class="td-m">RZP-98765</td>
+                <td class="td-b">₹9,999</td>
+                <td><span class="pill p-gold">In Progress</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">View Pipeline</button><button class="ra-btn">📄
+                      Invoice</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-b">Priya Mehta</div>
+                  <div style="font-size:11px;color:var(--ink3);">priya@yahoo.com · 9765432109</div>
+                </td>
+                <td>TBD — Pune area</td>
+                <td><span class="pill p-purple">Full Package</span></td>
+                <td>29 Jun 2026</td>
+                <td class="td-m">RZP-98730</td>
+                <td class="td-b">₹9,999</td>
+                <td><span class="pill p-blue">New</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">Start Pipeline</button><button class="ra-btn">📄
+                      Invoice</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-b">Amit Sharma</div>
+                  <div style="font-size:11px;color:var(--ink3);">amit@email.com</div>
+                </td>
+                <td>3 BHK Andheri West</td>
+                <td><span class="pill p-blue">Bid Mgmt</span></td>
+                <td>15 Jun 2026</td>
+                <td class="td-m">RZP-97812</td>
+                <td class="td-b">₹9,999</td>
+                <td><span class="pill p-green">Won — Fee Due</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">View Pipeline</button><button class="ra-btn g">Collect 1%
+                      Fee</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-b">Sunita Rao</div>
+                  <div style="font-size:11px;color:var(--ink3);">sunita@email.com</div>
+                </td>
+                <td>2 BHK Banjara Hills</td>
+                <td><span class="pill p-blue">DD + Possession</span></td>
+                <td>2 May 2026</td>
+                <td class="td-m">RZP-94201</td>
+                <td class="td-b">₹9,999</td>
+                <td><span class="pill p-green">Completed</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">📄 Receipt</button></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ════════ USERS ════════ -->
+      <div class="page-section" id="pg-users">
+        <div class="stat-grid" style="grid-template-columns:repeat(4,1fr);">
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-b">👥</div>
+              <div class="trend t-up">↑ 34%</div>
+            </div>
+            <div class="stat-val">1,842</div>
+            <div class="stat-label">Total Users</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-g">💼</div>
+              <div class="trend t-up">↑ 9</div>
+            </div>
+            <div class="stat-val">47</div>
+            <div class="stat-label">Paid Package Users</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-p">👤</div>
+            </div>
+            <div class="stat-val">1,795</div>
+            <div class="stat-label">Free Users</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-o">📞</div>
+              <div class="trend t-up">↑ 18</div>
+            </div>
+            <div class="stat-val">18</div>
+            <div class="stat-label">Requested Callback</div>
+          </div>
+        </div>
+
+        <div class="tc">
+          <div class="tc-head">
+            <div class="tc-title">👥 All Users</div>
+            <div class="tc-acts">
+              <input type="text" class="tc-search" placeholder="Search name, email, phone…">
+              <!-- Key filter: paid vs free vs callback -->
+              <select class="tc-filter" onchange="filterUsers(this.value)">
+                <option value="all">All Users</option>
+                <option value="paid">💼 Paid Package</option>
+                <option value="free">👤 Free Only</option>
+                <option value="callback">📞 Requested Callback</option>
+                <option value="shortlisted">🔖 Has Shortlisted</option>
+                <option value="alert">🔔 Alert Subscriber</option>
+              </select>
+              <select class="tc-filter">
+                <option>Any City</option>
+                <option>Mumbai</option>
+                <option>Delhi</option>
+                <option>Bengaluru</option>
+              </select>
+              <button class="tc-btn tc-outline">⬇️ Export CSV</button>
+            </div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>User</th>
+                <th>Phone</th>
+                <th>Signed Up</th>
+                <th>Source</th>
+                <th>Shortlisted</th>
+                <th>Alert Set</th>
+                <th>Callback?</th>
+                <th>Package</th>
+                <th>Type</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="td-b">Rajesh Kumar</div>
+                  <div style="font-size:11px;color:var(--ink3);">rajesh@gmail.com</div>
+                </td>
+                <td>9876543210</td>
+                <td>30 Jun</td>
+                <td>Google</td>
+                <td>3 properties</td>
+                <td>✅ Mumbai</td>
+                <td>—</td>
+                <td><span class="pill p-blue" style="font-size:10px;">Active</span></td>
+                <td><span class="pill p-green">Paid</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">View</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-b">Priya Mehta</div>
+                  <div style="font-size:11px;color:var(--ink3);">priya@yahoo.com</div>
+                </td>
+                <td>9765432109</td>
+                <td>29 Jun</td>
+                <td>WhatsApp Alert</td>
+                <td>7 properties</td>
+                <td>✅ Pune</td>
+                <td><span class="pill p-red" style="font-size:10px;">Yes</span></td>
+                <td><span class="pill p-blue" style="font-size:10px;">Active</span></td>
+                <td><span class="pill p-green">Paid</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">View</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-b">Suresh Rathi</div>
+                  <div style="font-size:11px;color:var(--ink3);">suresh@gmail.com</div>
+                </td>
+                <td>9654321098</td>
+                <td>28 Jun</td>
+                <td>Direct</td>
+                <td>2 properties</td>
+                <td>—</td>
+                <td><span class="pill p-red" style="font-size:10px;">Yes</span></td>
+                <td>—</td>
+                <td><span class="pill p-gray">Free</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">View</button><button class="ra-btn">📞 Call</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-b">Anita Rao</div>
+                  <div style="font-size:11px;color:var(--ink3);">anita@gmail.com</div>
+                </td>
+                <td>9543210987</td>
+                <td>25 Jun</td>
+                <td>Instagram</td>
+                <td>12 properties</td>
+                <td>✅ Bengaluru</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="pill p-gray">Free</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">View</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-b">Vikram Patel</div>
+                  <div style="font-size:11px;color:var(--ink3);">vikram@email.com</div>
+                </td>
+                <td>9432109876</td>
+                <td>20 Jun</td>
+                <td>Channel Partner</td>
+                <td>1 property</td>
+                <td>—</td>
+                <td><span class="pill p-green" style="font-size:10px;">Converted</span></td>
+                <td><span class="pill p-blue" style="font-size:10px;">Completed</span></td>
+                <td><span class="pill p-green">Paid</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">View</button></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ════════ PAYMENTS ════════ -->
+      <div class="page-section" id="pg-payments">
+        <div class="pay-summ">
+          <div class="ps-card">
+            <div class="ps-label">Total Revenue All Time</div>
+            <div class="ps-val">₹21,44,000</div>
+            <div class="ps-sub">214 transactions</div>
+          </div>
+          <div class="ps-card">
+            <div class="ps-label">This Month (Jun 2026)</div>
+            <div class="ps-val">₹3,84,000</div>
+            <div class="ps-sub">38 transactions</div>
+          </div>
+          <div class="ps-card">
+            <div class="ps-label">Outstanding Success Fees</div>
+            <div class="ps-val" style="color:var(--danger);">₹1,12,400</div>
+            <div class="ps-sub">4 auctions won · awaiting collection</div>
+          </div>
+        </div>
+        <div class="tc">
+          <div class="tc-head">
+            <div class="tc-title">💰 All Transactions</div>
+            <div class="tc-acts"><select class="tc-filter">
+                <option>All Types</option>
+                <option>₹9,999 Package</option>
+                <option>1% Success Fee</option>
+              </select><button class="tc-btn tc-outline">⬇️ Export CSV</button></div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Client</th>
+                <th>Type</th>
+                <th>Txn ID</th>
+                <th>Amount</th>
+                <th>Mode</th>
+                <th>Status</th>
+                <th>Invoice</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>30 Jun 2026</td>
+                <td class="td-b">Rajesh Kumar</td>
+                <td>₹9,999 Package</td>
+                <td class="td-m">RZP-98765</td>
+                <td class="td-b">₹9,999</td>
+                <td>Razorpay</td>
+                <td><span class="pill p-green">Received</span></td>
+                <td><button class="ra-btn">📄 PDF</button></td>
+              </tr>
+              <tr>
+                <td>25 Jun 2026</td>
+                <td class="td-b">Amit Sharma</td>
+                <td>1% Success Fee</td>
+                <td class="td-m">RZP-98610</td>
+                <td class="td-b">₹82,000</td>
+                <td>Bank Transfer</td>
+                <td><span class="pill p-green">Received</span></td>
+                <td><button class="ra-btn">📄 PDF</button></td>
+              </tr>
+              <tr>
+                <td>22 Jun 2026</td>
+                <td class="td-b">Vikram Patel</td>
+                <td>1% Success Fee</td>
+                <td class="td-m">—</td>
+                <td class="td-b">₹60,120</td>
+                <td>Pending</td>
+                <td><span class="pill p-red">Outstanding</span></td>
+                <td><button class="ra-btn">Send Invoice</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ════════ SUCCESS FEES ════════ -->
+      <div class="page-section" id="pg-success-fees">
+        <div class="alert-card ac-d" style="margin-bottom:18px;"><span class="ac-ico">🏆</span>
+          <div>
+            <div class="ac-title">4 success fees outstanding — ₹1,12,400 total due</div>
+            <div class="ac-sub">These clients have won auctions. Send invoices and collect 1% success fee.</div>
+          </div>
+        </div>
+        <div class="tc">
+          <div class="tc-head">
+            <div class="tc-title">🏆 Success Fee Tracker</div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Client</th>
+                <th>Property Won</th>
+                <th>Winning Bid</th>
+                <th>Base Paid</th>
+                <th>1% Due</th>
+                <th>Date Won</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-b">Amit Sharma</td>
+                <td>3BHK Andheri West</td>
+                <td>₹82,00,000</td>
+                <td>✅ ₹9,999</td>
+                <td class="td-b" style="color:var(--danger);">₹82,000</td>
+                <td>18 Jun 2026</td>
+                <td><span class="pill p-red">Outstanding</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">📄 Send Invoice</button><button class="ra-btn g">Mark
+                      Paid</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td class="td-b">Vikram Patel</td>
+                <td>Flat 303, Airoli</td>
+                <td>₹63,00,000</td>
+                <td>✅ ₹9,999</td>
+                <td class="td-b" style="color:var(--danger);">₹63,000</td>
+                <td>07 Jun 2026</td>
+                <td><span class="pill p-red">Outstanding</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">📄 Send Invoice</button><button class="ra-btn g">Mark
+                      Paid</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td class="td-b">Sunita Rao</td>
+                <td>2BHK Banjara Hills</td>
+                <td>₹44,00,000</td>
+                <td>✅ ₹9,999</td>
+                <td class="td-b" style="color:var(--success);">₹44,000 ✅</td>
+                <td>3 May 2026</td>
+                <td><span class="pill p-green">Collected</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">📄 Receipt</button></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ════════ CHANNEL PARTNERS ════════ -->
+      <div class="page-section" id="pg-partners">
+        <div class="tc">
+          <div class="tc-head">
+            <div class="tc-title">🤝 Channel Partners <span style="font-size:12px;font-weight:400;color:var(--ink3);">31
+                active · 6 pending</span></div>
+            <div class="tc-acts"><select class="tc-filter">
+                <option>All Tiers</option>
+                <option>Associate</option>
+                <option>Silver</option>
+                <option>Gold</option>
+              </select><select class="tc-filter">
+                <option>All Status</option>
+                <option>Pending</option>
+                <option>Active</option>
+              </select><button class="tc-btn tc-outline">⬇️ Export</button></div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Partner</th>
+                <th>City / Localities</th>
+                <th>Tier</th>
+                <th>Referrals</th>
+                <th>Converted</th>
+                <th>Commission</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="td-b">Suresh Nair</div>
+                  <div style="font-size:11px;color:var(--ink3);">9876543210 · Kochi</div>
+                </td>
+                <td>Ernakulam, Kakkanad</td>
+                <td><span class="pill p-gold">Silver</span></td>
+                <td>8</td>
+                <td>5</td>
+                <td>₹12,400</td>
+                <td><span class="pill p-green">Active</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">View</button><button class="ra-btn">Creatives</button></div>
+                </td>
+              </tr>
+              <tr style="background:#FFFBEB;">
+                <td>
+                  <div class="td-b">Vikram Patel</div>
+                  <div style="font-size:11px;color:var(--ink3);">Ahmedabad</div>
+                </td>
+                <td>Navrangpura, SG Road</td>
+                <td>—</td>
+                <td>0</td>
+                <td>0</td>
+                <td>—</td>
+                <td><span class="pill p-gold">Pending</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn g">✅ Approve</button><button class="ra-btn d">✕ Reject</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ════════ ALERTS ════════ -->
+      <div class="page-section" id="pg-alerts">
+        <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);">
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-b">🔔</div>
+            </div>
+            <div class="stat-val">4,291</div>
+            <div class="stat-label">Total Subscribers</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-g">📧</div>
+            </div>
+            <div class="stat-val">3,840</div>
+            <div class="stat-label">Email</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-o">💬</div>
+            </div>
+            <div class="stat-val">1,204</div>
+            <div class="stat-label">WhatsApp</div>
+          </div>
+        </div>
+        <div class="form-section">
+          <div class="fs-head">
+            <div class="fs-title">📣 Send Manual Alert Broadcast</div>
+          </div>
+          <div class="fs-body">
+            <div class="fgrid3">
+              <div class="fg"><label class="flbl">Target City</label><select class="fsel">
+                  <option>All Cities</option>
+                  <option>Mumbai</option>
+                  <option>Delhi</option>
+                </select></div>
+              <div class="fg"><label class="flbl">Property Type</label><select class="fsel">
+                  <option>All Types</option>
+                  <option>Residential</option>
+                  <option>Commercial</option>
+                </select></div>
+              <div class="fg"><label class="flbl">Send Via</label><select class="fsel">
+                  <option>Email + WhatsApp</option>
+                  <option>Email only</option>
+                  <option>WhatsApp only</option>
+                </select></div>
+              <div class="fg ffull"><label class="flbl">Message</label><textarea class="ftxt"
+                  placeholder="New Bank of Baroda listings in Airoli…"></textarea></div>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:8px;"><button class="btn-cancel">Preview</button><button
+                class="btn-save">🔔 Send Now</button></div>
+          </div>
+        </div>
+        <div class="tc">
+          <div class="tc-head">
+            <div class="tc-title">Alert Subscribers</div>
+            <div class="tc-acts"><input class="tc-search" placeholder="Search email…"><button
+                class="tc-btn tc-outline">⬇️ Export</button></div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Email / WhatsApp</th>
+                <th>City</th>
+                <th>Type</th>
+                <th>Bank</th>
+                <th>Budget</th>
+                <th>Subscribed</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-b">rajesh@gmail.com</td>
+                <td>Mumbai</td>
+                <td>Residential</td>
+                <td>Any</td>
+                <td>₹50L–1Cr</td>
+                <td>30 Jun 2026</td>
+                <td>
+                  <div class="ra"><button class="ra-btn d">Unsubscribe</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td class="td-b">+91 9876543210</td>
+                <td>Pune</td>
+                <td>Any</td>
+                <td>SBI</td>
+                <td>Any</td>
+                <td>28 Jun 2026</td>
+                <td>
+                  <div class="ra"><button class="ra-btn d">Unsubscribe</button></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ════════ ANALYTICS ════════ -->
+      <div class="page-section" id="pg-analytics">
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-b">👁️</div>
+              <div class="trend t-up">↑ 22%</div>
+            </div>
+            <div class="stat-val">84,290</div>
+            <div class="stat-label">Page Views This Month</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-g">🔍</div>
+              <div class="trend t-up">↑ 18%</div>
+            </div>
+            <div class="stat-val">12,410</div>
+            <div class="stat-label">Listing Detail Views</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-o">📄</div>
+              <div class="trend t-up">↑ 31%</div>
+            </div>
+            <div class="stat-val">2,840</div>
+            <div class="stat-label">PDF Downloads</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-p">📝</div>
+              <div class="trend t-up">↑ 28%</div>
+            </div>
+            <div class="stat-val">5.8%</div>
+            <div class="stat-label">View → Signup Rate</div>
+          </div>
+        </div>
+        <div class="dash-grid">
+          <div class="tc">
+            <div class="tc-head">
+              <div class="tc-title">🏙️ Top Cities</div>
+            </div>
+            <div style="padding:14px 18px;display:flex;flex-direction:column;gap:10px;">
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span
+                    class="td-b">Mumbai</span><span style="color:var(--ink3);">28,400</span></div>
+                <div class="prog">
+                  <div class="prog-f" style="width:100%"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span
+                    class="td-b">Delhi NCR</span><span style="color:var(--ink3);">18,200</span></div>
+                <div class="prog">
+                  <div class="prog-f" style="width:64%;background:var(--success);"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span
+                    class="td-b">Bengaluru</span><span style="color:var(--ink3);">12,100</span></div>
+                <div class="prog">
+                  <div class="prog-f" style="width:43%;background:var(--gold);"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span
+                    class="td-b">Hyderabad</span><span style="color:var(--ink3);">8,900</span></div>
+                <div class="prog">
+                  <div class="prog-f" style="width:31%;background:var(--purple);"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tc">
+            <div class="tc-head">
+              <div class="tc-title">🏦 Top Banks</div>
+            </div>
+            <div style="padding:14px 18px;display:flex;flex-direction:column;gap:10px;">
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span
+                    class="td-b">SBI</span><span style="color:var(--ink3);">19,200</span></div>
+                <div class="prog">
+                  <div class="prog-f" style="width:100%"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span
+                    class="td-b">HDFC Bank</span><span style="color:var(--ink3);">11,400</span></div>
+                <div class="prog">
+                  <div class="prog-f" style="width:59%;background:var(--success);"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span
+                    class="td-b">Bank of Baroda</span><span style="color:var(--ink3);">8,100</span></div>
+                <div class="prog">
+                  <div class="prog-f" style="width:42%;background:var(--gold);"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span
+                    class="td-b">ICICI Bank</span><span style="color:var(--ink3);">6,900</span></div>
+                <div class="prog">
+                  <div class="prog-f" style="width:36%;background:var(--purple);"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════════ SERVICE PIPELINE ════════ -->
+      <div class="page-section" id="pg-requests">
+        <div class="tabs">
+          <div class="tab active">All (47)</div>
+          <div class="tab">New (12)</div>
+          <div class="tab">In Progress (18)</div>
+          <div class="tab">Completed (14)</div>
+          <div class="tab">Dropped (3)</div>
+        </div>
+        <div class="tc">
+          <div class="tc-head">
+            <div class="tc-title">📋 Service Pipeline</div>
+            <div class="tc-acts"><input class="tc-search" placeholder="Search…"><button class="tc-btn tc-outline">⬇️
+                Export</button></div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Client</th>
+                <th>Service</th>
+                <th>City</th>
+                <th>Property</th>
+                <th>Stage</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="td-b">Rajesh Kumar</div>
+                  <div style="font-size:11px;color:var(--ink3);">📞 9876543210</div>
+                </td>
+                <td>DD + Bid Mgmt</td>
+                <td>Navi Mumbai</td>
+                <td>Flat 303, Airoli</td>
+                <td>Due Diligence</td>
+                <td><span class="pill p-gold">In Progress</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">View</button><button class="ra-btn">Update</button><button
+                      class="ra-btn">💬 WhatsApp</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-b">Sunita Rao</div>
+                  <div style="font-size:11px;color:var(--ink3);">📞 9543210987</div>
+                </td>
+                <td>Loan Assistance</td>
+                <td>Hyderabad</td>
+                <td>2BHK Banjara Hills</td>
+                <td>Completed</td>
+                <td><span class="pill p-green">Done</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">View</button></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ════════ ALERT ENGINE & LOG ════════ -->
+      <div class="page-section" id="pg-alert-engine">
+        <div class="alert-card ac-i" style="margin-bottom:18px;"><span class="ac-ico">⚡</span>
+          <div>
+            <div class="ac-title">Real-time matching is ON</div>
+            <div class="ac-sub">Every new or edited listing is instantly checked against all active alert rules. Matches
+              fire email immediately; WhatsApp is queued for manual send until the Business API goes live.</div>
+          </div>
+        </div>
+        <div class="stat-grid" style="grid-template-columns:repeat(4,1fr);">
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-b">⚡</div>
+            </div>
+            <div class="stat-val">4,291</div>
+            <div class="stat-label">Active Alert Rules</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-g">📧</div>
+              <div class="trend t-up">↑ 142</div>
+            </div>
+            <div class="stat-val">1,284</div>
+            <div class="stat-label">Emails Sent Today</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-o">💬</div>
+              <div class="trend t-up">↑ 38</div>
+            </div>
+            <div class="stat-val">96</div>
+            <div class="stat-label">WhatsApp Queued</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-p">👆</div>
+            </div>
+            <div class="stat-val">28.4%</div>
+            <div class="stat-label">Alert → Click Rate</div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="fs-head">
+            <div class="fs-title">⚙️ Alert Engine Configuration</div>
+          </div>
+          <div class="fs-body" style="display:flex;flex-direction:column;gap:14px;">
+            <div class="toggle on">
+              <div class="tog-sw"></div>
+              <div class="tog-label"><strong>Instant email</strong> on new listing match (fires immediately when a
+                listing is added/edited)</div>
+            </div>
+            <div class="toggle on">
+              <div class="tog-sw"></div>
+              <div class="tog-label"><strong>Instant WhatsApp</strong> on match — Phase 1: queues for manual send ·
+                Phase 2: auto-send via Business API</div>
+            </div>
+            <div class="toggle on">
+              <div class="tog-sw"></div>
+              <div class="tog-label"><strong>Auction date reminders</strong> — 3 days & 1 day before, for shortlisted +
+                paid-service properties</div>
+            </div>
+            <div class="toggle on">
+              <div class="tog-sw"></div>
+              <div class="tog-label"><strong>Price / status change alerts</strong> — notify everyone who shortlisted a
+                property when its price or status changes</div>
+            </div>
+            <div class="toggle on">
+              <div class="tog-sw"></div>
+              <div class="tog-label"><strong>Inspection reminders</strong> — morning of inspection date, for users who
+                unlocked inspection details</div>
+            </div>
+            <div class="toggle">
+              <div class="tog-sw"></div>
+              <div class="tog-label"><strong>Weekly digest</strong> (opt-in alternative for users who muted instant
+                alerts)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tc">
+          <div class="tc-head">
+            <div class="tc-title">📜 Notification Dispatch Log</div>
+            <div class="tc-acts"><select class="tc-filter">
+                <option>All Channels</option>
+                <option>Email</option>
+                <option>WhatsApp</option>
+              </select><select class="tc-filter">
+                <option>All Types</option>
+                <option>Match Alert</option>
+                <option>Auction Reminder</option>
+                <option>Price Change</option>
+              </select><button class="tc-btn tc-outline">⬇️ Export</button></div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Recipient</th>
+                <th>Type</th>
+                <th>Trigger</th>
+                <th>Channel</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>2 min ago</td>
+                <td class="td-b">rajesh@gmail.com</td>
+                <td>Match Alert</td>
+                <td>New listing: Flat 303 Airoli</td>
+                <td>📧 Email</td>
+                <td><span class="pill p-green">Delivered</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">View</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>2 min ago</td>
+                <td class="td-b">+91 9876543210</td>
+                <td>Match Alert</td>
+                <td>New listing: Flat 303 Airoli</td>
+                <td>💬 WhatsApp</td>
+                <td><span class="pill p-gold">Queued — Manual</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn g">💬 Send Now</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>1 hr ago</td>
+                <td class="td-b">priya@yahoo.com</td>
+                <td>Auction Reminder</td>
+                <td>3 days to auction: Flat 401</td>
+                <td>📧 Email</td>
+                <td><span class="pill p-green">Opened</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">View</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>3 hrs ago</td>
+                <td class="td-b">+91 9765432109</td>
+                <td>Price Change</td>
+                <td>Reserve dropped: 2BHK Banjara Hills</td>
+                <td>💬 WhatsApp</td>
+                <td><span class="pill p-gold">Queued — Manual</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn g">💬 Send Now</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>5 hrs ago</td>
+                <td class="td-b">anita@gmail.com</td>
+                <td>Match Alert</td>
+                <td>New listing: SBI Andheri West</td>
+                <td>📧 Email</td>
+                <td><span class="pill p-green">Delivered</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">View</button></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ════════ EMAIL CAMPAIGNS ════════ -->
+      <div class="page-section" id="pg-email-campaigns">
+        <div class="stat-grid" style="grid-template-columns:repeat(4,1fr);">
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-b">📧</div>
+            </div>
+            <div class="stat-val">12</div>
+            <div class="stat-label">Active Templates</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-g">📨</div>
+              <div class="trend t-up">↑ 18%</div>
+            </div>
+            <div class="stat-val">38,420</div>
+            <div class="stat-label">Sent This Month</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-o">👁️</div>
+            </div>
+            <div class="stat-val">42.1%</div>
+            <div class="stat-label">Avg Open Rate</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-p">👆</div>
+            </div>
+            <div class="stat-val">9.8%</div>
+            <div class="stat-label">Avg Click Rate</div>
+          </div>
+        </div>
+
+        <div class="tc">
+          <div class="tc-head">
+            <div class="tc-title">📧 Lifecycle Email Templates</div>
+            <div class="tc-acts"><button class="tc-btn tc-primary">➕ New Template</button></div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Template</th>
+                <th>Trigger</th>
+                <th>Channel</th>
+                <th>Sent (30d)</th>
+                <th>Open Rate</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="td-b">Welcome — Part 1</div>
+                  <div style="font-size:11px;color:var(--ink3);">Immediately on signup</div>
+                </td>
+                <td>New signup</td>
+                <td>📧 Email</td>
+                <td>48</td>
+                <td>68%</td>
+                <td><span class="pill p-green">Active</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">Edit</button><button class="ra-btn">Preview</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-b">Welcome — Part 2</div>
+                  <div style="font-size:11px;color:var(--ink3);">Day 2 · How due diligence works</div>
+                </td>
+                <td>2 days after signup</td>
+                <td>📧 Email</td>
+                <td>44</td>
+                <td>51%</td>
+                <td><span class="pill p-green">Active</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">Edit</button><button class="ra-btn">Preview</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-b">Welcome — Part 3</div>
+                  <div style="font-size:11px;color:var(--ink3);">Day 5 · Browse your city</div>
+                </td>
+                <td>5 days after signup</td>
+                <td>📧 Email</td>
+                <td>41</td>
+                <td>44%</td>
+                <td><span class="pill p-green">Active</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">Edit</button><button class="ra-btn">Preview</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-b">Weekly Digest</div>
+                  <div style="font-size:11px;color:var(--ink3);">Roundup of new auctions in saved cities</div>
+                </td>
+                <td>Every Monday 9 AM</td>
+                <td>📧 Email</td>
+                <td>3,840</td>
+                <td>39%</td>
+                <td><span class="pill p-green">Active</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">Edit</button><button class="ra-btn">Preview</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-b">Re-engagement — 14 day</div>
+                  <div style="font-size:11px;color:var(--ink3);">New properties in their city</div>
+                </td>
+                <td>No visit in 14 days</td>
+                <td>📧 Email</td>
+                <td>212</td>
+                <td>31%</td>
+                <td><span class="pill p-green">Active</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">Edit</button><button class="ra-btn">Preview</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-b">Re-engagement — 30 day</div>
+                  <div style="font-size:11px;color:var(--ink3);">Price-dropped / expiring shortlists</div>
+                </td>
+                <td>No visit in 30 days</td>
+                <td>📧 Email</td>
+                <td>156</td>
+                <td>24%</td>
+                <td><span class="pill p-green">Active</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">Edit</button><button class="ra-btn">Preview</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-b">Win-back — 60 day</div>
+                  <div style="font-size:11px;color:var(--ink3);">"Still looking?" last attempt</div>
+                </td>
+                <td>No visit in 60 days</td>
+                <td>📧 Email</td>
+                <td>88</td>
+                <td>14%</td>
+                <td><span class="pill p-gray">Paused</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">Edit</button><button class="ra-btn">Activate</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-b">Post-Callback Follow-up</div>
+                  <div style="font-size:11px;color:var(--ink3);">If not converted in 48 hrs</div>
+                </td>
+                <td>Callback + 48 hrs</td>
+                <td>📧 + 💬</td>
+                <td>34</td>
+                <td>57%</td>
+                <td><span class="pill p-green">Active</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">Edit</button><button class="ra-btn">Preview</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-b">Post-Auction Outcome</div>
+                  <div style="font-size:11px;color:var(--ink3);">After auction date if no package bought</div>
+                </td>
+                <td>Auction date + 1 day</td>
+                <td>📧 Email</td>
+                <td>62</td>
+                <td>48%</td>
+                <td><span class="pill p-green">Active</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">Edit</button><button class="ra-btn">Preview</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="td-b">Abandoned Alert Nudge</div>
+                  <div style="font-size:11px;color:var(--ink3);">Heavy browsing but no alert set</div>
+                </td>
+                <td>3+ searches, no alert</td>
+                <td>📧 Email</td>
+                <td>97</td>
+                <td>36%</td>
+                <td><span class="pill p-green">Active</span></td>
+                <td>
+                  <div class="ra"><button class="ra-btn">Edit</button><button class="ra-btn">Preview</button></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="form-section">
+          <div class="fs-head">
+            <div class="fs-title">📣 Send a One-Off Campaign</div>
+          </div>
+          <div class="fs-body">
+            <div class="fgrid3">
+              <div class="fg"><label class="flbl">Audience Segment</label><select class="fsel">
+                  <option>All Users</option>
+                  <option>Paid Package users</option>
+                  <option>Free users only</option>
+                  <option>Requested callback (not converted)</option>
+                  <option>Has shortlisted properties</option>
+                  <option>Mumbai · Residential</option>
+                </select></div>
+              <div class="fg"><label class="flbl">Channel</label><select class="fsel">
+                  <option>Email</option>
+                  <option>Email + WhatsApp</option>
+                </select></div>
+              <div class="fg"><label class="flbl">Schedule</label><select class="fsel">
+                  <option>Send now</option>
+                  <option>Schedule for later</option>
+                </select></div>
+              <div class="fg ffull"><label class="flbl">Subject Line</label><input class="finp"
+                  placeholder="e.g. 5 new Bank of Baroda auctions in Mumbai this week"></div>
+              <div class="fg ffull"><label class="flbl">Message Body</label><textarea class="ftxt"
+                  placeholder="Write your campaign message…"></textarea></div>
+            </div>
+            <div style="margin-top:12px;display:flex;gap:8px;"><button class="btn-cancel">Preview</button><button
+                class="btn-save">📨 Send Campaign</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════════ WHATSAPP TOOLS ════════ -->
+      <div class="page-section" id="pg-whatsapp">
+        <div class="alert-card ac-w" style="margin-bottom:18px;"><span class="ac-ico">💬</span>
+          <div>
+            <div class="ac-title">Phase 1: Click-to-chat mode</div>
+            <div class="ac-sub">Automated WhatsApp push needs the official Business API. Until then, use click-to-chat
+              links and broadcast-list exports below. <strong>Note:</strong> WhatsApp broadcast lists only reach
+              contacts who have saved your number.</div>
+          </div>
+        </div>
+
+        <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);">
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-g">💬</div>
+            </div>
+            <div class="stat-val">1,204</div>
+            <div class="stat-label">WhatsApp Subscribers</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-o">📋</div>
+            </div>
+            <div class="stat-val">96</div>
+            <div class="stat-label">Queued Messages</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-b">🔗</div>
+            </div>
+            <div class="stat-val">2,841</div>
+            <div class="stat-label">Click-to-Chat Opens</div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="fs-head">
+            <div class="fs-title">🔗 Click-to-Chat Link Generator</div>
+          </div>
+          <div class="fs-body">
+            <div class="fgrid">
+              <div class="fg"><label class="flbl">Boliwala WhatsApp Number</label><input class="finp"
+                  value="+91 98765 43210"></div>
+              <div class="fg"><label class="flbl">Pre-filled Message</label><input class="finp"
+                  value="Hi, I'm interested in Flat 303, Vithai Apt, Airoli (BARBNANDY303)"></div>
+            </div>
+            <div
+              style="margin-top:14px;padding:14px;background:var(--success-light);border:1px solid rgba(5,150,105,0.2);border-radius:8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <span
+                style="font-family:'Courier New',monospace;font-size:12px;color:var(--ink);flex:1;min-width:200px;">https://wa.me/919876543210?text=Hi%2C%20I'm%20interested%20in%20Flat%20303...</span>
+              <button class="ra-btn g">📋 Copy Link</button>
+            </div>
+            <div style="margin-top:10px;font-size:12px;color:var(--ink3);">This link is auto-embedded on every listing
+              page's "WhatsApp Us" button, pre-filled with that property's ID.</div>
+          </div>
+        </div>
+
+        <div class="tc">
+          <div class="tc-head">
+            <div class="tc-title">📋 Manual WhatsApp Queue</div>
+            <div class="tc-acts"><button class="tc-btn tc-outline">Mark All Sent</button></div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Recipient</th>
+                <th>Message Type</th>
+                <th>Property</th>
+                <th>Queued</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-b">+91 9876543210</td>
+                <td>Match Alert</td>
+                <td>Flat 303, Airoli</td>
+                <td>2 min ago</td>
+                <td>
+                  <div class="ra"><button class="ra-btn g">💬 Open Chat</button><button class="ra-btn">Mark
+                      Sent</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td class="td-b">+91 9765432109</td>
+                <td>Price Change</td>
+                <td>2BHK Banjara Hills</td>
+                <td>3 hrs ago</td>
+                <td>
+                  <div class="ra"><button class="ra-btn g">💬 Open Chat</button><button class="ra-btn">Mark
+                      Sent</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td class="td-b">+91 9654321098</td>
+                <td>Auction Reminder</td>
+                <td>3BHK Andheri</td>
+                <td>5 hrs ago</td>
+                <td>
+                  <div class="ra"><button class="ra-btn g">💬 Open Chat</button><button class="ra-btn">Mark
+                      Sent</button></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ════════ SEGMENTS & EXPORT ════════ -->
+      <div class="page-section" id="pg-segments">
+        <div class="alert-card ac-i" style="margin-bottom:18px;"><span class="ac-ico">🎯</span>
+          <div>
+            <div class="ac-title">Build a targeted list, then export</div>
+            <div class="ac-sub">Filter users by any combination of criteria, then export the segment as CSV for email
+              campaigns or paste into a WhatsApp Business broadcast list.</div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="fs-head">
+            <div class="fs-title">🎯 Segment Builder</div>
+          </div>
+          <div class="fs-body">
+            <div class="fgrid3">
+              <div class="fg"><label class="flbl">City</label><select class="fsel">
+                  <option>Any City</option>
+                  <option>Mumbai</option>
+                  <option>Delhi NCR</option>
+                  <option>Bengaluru</option>
+                  <option>Hyderabad</option>
+                  <option>Pune</option>
+                </select></div>
+              <div class="fg"><label class="flbl">User Type</label><select class="fsel">
+                  <option>All</option>
+                  <option>Paid Package</option>
+                  <option>Free only</option>
+                </select></div>
+              <div class="fg"><label class="flbl">Property Interest</label><select class="fsel">
+                  <option>Any</option>
+                  <option>Residential</option>
+                  <option>Commercial</option>
+                  <option>Industrial / Land</option>
+                </select></div>
+              <div class="fg"><label class="flbl">Engagement</label><select class="fsel">
+                  <option>Any</option>
+                  <option>Has shortlisted properties</option>
+                  <option>Has active alert</option>
+                  <option>Requested callback</option>
+                  <option>No activity 30+ days</option>
+                </select></div>
+              <div class="fg"><label class="flbl">Budget Range</label><select class="fsel">
+                  <option>Any</option>
+                  <option>Under ₹40L</option>
+                  <option>₹40L – ₹1Cr</option>
+                  <option>₹1Cr+</option>
+                </select></div>
+              <div class="fg"><label class="flbl">Channel Available</label><select class="fsel">
+                  <option>Any</option>
+                  <option>Email</option>
+                  <option>WhatsApp</option>
+                  <option>Both</option>
+                </select></div>
+            </div>
+            <div
+              style="margin-top:16px;padding:14px 16px;background:var(--brand-light);border-radius:8px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+              <div style="font-size:14px;color:var(--ink);"><strong
+                  style="font-family:var(--font-display);font-size:18px;">347</strong> users match this segment</div>
+              <div style="display:flex;gap:8px;">
+                <button class="tc-btn tc-outline">⬇️ Export CSV</button>
+                <button class="tc-btn tc-outline">💬 Export for WhatsApp Broadcast</button>
+                <button class="tc-btn tc-primary">📧 Email This Segment</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tc">
+          <div class="tc-head">
+            <div class="tc-title">⭐ Saved Segments</div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Segment Name</th>
+                <th>Criteria</th>
+                <th>Users</th>
+                <th>Last Used</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-b">Mumbai hot leads</td>
+                <td>Mumbai · Free · Requested callback</td>
+                <td>42</td>
+                <td>Yesterday</td>
+                <td>
+                  <div class="ra"><button class="ra-btn">Use</button><button class="ra-btn">Edit</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td class="td-b">Dormant 30-day</td>
+                <td>Any · No activity 30+ days</td>
+                <td>156</td>
+                <td>3 days ago</td>
+                <td>
+                  <div class="ra"><button class="ra-btn">Use</button><button class="ra-btn">Edit</button></div>
+                </td>
+              </tr>
+              <tr>
+                <td class="td-b">High-budget commercial</td>
+                <td>Commercial · ₹1Cr+ · Both channels</td>
+                <td>89</td>
+                <td>Last week</td>
+                <td>
+                  <div class="ra"><button class="ra-btn">Use</button><button class="ra-btn">Edit</button></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ════════ ENGAGEMENT ANALYTICS ════════ -->
+      <div class="page-section" id="pg-engagement">
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-b">🔁</div>
+              <div class="trend t-up">↑ 12%</div>
+            </div>
+            <div class="stat-val">34%</div>
+            <div class="stat-label">7-Day Return Rate</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-g">🔖</div>
+              <div class="trend t-up">↑ 8%</div>
+            </div>
+            <div class="stat-val">2.8</div>
+            <div class="stat-label">Avg Shortlists / User</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-o">🔔</div>
+              <div class="trend t-up">↑ 22%</div>
+            </div>
+            <div class="stat-val">61%</div>
+            <div class="stat-label">Users with ≥1 Alert</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon si-p">📨</div>
+            </div>
+            <div class="stat-val">28.4%</div>
+            <div class="stat-label">Alert → Click Rate</div>
+          </div>
+        </div>
+
+        <div class="dash-grid">
+          <div class="tc">
+            <div class="tc-head">
+              <div class="tc-title">📊 Engagement Funnel</div>
+            </div>
+            <div style="padding:16px 18px;display:flex;flex-direction:column;gap:12px;">
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span
+                    class="td-b">Visited site</span><span style="color:var(--ink3);">100%</span></div>
+                <div class="prog">
+                  <div class="prog-f" style="width:100%"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span
+                    class="td-b">Viewed a listing</span><span style="color:var(--ink3);">62%</span></div>
+                <div class="prog">
+                  <div class="prog-f" style="width:62%;background:var(--success);"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span
+                    class="td-b">Signed up</span><span style="color:var(--ink3);">18%</span></div>
+                <div class="prog">
+                  <div class="prog-f" style="width:18%;background:var(--gold);"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span
+                    class="td-b">Shortlisted / set alert</span><span style="color:var(--ink3);">11%</span></div>
+                <div class="prog">
+                  <div class="prog-f" style="width:11%;background:var(--purple);"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span
+                    class="td-b">Requested callback</span><span style="color:var(--ink3);">4%</span></div>
+                <div class="prog">
+                  <div class="prog-f" style="width:4%;background:var(--danger);"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span
+                    class="td-b">Bought ₹9,999 package</span><span style="color:var(--ink3);">1.8%</span></div>
+                <div class="prog">
+                  <div class="prog-f" style="width:8%;background:var(--brand-dark);"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tc">
+            <div class="tc-head">
+              <div class="tc-title">📈 Channel Performance</div>
+            </div>
+            <div style="padding:16px 18px;display:flex;flex-direction:column;gap:12px;">
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span
+                    class="td-b">📧 Match Alert (Email)</span><span style="color:var(--ink3);">28.4% CTR</span></div>
+                <div class="prog">
+                  <div class="prog-f" style="width:84%"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span
+                    class="td-b">💬 Match Alert (WhatsApp)</span><span style="color:var(--ink3);">41.2% CTR</span></div>
+                <div class="prog">
+                  <div class="prog-f" style="width:100%;background:var(--success);"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span
+                    class="td-b">📧 Weekly Digest</span><span style="color:var(--ink3);">11.0% CTR</span></div>
+                <div class="prog">
+                  <div class="prog-f" style="width:33%;background:var(--gold);"></div>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;"><span
+                    class="td-b">📧 Re-engagement</span><span style="color:var(--ink3);">6.5% CTR</span></div>
+                <div class="prog">
+                  <div class="prog-f" style="width:20%;background:var(--purple);"></div>
+                </div>
+              </div>
+              <div
+                style="margin-top:6px;font-size:12px;color:var(--ink3);background:var(--surface);padding:10px 12px;border-radius:8px;">
+                💡 WhatsApp alerts convert ~45% better than email — strong signal to prioritise the Business API
+                upgrade.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tc">
+          <div class="tc-head">
+            <div class="tc-title">🔥 Most Engaged Listings (drive re-visits)</div>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Views</th>
+                <th>Shortlists</th>
+                <th>Callbacks</th>
+                <th>Alerts Matched</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="td-b">3 BHK Andheri West (SBI)</td>
+                <td>891</td>
+                <td>64</td>
+                <td>12</td>
+                <td>210</td>
+              </tr>
+              <tr>
+                <td class="td-b">Flat 303, Vithai Apt, Airoli (BoB)</td>
+                <td>342</td>
+                <td>38</td>
+                <td>8</td>
+                <td>96</td>
+              </tr>
+              <tr>
+                <td class="td-b">Flat 401, Vithai Apt, Airoli (BoB)</td>
+                <td>218</td>
+                <td>22</td>
+                <td>4</td>
+                <td>96</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ════════ SETTINGS ════════ -->
+      <div class="page-section" id="pg-settings">
+        <div class="form-section">
+          <div class="fs-head">
+            <div class="fs-title">⚙️ General Settings</div>
+          </div>
+          <div class="fs-body">
+            <div class="fgrid">
+              <div class="fg"><label class="flbl">Site Name</label><input class="finp" value="Boliwala.com"></div>
+              <div class="fg"><label class="flbl">Tagline</label><input class="finp" value="We Know Auctions!"></div>
+              <div class="fg"><label class="flbl">Base Service Fee (₹)</label><input class="finp" value="9999"></div>
+              <div class="fg"><label class="flbl">Success Fee (%)</label><input class="finp" value="1"></div>
+              <div class="fg"><label class="flbl">Contact Email</label><input class="finp" value="hello@boliwala.com">
+              </div>
+              <div class="fg"><label class="flbl">WhatsApp</label><input class="finp" value="+91 98765 43210"></div>
+            </div>
+          </div>
+          <div class="fs-foot"><button class="btn-save">Save Settings</button></div>
+        </div>
+        <div class="form-section">
+          <div class="fs-head">
+            <div class="fs-title">🔑 API Keys</div>
+          </div>
+          <div class="fs-body">
+            <div class="fgrid">
+              <div class="fg"><label class="flbl">Razorpay Key ID</label><input class="finp" type="password"
+                  placeholder="rzp_live_XXXX"></div>
+              <div class="fg"><label class="flbl">Razorpay Secret</label><input class="finp" type="password"
+                  placeholder="••••••••"></div>
+              <div class="fg"><label class="flbl">Resend (Email)</label><input class="finp" type="password"
+                  placeholder="re_XXXX"></div>
+              <div class="fg"><label class="flbl">WATI (WhatsApp)</label><input class="finp" type="password"
+                  placeholder="WATI_XXXX"></div>
+            </div>
+          </div>
+          <div class="fs-foot"><button class="btn-save">Save Keys</button></div>
+        </div>
+        <div class="form-section">
+          <div class="fs-head">
+            <div class="fs-title">👥 Admin Users & Roles</div>
+          </div>
+          <div class="fs-body">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Role</th>
+                  <th>Last Login</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="td-b">Dipak</td>
+                  <td>dipak@boliwala.com</td>
+                  <td><span class="pill p-blue">Super Admin</span></td>
+                  <td>Now</td>
+                  <td>
+                    <div class="ra"><button class="ra-btn">Edit</button></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="td-b">Operations</td>
+                  <td>ops@boliwala.com</td>
+                  <td><span class="pill p-gray">Listings Manager</span></td>
+                  <td>Yesterday</td>
+                  <td>
+                    <div class="ra"><button class="ra-btn">Edit</button><button class="ra-btn d">Remove</button></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <button class="btn-save" style="margin-top:12px;">+ Add Admin User</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </main>
+
+  <script>
+    const pageMap = {
+      'dashboard': { 'title': 'Dashboard', 'crumb': 'Boliwala Admin › Overview' },
+      'listings': { 'title': 'All Listings', 'crumb': 'Boliwala Admin › Listings' },
+      'add-listing': { 'title': 'Add Listing', 'crumb': 'Boliwala Admin › Listings › Add' },
+      'listing-detail': { 'title': 'Edit Listing + Images', 'crumb': 'Boliwala Admin › Listings › Flat 303, Airoli' },
+      'bulk-upload': { 'title': 'Bulk Upload Excel', 'crumb': 'Boliwala Admin › Listings › Bulk Upload' },
+      'callbacks': { 'title': 'Callback Requests', 'crumb': 'Boliwala Admin › Leads › Callbacks' },
+      'packages': { 'title': 'Package Purchases', 'crumb': 'Boliwala Admin › Leads › Packages' },
+      'requests': { 'title': 'Service Pipeline', 'crumb': 'Boliwala Admin › Leads › Pipeline' },
+      'payments': { 'title': 'Payments', 'crumb': 'Boliwala Admin › Finance › Payments' },
+      'success-fees': { 'title': 'Success Fees', 'crumb': 'Boliwala Admin › Finance › Success Fees' },
+      'users': { 'title': 'All Users', 'crumb': 'Boliwala Admin › Users' },
+      'partners': { 'title': 'Channel Partners', 'crumb': 'Boliwala Admin › Partners' },
+      'alerts': { 'title': 'Alert Subscribers', 'crumb': 'Boliwala Admin › Engagement › Alert Subscribers' },
+      'alert-engine': { 'title': 'Alert Engine & Log', 'crumb': 'Boliwala Admin › Engagement › Alert Engine' },
+      'email-campaigns': { 'title': 'Email Campaigns', 'crumb': 'Boliwala Admin › Engagement › Email Campaigns' },
+      'whatsapp': { 'title': 'WhatsApp Tools', 'crumb': 'Boliwala Admin › Engagement › WhatsApp Tools' },
+      'segments': { 'title': 'Segments & Export', 'crumb': 'Boliwala Admin › Engagement › Segments' },
+      'engagement': { 'title': 'Engagement Analytics', 'crumb': 'Boliwala Admin › Engagement › Analytics' },
+      'analytics': { 'title': 'Site Analytics', 'crumb': 'Boliwala Admin › Tools › Site Analytics' },
+      'settings': { 'title': 'Settings', 'crumb': 'Boliwala Admin › Settings' },
+    };
+    function go(id) {
+      document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      const pg = document.getElementById('pg-' + id);
+      if (pg) pg.classList.add('active');
+      document.querySelectorAll('.nav-item').forEach(n => {
+        if (n.getAttribute('onclick') && n.getAttribute('onclick').includes("'" + id + "'")) n.classList.add('active');
+      });
+      if (pageMap[id]) {
+        document.getElementById('pgTitle').textContent = pageMap[id].title;
+        document.getElementById('pgCrumb').textContent = pageMap[id].crumb;
+      }
+      document.querySelector('.main').scrollTo(0, 0);
+    }
+    function showPreview() {
+      document.getElementById('uploadPreview').style.display = 'block';
+      document.getElementById('excelZone').style.borderColor = 'var(--success)';
+    }
+    function handleDrop(e) { e.preventDefault(); showPreview(); }
+    function filterUsers(v) { console.log('Filter users by:', v); }
+    document.querySelectorAll('.tab').forEach(t => {
+      t.addEventListener('click', function () { this.closest('.tabs').querySelectorAll('.tab').forEach(x => x.classList.remove('active')); this.classList.add('active'); });
+    });
+    document.querySelectorAll('.toggle').forEach(t => { t.addEventListener('click', function () { this.classList.toggle('on'); }); });
+  </script>
+</body>
+
+</html>

@@ -1,367 +1,349 @@
 "use client"
 
 import { useState } from "react"
-import { ClipboardCheck, Target, Key, Building2, Check, ChevronDown, MessageCircle, ArrowRight } from "lucide-react"
+import { Check, X, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
+import Link from "next/link"
 
 const faqs = [
   {
-    question: "When exactly do I pay the 1% success fee?",
-    answer: "The 1% success fee is charged only after you win the auction and the bank confirms your bid. If you don't win — for any reason — you pay nothing beyond the ₹9,999 engagement fee. The success fee is calculated on your final winning bid amount, not the reserve price.",
+    question: "Is the ₹9,999 package for all my auctions?",
+    answer: "No — the Full Service package covers one specific auction property. It includes the title search, auction management, and possession support for that property. If you want us to handle a second property, you'd take a separate package for it.",
   },
   {
-    question: "What does the ₹9,999 fee cover?",
-    answer: "The ₹9,999 is your engagement fee that activates the full end-to-end service — due diligence, bid management, possession support, and loan assistance. It covers our team's time, legal costs for document verification, and operational coordination throughout the process.",
+    question: "When is the 1% success fee charged?",
+    answer: "Only if you actually win the auction. The 1% is calculated on your winning bid amount. If you don't win, you pay nothing beyond the ₹9,999 package fee.",
   },
   {
-    question: "What if the due diligence reveals a problem and I decide not to bid?",
-    answer: "You keep the due diligence report and we help you find an alternative property. The ₹9,999 fee has been earned by our legal team's work. Think of it as the cost of avoiding a potentially bad investment — and we can redirect our efforts to another property for you at a discounted re-engagement fee.",
+    question: "What's the difference between credits and the annual membership?",
+    answer: "Every free account gets 5 credits, and each credit unlocks the hidden fields on one property. The ₹999 annual membership removes the limit entirely — unlock as many properties as you want for a full year.",
   },
   {
-    question: "Are there any other charges I should know about?",
-    answer: "No hidden charges. The EMD (Earnest Money Deposit) is your own money paid to the bank — it is fully refundable if you don't win. Stamp duty and registration charges at possession are statutory government fees paid directly by you. Everything else — our team's work across all four services — is covered by the ₹9,999 + 1% structure.",
-  },
-  {
-    question: "Can I use only one service, like just due diligence?",
-    answer: "Our package is designed as an end-to-end service for the best outcome. However, if you've already handled due diligence yourself and just need bid management or possession support, speak to our team — we can discuss what makes sense for your specific situation.",
+    question: "Do I need to pay anything just to browse?",
+    answer: "Never. Browsing listings, searching, viewing the full address, and requesting a callback are all completely free and don't even require an account.",
   },
 ]
 
 export function ServicesView() {
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null)
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0)
 
   const toggleFaq = (index: number) => {
     setOpenFaqIndex(openFaqIndex === index ? null : index)
   }
 
   return (
-    <div className="w-full flex flex-col pt-32 pb-0 bg-background">
+    <div className="w-full flex flex-col pt-32 pb-0 bg-[#F6F8FC] min-h-screen font-sans">
       
       {/* HERO SECTION */}
-      <section className="relative overflow-hidden bg-[#0A0F1C] py-20 md:py-32 rounded-3xl mx-4 md:mx-6 mb-8 mt-4 shadow-2xl">
-        {/* Glow effects */}
-        <div className="absolute top-[-40%] right-[-5%] w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle,rgba(27,79,216,0.2)_0%,transparent_70%)] pointer-events-none" />
-        <div className="absolute bottom-[-30%] left-[-5%] w-[400px] h-[400px] rounded-full bg-[radial-gradient(circle,rgba(217,119,6,0.15)_0%,transparent_70%)] pointer-events-none" />
+      <header className="max-w-[820px] mx-auto px-7 pt-[60px] pb-5 text-center">
+        <div className="inline-flex items-center gap-2 bg-[#FEF6EC] text-[#D97706] font-bold text-[12.5px] px-3.5 py-1.5 rounded-full uppercase tracking-[0.05em] mb-5">
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
+          </svg>
+          Simple, transparent pricing
+        </div>
+        <h1 className="font-['Plus_Jakarta_Sans'] text-[34px] md:text-[44px] font-extrabold leading-[1.08] tracking-[-0.015em] text-[#0F1729]">
+          Browse for free.<br />Pay only when you're serious.
+        </h1>
+        <p className="text-[17px] text-[#6B7385] mt-4 max-w-[600px] mx-auto leading-[1.55]">
+          Start with unlimited free listings. Upgrade to unlock every detail, or hand the whole auction to our experts — you only pay a success fee if you win.
+        </p>
+        <div className="mt-3.5 text-[14.5px] text-[#0F9D58] font-semibold">
+          ✓ No signup needed to browse · ✓ Full address always visible · ✓ ₹0 to start
+        </div>
+      </header>
+
+      {/* PRICING CARDS */}
+      <section className="max-w-[1200px] mx-auto px-7 pt-[34px] pb-2.5 grid md:grid-cols-3 gap-5.5 md:gap-5 items-stretch w-full mb-14">
         
-        <div className="relative z-10 container mx-auto px-6 lg:px-12 flex flex-col items-center md:items-start text-center md:text-left">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 mb-8">
-            <span className="text-[10px] font-bold bg-white text-[#0A0F1C] px-1.5 py-0.5 rounded-sm">INCLUDED</span>
-            <span className="text-xs tracking-[0.15em] uppercase text-white font-semibold">End-to-End Auction Services</span>
+        {/* FREE */}
+        <div className="bg-white border border-[#E5E9F0] rounded-[16px] p-6 lg:p-[30px_26px] flex flex-col shadow-[0_1px_2px_rgba(15,23,41,0.06)] relative transition-all duration-200 hover:-translate-y-[3px] hover:shadow-[0_1px_2px_rgba(15,23,41,0.04),0_12px_32px_rgba(15,23,41,0.06)]">
+          <div className="text-[14px] font-bold uppercase tracking-[0.06em] text-[#6B7385] font-['Plus_Jakarta_Sans']">Free Account</div>
+          <div className="text-[13.5px] text-[#6B7385] mt-1.5 min-h-[38px] leading-[1.55]">Everything you need to discover and shortlist auction properties.</div>
+          <div className="mt-4.5 flex items-baseline gap-1 mb-1">
+            <span className="font-['Plus_Jakarta_Sans'] font-bold text-[22px] self-start mt-1.5">₹</span>
+            <span className="font-['Plus_Jakarta_Sans'] font-extrabold text-[46px] leading-none tracking-[-0.02em]">0</span>
+            <span className="text-[15px] text-[#6B7385] font-medium">forever</span>
           </div>
-          
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-balance text-white mb-6 tracking-tight leading-[1.1] drop-shadow-lg">
-            We Know Auctions.<br />
-            We Handle <span className="text-orange-300">Yours.</span>
-          </h1>
-          <p className="text-base md:text-xl text-white/90 max-w-2xl font-light leading-relaxed drop-shadow-md">
-            One package. Everything included. From due diligence to possession — starting at ₹9,999 + 1% success fee only if you win.
-          </p>
+          <div className="text-[13px] text-[#6B7385] min-h-[20px]">5 free credits on signup</div>
+          <Link href="/signup" className="mt-[22px] inline-flex justify-center items-center gap-2 py-2.5 px-4 rounded-[10px] font-semibold text-[14px] bg-white text-[#3A4256] border border-[#E5E9F0] hover:border-[#1B4FD8] hover:text-[#1B4FD8] transition-colors w-full">
+            Create Free Account
+          </Link>
+          <ul className="mt-6 flex flex-col gap-3 flex-1 list-none">
+            {[
+              { text: "Unlimited property listings & search", ok: true },
+              { text: "Full property address always visible", ok: true },
+              { text: "Reserve price, EMD & auction dates", ok: true },
+              { text: "Property alerts by email", ok: true },
+              { text: <span><b>5 credits</b> to unlock hidden details</span>, ok: true },
+              { text: "Unlimited detail unlocking", ok: false },
+              { text: "Expert auction support", ok: false },
+            ].map((item, i) => (
+              <li key={i} className="flex gap-[11px] items-start text-[14px]">
+                {item.ok ? (
+                  <Check className="w-[19px] h-[19px] text-[#0F9D58] shrink-0 mt-[1px] stroke-[2.2px]" />
+                ) : (
+                  <X className="w-[19px] h-[19px] text-[#C4CAD6] shrink-0 mt-[1px] stroke-[2.2px]" />
+                )}
+                <span className={item.ok ? "text-[#0F1729]" : "text-[#6B7385]"}>{item.text}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* ANNUAL MEMBER */}
+        <div className="bg-white border-2 border-[#1B4FD8] rounded-[16px] p-6 lg:p-[30px_26px] flex flex-col shadow-[0_1px_2px_rgba(15,23,41,0.04),0_12px_32px_rgba(15,23,41,0.06)] relative transition-all duration-200 hover:-translate-y-[3px]">
+          <div className="absolute -top-[13px] left-1/2 -translate-x-1/2 bg-[#1B4FD8] text-white text-[12px] font-bold px-[15px] py-[5px] rounded-full tracking-[0.03em] whitespace-nowrap">
+            Most Popular
+          </div>
+          <div className="text-[14px] font-bold uppercase tracking-[0.06em] text-[#6B7385] font-['Plus_Jakarta_Sans']">Annual Member</div>
+          <div className="text-[13.5px] text-[#6B7385] mt-1.5 min-h-[38px] leading-[1.55]">Unlock every detail on every property, as many as you like.</div>
+          <div className="mt-4.5 flex items-baseline gap-1 mb-1">
+            <span className="font-['Plus_Jakarta_Sans'] font-bold text-[22px] self-start mt-1.5">₹</span>
+            <span className="font-['Plus_Jakarta_Sans'] font-extrabold text-[46px] leading-none tracking-[-0.02em]">999</span>
+            <span className="text-[15px] text-[#6B7385] font-medium">/ year</span>
+          </div>
+          <div className="text-[13px] text-[#6B7385] min-h-[20px]">Less than ₹3 a day</div>
+          <Link href="/signup" className="mt-[22px] inline-flex justify-center items-center gap-2 py-2.5 px-4 rounded-[10px] font-semibold text-[14px] bg-[#1B4FD8] text-white hover:bg-[#1740AE] transition-colors w-full">
+            Get Annual Membership
+          </Link>
+          <ul className="mt-6 flex flex-col gap-3 flex-1 list-none">
+            {[
+              { text: <span className="font-semibold">Everything in Free, plus:</span>, ok: true },
+              { text: <span><b>Unlimited</b> unlocking of all hidden fields</span>, ok: true },
+              { text: "Flat number, floor & inspection details", ok: true },
+              { text: "Authorised officer & bank contact info", ok: true },
+              { text: "Priority email & WhatsApp alerts", ok: true },
+              { text: "Save unlimited shortlists", ok: true },
+              { text: "Hands-on auction management", ok: false },
+            ].map((item, i) => (
+              <li key={i} className="flex gap-[11px] items-start text-[14px]">
+                {item.ok ? (
+                  <Check className="w-[19px] h-[19px] text-[#0F9D58] shrink-0 mt-[1px] stroke-[2.2px]" />
+                ) : (
+                  <X className="w-[19px] h-[19px] text-[#C4CAD6] shrink-0 mt-[1px] stroke-[2.2px]" />
+                )}
+                <span className={item.ok ? "text-[#0F1729]" : "text-[#6B7385]"}>{item.text}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* FULL SERVICE */}
+        <div className="bg-gradient-to-br from-[#0F1729] to-[#1B2A4E] text-white rounded-[16px] p-6 lg:p-[30px_26px] flex flex-col shadow-[0_1px_2px_rgba(15,23,41,0.06)] relative transition-all duration-200 hover:-translate-y-[3px] hover:shadow-[0_1px_2px_rgba(15,23,41,0.04),0_12px_32px_rgba(15,23,41,0.06)]">
+          <div className="absolute -top-[13px] left-1/2 -translate-x-1/2 bg-[#D97706] text-white text-[12px] font-bold px-[15px] py-[5px] rounded-full tracking-[0.03em] whitespace-nowrap">
+            Won only if you win
+          </div>
+          <div className="text-[14px] font-bold uppercase tracking-[0.06em] text-[#9DB2E8] font-['Plus_Jakarta_Sans']">Full Service</div>
+          <div className="text-[13.5px] text-[#B8C4E0] mt-1.5 min-h-[38px] leading-[1.55]">Found the one? Our experts handle the entire auction, end to end.</div>
+          <div className="mt-4.5 flex items-baseline gap-1 mb-1">
+            <span className="font-['Plus_Jakarta_Sans'] font-bold text-[22px] self-start mt-1.5">₹</span>
+            <span className="font-['Plus_Jakarta_Sans'] font-extrabold text-[46px] leading-none tracking-[-0.02em]">9,999</span>
+          </div>
+          <div className="text-[13px] text-[#9DB2E8] min-h-[20px]">Per auction — one specific property</div>
+          <div className="inline-flex items-center gap-1.5 bg-[rgba(217,119,6,0.14)] text-[#D97706] font-bold text-[13px] px-3 py-[5px] rounded-lg mt-3 w-fit">
+            + 1% success fee — only if you win
+          </div>
+          <Link href="/services" className="mt-[22px] inline-flex justify-center items-center gap-2 py-2.5 px-4 rounded-[10px] font-semibold text-[14px] bg-[#D97706] text-white hover:bg-[#BE680A] transition-colors w-full">
+            Hire Boliwala
+          </Link>
+          <ul className="mt-6 flex flex-col gap-3 flex-1 list-none">
+            {[
+              { text: <span className="font-semibold text-white">Everything in Annual, plus:</span>, ok: true },
+              { text: <span><b>Title Search & Verification</b> report</span>, ok: true },
+              { text: <span><b>Auction Management</b> — bidding handled for you</span>, ok: true },
+              { text: <span><b>Possession Support</b> after you win</span>, ok: true },
+              { text: "Loan & funding assistance", ok: true },
+              { text: "Dedicated relationship manager", ok: true },
+              { text: <span><b>1% success fee</b> — pay nothing extra unless you win</span>, ok: true },
+            ].map((item, i) => (
+              <li key={i} className="flex gap-[11px] items-start text-[14px]">
+                <Check className="w-[19px] h-[19px] text-[#4ADE80] shrink-0 mt-[1px] stroke-[2.2px]" />
+                <span className="text-white">{item.text}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      {/* WHAT'S INCLUDED STRIP */}
-      <div className="bg-secondary/30 border-y border-border py-5 px-6">
-        <div className="container mx-auto flex flex-nowrap md:flex-wrap items-center justify-start md:justify-center overflow-x-auto gap-4 md:gap-0 pb-2 md:pb-0 hide-scrollbar">
-          <div className="flex items-center gap-2 px-6 border-r border-border/50 shrink-0 text-sm font-medium text-foreground">
-            <ClipboardCheck className="w-5 h-5 text-emerald-400" /> Due Diligence & Legal Search
-          </div>
-          <div className="flex items-center gap-2 px-6 border-r border-border/50 shrink-0 text-sm font-medium text-foreground">
-            <Target className="w-5 h-5 text-blue-400" /> Auction Bid Management
-          </div>
-          <div className="flex items-center gap-2 px-6 border-r border-border/50 shrink-0 text-sm font-medium text-foreground">
-            <Key className="w-5 h-5 text-purple-400" /> Possession Support
-          </div>
-          <div className="flex items-center gap-2 px-6 shrink-0 text-sm font-medium text-foreground">
-            <Building2 className="w-5 h-5 text-yellow-500" /> Loan & Funding Assistance
-          </div>
+      {/* COMPARISON TABLE */}
+      <section className="max-w-[1000px] mx-auto mt-14 px-7 w-full overflow-x-auto">
+        <div className="text-center mb-7.5">
+          <h2 className="text-[30px] font-extrabold font-['Plus_Jakarta_Sans'] text-[#0F1729]">Compare every plan</h2>
+          <p className="text-[#6B7385] mt-2 text-[15.5px]">From free browsing to a fully managed auction win — see exactly what's included.</p>
         </div>
-      </div>
+        <div className="bg-white border border-[#E5E9F0] rounded-[16px] overflow-hidden shadow-[0_1px_2px_rgba(15,23,41,0.06)] min-w-[680px]">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr>
+                <th className="p-[15px_18px] text-left border-b border-[#E5E9F0] bg-[#F6F8FC] font-['Plus_Jakarta_Sans'] text-[13px] text-[#6B7385] uppercase tracking-[0.05em] font-bold">Feature</th>
+                <th className="p-[15px_18px] text-center border-b border-[#E5E9F0] bg-[#F6F8FC] font-['Plus_Jakarta_Sans'] text-[13.5px] font-bold w-[180px]">Free<span className="block text-[12px] font-medium text-[#6B7385] mt-0.5">₹0</span></th>
+                <th className="p-[15px_18px] text-center border-b border-[#E5E9F0] bg-[#F6F8FC] font-['Plus_Jakarta_Sans'] text-[16px] font-extrabold text-[#1B4FD8] w-[180px]">Annual Member<span className="block text-[12px] font-medium text-[#6B7385] mt-0.5">₹999 / year</span></th>
+                <th className="p-[15px_18px] text-center border-b border-[#E5E9F0] bg-[#F6F8FC] font-['Plus_Jakarta_Sans'] text-[16px] font-extrabold text-[#D97706] w-[180px]">Full Service<span className="block text-[12px] font-medium text-[#6B7385] mt-0.5">₹9,999 + 1%</span></th>
+              </tr>
+            </thead>
+            <tbody className="[&>tr:not(.grp):hover]:bg-[#EEF3FE]">
+              {/* Group 1 */}
+              <tr className="grp">
+                <td colSpan={4} className="bg-[#F0F3F9] font-['Plus_Jakarta_Sans'] font-bold text-[12.5px] uppercase tracking-[0.05em] text-[#3A4256] p-[10px_18px] border-b border-[#E5E9F0]">Browsing & Discovery</td>
+              </tr>
+              <tr>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0]">
+                  <div className="font-semibold text-[14.5px]">Property listings & search</div>
+                  <div className="text-[12.5px] text-[#6B7385] mt-0.5">Across 140+ cities</div>
+                </td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><span className="text-[13.5px] font-semibold">Unlimited</span></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><span className="text-[13.5px] font-semibold">Unlimited</span></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><span className="text-[13.5px] font-semibold">Unlimited</span></td>
+              </tr>
+              <tr>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0]">
+                  <div className="font-semibold text-[14.5px]">Full property address</div>
+                  <div className="text-[12.5px] text-[#6B7385] mt-0.5">Never paywalled</div>
+                </td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><Check className="w-[21px] h-[21px] inline-block text-[#0F9D58] stroke-[2.2px]" /></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><Check className="w-[21px] h-[21px] inline-block text-[#0F9D58] stroke-[2.2px]" /></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><Check className="w-[21px] h-[21px] inline-block text-[#0F9D58] stroke-[2.2px]" /></td>
+              </tr>
+              <tr>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0]"><div className="font-semibold text-[14.5px]">Reserve price, EMD & dates</div></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><Check className="w-[21px] h-[21px] inline-block text-[#0F9D58] stroke-[2.2px]" /></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><Check className="w-[21px] h-[21px] inline-block text-[#0F9D58] stroke-[2.2px]" /></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><Check className="w-[21px] h-[21px] inline-block text-[#0F9D58] stroke-[2.2px]" /></td>
+              </tr>
+              <tr>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0]"><div className="font-semibold text-[14.5px]">Property alerts</div></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><span className="text-[13.5px] font-medium text-[#6B7385]">Email</span></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><span className="text-[13.5px] font-bold text-[#1B4FD8]">Email + WhatsApp</span></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><span className="text-[13.5px] font-bold text-[#D97706]">Priority</span></td>
+              </tr>
 
-      {/* MAIN PRICING SECTION */}
-      <section className="py-24 md:py-32">
-        <div className="container mx-auto px-6 lg:px-12 max-w-6xl">
-          
-          {/* Pricing Hero Card */}
-          <div className="bg-background border border-border rounded-xl shadow-lg p-8 md:p-16 mb-24 text-center relative overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-orange-300 to-orange-500" />
-            
-            <p className="text-muted-foreground text-sm tracking-[0.3em] uppercase mb-6 block">
-              One Package. Everything Included.
-            </p>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight mb-6 text-balance text-foreground">
-              Simple, Transparent Pricing.<br />No Hidden Fees. No Surprises.
-            </h2>
-            <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl mx-auto mb-10 font-light text-balance">
-              All four services — due diligence, bid management, possession support, and loan assistance — are bundled into one end-to-end package. You pay one flat fee to start, and a success fee only when you win.
-            </p>
+              {/* Group 2 */}
+              <tr className="grp">
+                <td colSpan={4} className="bg-[#F0F3F9] font-['Plus_Jakarta_Sans'] font-bold text-[12.5px] uppercase tracking-[0.05em] text-[#3A4256] p-[10px_18px] border-b border-[#E5E9F0]">Unlocking Hidden Details</td>
+              </tr>
+              <tr>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0]">
+                  <div className="font-semibold text-[14.5px]">Credits to unlock details</div>
+                  <div className="text-[12.5px] text-[#6B7385] mt-0.5">Flat no., floor, inspection, officer contact</div>
+                </td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><span className="text-[13.5px] font-semibold">5 credits</span></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><span className="text-[13.5px] font-bold text-[#1B4FD8]">Unlimited</span></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><span className="text-[13.5px] font-bold text-[#D97706]">Unlimited</span></td>
+              </tr>
+              <tr>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0]"><div className="font-semibold text-[14.5px]">Flat number & floor</div></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><span className="text-[13.5px] font-medium text-[#6B7385]">1 credit each</span></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><Check className="w-[21px] h-[21px] inline-block text-[#0F9D58] stroke-[2.2px]" /></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><Check className="w-[21px] h-[21px] inline-block text-[#0F9D58] stroke-[2.2px]" /></td>
+              </tr>
+              <tr>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0]"><div className="font-semibold text-[14.5px]">Inspection date & time</div></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><span className="text-[13.5px] font-medium text-[#6B7385]">1 credit</span></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><Check className="w-[21px] h-[21px] inline-block text-[#0F9D58] stroke-[2.2px]" /></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><Check className="w-[21px] h-[21px] inline-block text-[#0F9D58] stroke-[2.2px]" /></td>
+              </tr>
+              <tr>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0]"><div className="font-semibold text-[14.5px]">Authorised officer & bank contact</div></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><span className="text-[13.5px] font-medium text-[#6B7385]">1 credit</span></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><Check className="w-[21px] h-[21px] inline-block text-[#0F9D58] stroke-[2.2px]" /></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><Check className="w-[21px] h-[21px] inline-block text-[#0F9D58] stroke-[2.2px]" /></td>
+              </tr>
 
-            <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-8">
-              <div className="text-center">
-                <span className="text-sm font-medium uppercase tracking-wide text-muted-foreground block mb-2">Starting at</span>
-                <span className="text-5xl md:text-7xl font-bold text-foreground tracking-tighter block leading-none">₹9,999</span>
-                <span className="text-base font-medium text-muted-foreground block mt-3">flat fee to engage</span>
-              </div>
-              
-              <div className="text-4xl font-light text-muted-foreground/30 py-4 md:py-0">+</div>
-              
-              <div className="text-center bg-orange-400/5 border border-orange-400/20 rounded-2xl p-6 min-w-[200px]">
-                <span className="text-xs font-semibold uppercase tracking-[1px] text-orange-400 block mb-2">Success Fee</span>
-                <span className="text-4xl md:text-5xl font-bold text-orange-400 block leading-none">1%</span>
-                <span className="text-xs font-medium text-orange-400/70 block mt-2">of winning bid amount</span>
-              </div>
-            </div>
-
-            <div className="inline-flex items-center gap-2 bg-emerald-400/10 border border-emerald-400/20 rounded-full px-4 py-2 text-sm font-medium text-emerald-600 dark:text-emerald-400 mb-10">
-              <Check className="w-4 h-4" /> Success fee is charged only if you win — zero risk
-            </div>
-
-            <p className="text-muted-foreground text-xs tracking-[0.2em] uppercase mb-6 block text-left md:text-center">
-              Everything included in your package
-            </p>
-            
-            <div className="grid md:grid-cols-2 gap-4 text-left max-w-4xl mx-auto mb-10">
-              <div className="flex items-start gap-4 p-5 bg-secondary/30 rounded-xl border border-border">
-                <ClipboardCheck className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                <div>
-                  <strong className="block text-sm font-medium text-foreground mb-1">Due Diligence & Legal Search</strong>
-                  <span className="text-xs text-muted-foreground font-light">Full title chain, EC, SARFAESI check, written report</span>
-                </div>
-              </div>
-              <div className="flex items-start gap-4 p-5 bg-secondary/30 rounded-xl border border-border">
-                <Target className="w-5 h-5 text-blue-400 shrink-0 mt-0.5" />
-                <div>
-                  <strong className="block text-sm font-medium text-foreground mb-1">Auction Bid Management</strong>
-                  <span className="text-xs text-muted-foreground font-light">Registration, EMD, live bidding, real-time updates</span>
-                </div>
-              </div>
-              <div className="flex items-start gap-4 p-5 bg-secondary/30 rounded-xl border border-border">
-                <Key className="w-5 h-5 text-purple-400 shrink-0 mt-0.5" />
-                <div>
-                  <strong className="block text-sm font-medium text-foreground mb-1">Possession Support</strong>
-                  <span className="text-xs text-muted-foreground font-light">Sale certificate, registration, mutation, physical possession</span>
-                </div>
-              </div>
-              <div className="flex items-start gap-4 p-5 bg-secondary/30 rounded-xl border border-border">
-                <Building2 className="w-5 h-5 text-yellow-500 shrink-0 mt-0.5" />
-                <div>
-                  <strong className="block text-sm font-medium text-foreground mb-1">Loan & Funding Assistance</strong>
-                  <span className="text-xs text-muted-foreground font-light">12+ bank partners, vacant & occupied properties</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <button className="w-full sm:w-auto bg-foreground text-background font-medium px-8 py-4 rounded-md hover:bg-foreground/90 transition-colors flex items-center justify-center gap-2">
-                Book Free Consultation <ArrowRight className="w-4 h-4" />
-              </button>
-              <button className="w-full sm:w-auto bg-transparent border border-border text-foreground font-medium px-8 py-4 rounded-md hover:bg-secondary transition-colors flex items-center justify-center gap-2">
-                <MessageCircle className="w-4 h-4" /> WhatsApp Us
-              </button>
-            </div>
-          </div>
-
-          {/* Details Intro */}
-          <div className="mb-16">
-            <p className="text-muted-foreground text-sm tracking-[0.3em] uppercase mb-6">What's Included</p>
-            <h3 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight mb-6 text-balance">
-              Four Services. One Package.<br />Complete Auction Support.
-            </h3>
-            <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl font-light">
-              Here's exactly what our team does for you, from the moment you shortlist a property to the day you take possession.
-            </p>
-          </div>
-
-          {/* Service Detail Cards */}
-          <div className="flex flex-col gap-8">
-            
-            {/* S1 */}
-            <div className="bg-background border border-border rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col md:flex-row group">
-              <div className="p-8 md:w-[320px] md:border-r border-border flex flex-col justify-center gap-4 bg-secondary/20">
-                <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Included — Step 1</span>
-                <div className="w-12 h-12 rounded-lg bg-emerald-400/10 border border-emerald-400/20 flex items-center justify-center">
-                  <ClipboardCheck className="w-5 h-5 text-emerald-400" />
-                </div>
-                <h4 className="text-2xl font-medium leading-tight group-hover:text-emerald-400 transition-colors">Due Diligence & Legal Search</h4>
-                <div className="inline-flex self-start items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.8px] bg-emerald-400/10 text-emerald-500 px-2.5 py-1 rounded-md border border-emerald-400/20">
-                  <Check className="w-3 h-3" /> Included
-                </div>
-              </div>
-              <div className="p-8 md:flex-1">
-                <p className="text-base text-muted-foreground font-light leading-relaxed mb-8">
-                  Before you bid a single rupee, know exactly what you're buying. Our legal team conducts a thorough investigation of the property and hands you a written clearance report with a clear Go / No-Go recommendation. We surface every risk — so you bid with total confidence.
-                </p>
-                <ul className="grid sm:grid-cols-2 gap-y-3 gap-x-6">
-                  {[
-                    "Full title chain verification — 30 year history",
-                    "Encumbrance certificate (EC) check",
-                    "SARFAESI notice validity & timeline check",
-                    "Legal heir & ownership verification",
-                    "Pending dues — society, property tax, utilities",
-                    "DRT & litigation search",
-                    "Written Due Diligence Report (PDF)",
-                    "Clear Go / No-Go recommendation"
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-foreground/80 py-1 font-light">
-                      <Check className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" /> {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* S2 */}
-            <div className="bg-background border border-border rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col md:flex-row group">
-              <div className="p-8 md:w-[320px] md:border-r border-border flex flex-col justify-center gap-4 bg-secondary/20">
-                <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Included — Step 2</span>
-                <div className="w-12 h-12 rounded-lg bg-blue-400/10 border border-blue-400/20 flex items-center justify-center">
-                  <Target className="w-5 h-5 text-blue-400" />
-                </div>
-                <h4 className="text-2xl font-medium leading-tight group-hover:text-blue-400 transition-colors">Auction Bid Management</h4>
-                <div className="inline-flex self-start items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.8px] bg-emerald-400/10 text-emerald-500 px-2.5 py-1 rounded-md border border-emerald-400/20">
-                  <Check className="w-3 h-3" /> Included
-                </div>
-              </div>
-              <div className="p-8 md:flex-1">
-                <p className="text-base text-muted-foreground font-light leading-relaxed mb-8">
-                  You set your ceiling price. We handle everything else. Our team registers on the bank's e-auction portal on your behalf, submits the EMD, and bids strategically on auction day — you don't need to be present or monitor anything.
-                </p>
-                <ul className="grid sm:grid-cols-2 gap-y-3 gap-x-6">
-                  {[
-                    "Bank portal registration on your behalf",
-                    "EMD submission & all pre-auction docs",
-                    "KYC coordination with the bank",
-                    "Live auction representation on auction day",
-                    "Strategic bidding within your approved limit",
-                    "Real-time WhatsApp updates during the auction",
-                    "Post-auction payment coordination"
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-foreground/80 py-1 font-light">
-                      <Check className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" /> {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* S3 */}
-            <div className="bg-background border border-border rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col md:flex-row group">
-              <div className="p-8 md:w-[320px] md:border-r border-border flex flex-col justify-center gap-4 bg-secondary/20">
-                <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Included — Step 3</span>
-                <div className="w-12 h-12 rounded-lg bg-purple-400/10 border border-purple-400/20 flex items-center justify-center">
-                  <Key className="w-5 h-5 text-purple-400" />
-                </div>
-                <h4 className="text-2xl font-medium leading-tight group-hover:text-purple-400 transition-colors">Possession & Post-Auction Support</h4>
-                <div className="inline-flex self-start items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.8px] bg-emerald-400/10 text-emerald-500 px-2.5 py-1 rounded-md border border-emerald-400/20">
-                  <Check className="w-3 h-3" /> Included
-                </div>
-              </div>
-              <div className="p-8 md:flex-1">
-                <p className="text-base text-muted-foreground font-light leading-relaxed mb-8">
-                  Winning the auction is just the beginning. The post-auction process involves complex bank paperwork, registration, and often dealing with occupancy situations. We manage all of it so you actually get the keys to the property you won.
-                </p>
-                <ul className="grid sm:grid-cols-2 gap-y-3 gap-x-6">
-                  {[
-                    "Sale certificate processing with the bank",
-                    "Registration & stamp duty coordination",
-                    "Mutation & title transfer assistance",
-                    "Physical possession support",
-                    "Handling occupancy situations",
-                    "Utility transfers — electricity, water, society"
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-foreground/80 py-1 font-light">
-                      <Check className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" /> {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-            {/* S4 */}
-            <div className="bg-background border border-border rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col md:flex-row group">
-              <div className="p-8 md:w-[320px] md:border-r border-border flex flex-col justify-center gap-4 bg-secondary/20">
-                <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Included — Step 4</span>
-                <div className="w-12 h-12 rounded-lg bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center">
-                  <Building2 className="w-5 h-5 text-yellow-500" />
-                </div>
-                <h4 className="text-2xl font-medium leading-tight group-hover:text-yellow-500 transition-colors">Funding & Loan Assistance</h4>
-                <div className="inline-flex self-start items-center gap-1.5 text-[10px] font-bold uppercase tracking-[0.8px] bg-emerald-400/10 text-emerald-500 px-2.5 py-1 rounded-md border border-emerald-400/20">
-                  <Check className="w-3 h-3" /> Included
-                </div>
-              </div>
-              <div className="p-8 md:flex-1">
-                <p className="text-base text-muted-foreground font-light leading-relaxed mb-8">
-                  Auction property financing is complicated — most banks have tight timelines and strict conditions. We work with 12+ partner banks and NBFCs who understand auction properties and can move fast. We handle the entire loan process on your behalf.
-                </p>
-                <ul className="grid sm:grid-cols-2 gap-y-3 gap-x-6">
-                  {[
-                    "Loan eligibility check before you bid",
-                    "Access to 12+ partner banks & NBFCs",
-                    "Funding for vacant & occupied properties",
-                    "EMD financing where available",
-                    "Full loan application & document coordination",
-                    "Lender follow-up until disbursement"
-                  ].map((item, i) => (
-                    <li key={i} className="flex items-start gap-3 text-sm text-foreground/80 py-1 font-light">
-                      <Check className="w-4 h-4 text-yellow-500 shrink-0 mt-0.5" /> {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-
-          </div>
+              {/* Group 3 */}
+              <tr className="grp">
+                <td colSpan={4} className="bg-[#F0F3F9] font-['Plus_Jakarta_Sans'] font-bold text-[12.5px] uppercase tracking-[0.05em] text-[#3A4256] p-[10px_18px] border-b border-[#E5E9F0]">Expert Auction Service</td>
+              </tr>
+              <tr>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0]">
+                  <div className="font-semibold text-[14.5px]">Title Search & Verification</div>
+                  <div className="text-[12.5px] text-[#6B7385] mt-0.5">Legal check on ownership & encumbrances</div>
+                </td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><X className="w-[21px] h-[21px] inline-block text-[#CBD1DC] stroke-[2.2px]" /></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><X className="w-[21px] h-[21px] inline-block text-[#CBD1DC] stroke-[2.2px]" /></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><Check className="w-[21px] h-[21px] inline-block text-[#0F9D58] stroke-[2.2px]" /></td>
+              </tr>
+              <tr>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0]">
+                  <div className="font-semibold text-[14.5px]">Auction Management</div>
+                  <div className="text-[12.5px] text-[#6B7385] mt-0.5">We register, deposit EMD & bid for you</div>
+                </td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><X className="w-[21px] h-[21px] inline-block text-[#CBD1DC] stroke-[2.2px]" /></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><X className="w-[21px] h-[21px] inline-block text-[#CBD1DC] stroke-[2.2px]" /></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><Check className="w-[21px] h-[21px] inline-block text-[#0F9D58] stroke-[2.2px]" /></td>
+              </tr>
+              <tr>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0]">
+                  <div className="font-semibold text-[14.5px]">Possession Support</div>
+                  <div className="text-[12.5px] text-[#6B7385] mt-0.5">Help taking physical possession after winning</div>
+                </td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><X className="w-[21px] h-[21px] inline-block text-[#CBD1DC] stroke-[2.2px]" /></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><X className="w-[21px] h-[21px] inline-block text-[#CBD1DC] stroke-[2.2px]" /></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><Check className="w-[21px] h-[21px] inline-block text-[#0F9D58] stroke-[2.2px]" /></td>
+              </tr>
+              <tr>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0]"><div className="font-semibold text-[14.5px]">Loan & funding assistance</div></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><X className="w-[21px] h-[21px] inline-block text-[#CBD1DC] stroke-[2.2px]" /></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><X className="w-[21px] h-[21px] inline-block text-[#CBD1DC] stroke-[2.2px]" /></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><Check className="w-[21px] h-[21px] inline-block text-[#0F9D58] stroke-[2.2px]" /></td>
+              </tr>
+              <tr>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0]"><div className="font-semibold text-[14.5px]">Dedicated relationship manager</div></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><X className="w-[21px] h-[21px] inline-block text-[#CBD1DC] stroke-[2.2px]" /></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><X className="w-[21px] h-[21px] inline-block text-[#CBD1DC] stroke-[2.2px]" /></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><Check className="w-[21px] h-[21px] inline-block text-[#0F9D58] stroke-[2.2px]" /></td>
+              </tr>
+              <tr>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0]">
+                  <div className="font-semibold text-[14.5px]">Success fee</div>
+                  <div className="text-[12.5px] text-[#6B7385] mt-0.5">Charged only on a winning bid</div>
+                </td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><span className="text-[13.5px] font-medium text-[#6B7385]">—</span></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><span className="text-[13.5px] font-medium text-[#6B7385]">—</span></td>
+                <td className="p-[15px_18px] border-b border-[#E5E9F0] text-center"><span className="text-[13.5px] font-bold text-[#D97706]">1% of winning bid</span></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </section>
 
       {/* FAQ SECTION */}
-      <section className="py-32 bg-secondary/30 border-y border-border">
-        <div className="container mx-auto px-6 lg:px-12 max-w-4xl">
-          <p className="text-muted-foreground text-sm tracking-[0.3em] uppercase mb-6 text-center">Pricing FAQs</p>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight mb-12 text-center text-balance">Common Questions</h2>
-          
-          <div className="flex flex-col gap-4">
-            {faqs.map((faq, index) => (
-              <div key={index} className="bg-background border border-border rounded-xl shadow-sm hover:shadow-md transition-shadow overflow-hidden">
-                <button
-                  onClick={() => toggleFaq(index)}
-                  className="w-full px-6 py-6 flex items-center justify-between gap-4 text-left"
-                >
-                  <span className="font-medium text-lg text-foreground">{faq.question}</span>
-                  <ChevronDown className={cn("w-5 h-5 text-muted-foreground transition-transform duration-300 shrink-0", openFaqIndex === index ? "rotate-180 text-orange-400" : "")} />
-                </button>
-                <div className={cn("overflow-hidden transition-all duration-300 ease-in-out", openFaqIndex === index ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0")}>
-                  <div className="px-6 pb-6 pt-0 text-base text-muted-foreground font-light leading-relaxed">
-                    {faq.answer}
-                  </div>
+      <section className="max-w-[820px] mx-auto mt-[60px] px-7 w-full mb-14">
+        <h2 className="text-[28px] font-extrabold font-['Plus_Jakarta_Sans'] text-center mb-[26px] text-[#0F1729]">Pricing questions</h2>
+        <div className="flex flex-col gap-3">
+          {faqs.map((faq, index) => (
+            <div key={index} className="bg-white border border-[#E5E9F0] rounded-[12px] overflow-hidden">
+              <button
+                onClick={() => toggleFaq(index)}
+                className="w-full p-[18px_22px] flex items-center justify-between gap-3.5 text-left cursor-pointer list-none [&::-webkit-details-marker]:hidden"
+              >
+                <span className="font-semibold text-[15.5px] text-[#0F1729]">{faq.question}</span>
+                <ChevronDown className={cn("w-5 h-5 text-[#6B7385] transition-transform duration-200 shrink-0", openFaqIndex === index ? "rotate-180" : "")} />
+              </button>
+              <div className={cn("overflow-hidden transition-all duration-300 ease-in-out", openFaqIndex === index ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0")}>
+                <div className="px-[22px] pb-[20px] text-[14.5px] text-[#3A4256] leading-[1.55]">
+                  {faq.answer}
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* CTA STRIP */}
-      <section className="bg-[#0A0F1C] py-24 md:py-32 relative overflow-hidden">
-        {/* Glow effects */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-[radial-gradient(circle,rgba(217,119,6,0.15)_0%,transparent_60%)] pointer-events-none" />
-        
-        <div className="relative z-10 container mx-auto px-6 lg:px-12 max-w-5xl">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-12">
-            <div className="flex-1 text-center md:text-left">
-              <span className="text-xs tracking-[0.2em] uppercase text-orange-300 font-semibold mb-4 block">Ready to Get Started?</span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight mb-6 text-white text-balance">Book Your Free Consultation</h2>
-              <p className="text-white/70 text-lg font-light max-w-lg mx-auto md:mx-0 leading-relaxed">
-                30 minutes with our auction experts. We'll walk you through properties matching your criteria and explain exactly how we work.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto shrink-0">
-              <button className="bg-white text-[#0A0F1C] font-medium px-8 py-4 rounded-md hover:bg-white/90 transition-colors flex justify-center items-center">
-                Book Free Consultation <ArrowRight className="w-4 h-4 ml-2" />
-              </button>
-              <button className="bg-transparent border border-white/20 text-white font-medium px-8 py-4 rounded-md hover:bg-white/10 transition-colors flex justify-center items-center">
-                <MessageCircle className="w-4 h-4 mr-2" /> WhatsApp Us
-              </button>
-            </div>
+      {/* CTA SECTION */}
+      <section className="max-w-[1000px] mx-auto mt-4 px-7 w-full mb-[60px]">
+        <div className="bg-gradient-to-br from-[#1B4FD8] to-[#2E64F0] rounded-[20px] p-[46px_40px] text-center text-white">
+          <h2 className="text-[30px] font-extrabold font-['Plus_Jakarta_Sans']">Start with a free account today</h2>
+          <p className="opacity-90 mt-2.5 text-[16px] max-w-[520px] mx-auto">
+            Browse thousands of bank auction properties across India. Upgrade only when you find one worth pursuing.
+          </p>
+          <div className="flex flex-wrap justify-center gap-3 mt-6">
+            <Link href="/signup" className="inline-flex justify-center items-center gap-2 py-2.5 px-[18px] rounded-[10px] font-semibold text-[14px] bg-white text-[#1B4FD8] hover:bg-[#EEF3FE] transition-colors">
+              Create Free Account
+            </Link>
+            <Link href="#" className="inline-flex justify-center items-center gap-2 py-2.5 px-[18px] rounded-[10px] font-semibold text-[14px] bg-transparent border border-white/40 text-white hover:bg-white/10 transition-colors">
+              Talk to Our Team
+            </Link>
           </div>
         </div>
       </section>

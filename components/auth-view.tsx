@@ -176,6 +176,13 @@ export function AuthView({ defaultTab = "login" }: AuthViewProps) {
               Google
             </button>
             
+            <button type="button" onClick={() => router.push('/partner/dashboard')} className="w-full flex items-center justify-center gap-3 bg-amber-500/10 border border-amber-500/20 hover:bg-amber-500/20 text-amber-600 font-semibold h-12 rounded-xl transition-colors text-sm mt-2">
+              Login as Channel Partner
+            </button>
+            <button type="button" onClick={() => router.push('/admin')} className="w-full flex items-center justify-center gap-3 bg-red-500/10 border border-red-500/20 hover:bg-red-500/20 text-red-600 font-semibold h-12 rounded-xl transition-colors text-sm mt-2">
+              Login as Admin
+            </button>
+            
           </form>
 
         </div>

@@ -6,6 +6,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import Image from "next/image"
+import { Logo } from "@/components/logo"
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false)
@@ -38,16 +39,8 @@ export function Header() {
       )}
     >
       <nav className="container mx-auto px-6 flex items-center justify-between md:px-[24]">
-        <Link href="/" className="flex items-center gap-2 group" onClick={scrollToTop}>
-          <div className="w-8 h-8 bg-blue-600 rounded-md flex items-center justify-center font-bold text-white shrink-0 font-display">B</div>
-          <div className="flex flex-col">
-            <div className="text-xl font-extrabold text-white tracking-tight leading-none font-display">
-              Boli<span className="text-blue-500">wala</span>
-            </div>
-            <div className="text-[9px] font-bold text-white/70 uppercase tracking-widest mt-0.5">
-              We Know Auctions!
-            </div>
-          </div>
+        <Link href="/" onClick={scrollToTop}>
+          <Logo forceWhite />
         </Link>
 
         <ul className="hidden md:flex items-center gap-10 text-sm tracking-wide">

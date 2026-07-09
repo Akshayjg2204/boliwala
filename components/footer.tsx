@@ -1,5 +1,6 @@
 import Link from "next/link"
 import Image from "next/image"
+import { Logo } from "@/components/logo"
 
 export function Footer() {
   return (
@@ -9,7 +10,7 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <Link href="/" className="inline-block mb-6">
-              <Image src="/images/hously-logo.svg" alt="Hously" width={120} height={32} className="w-auto h-6" />
+              <Logo />
             </Link>
             <p className="text-muted-foreground leading-relaxed max-w-sm">
               India's first dedicated platform for SARFAESI bank auction properties. We know auctions, so you don't have to.

@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Channel Partner Dashboard — Boliwala.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#1B4FD8;
+    --blue-dark:#1740AE;
+    --blue-050:#EEF3FE;
+    --blue-100:#DCE6FC;
+    --gold:#D97706;
+    --gold-050:#FEF6EC;
+    --ink:#0F1729;
+    --ink-600:#3A4256;
+    --ink-400:#6B7385;
+    --line:#E5E9F0;
+    --bg:#F6F8FC;
+    --white:#fff;
+    --green:#0F9D58;
+    --green-bg:#E7F6EE;
+    --amber:#B7791F;
+    --amber-bg:#FCF3E3;
+    --grey-bg:#EDF0F5;
+    --grey-tx:#5A6273;
+    --radius:14px;
+    --shadow:0 1px 2px rgba(15,23,41,.04), 0 8px 24px rgba(15,23,41,.05);
+    --shadow-sm:0 1px 2px rgba(15,23,41,.06);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:'DM Sans',system-ui,sans-serif;
+    background:var(--bg);color:var(--ink);
+    -webkit-font-smoothing:antialiased;line-height:1.5;
+  }
+  h1,h2,h3,h4,.display{font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:-.01em}
+
+  /* ---------- Layout shell ---------- */
+  .app{display:grid;grid-template-columns:250px 1fr;min-height:100vh}
+  .sidebar{
+    background:var(--white);border-right:1px solid var(--line);
+    padding:22px 16px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:6px
+  }
+  .brand{display:flex;align-items:center;gap:10px;padding:6px 8px 20px}
+  .brand .logo{
+    width:34px;height:34px;border-radius:9px;background:var(--blue);
+    display:grid;place-items:center;color:#fff;font-family:'Plus Jakarta Sans';font-weight:800;font-size:18px
+  }
+  .brand .name{font-family:'Plus Jakarta Sans';font-weight:800;font-size:18px}
+  .brand .tag{font-size:11px;color:var(--ink-400);font-weight:500;margin-top:-2px}
+  .nav-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-400);font-weight:600;padding:14px 10px 6px}
+  .nav-item{
+    display:flex;align-items:center;gap:11px;padding:10px 11px;border-radius:10px;
+    color:var(--ink-600);font-weight:500;font-size:14.5px;cursor:pointer;border:none;background:none;width:100%;text-align:left;
+    transition:.15s
+  }
+  .nav-item svg{width:19px;height:19px;flex-shrink:0;stroke:var(--ink-400)}
+  .nav-item:hover{background:var(--blue-050);color:var(--blue)}
+  .nav-item:hover svg{stroke:var(--blue)}
+  .nav-item.active{background:var(--blue);color:#fff}
+  .nav-item.active svg{stroke:#fff}
+  .sidebar-foot{margin-top:auto;border-top:1px solid var(--line);padding-top:14px}
+  .partner-chip{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px}
+  .avatar{width:36px;height:36px;border-radius:50%;background:var(--gold);color:#fff;display:grid;place-items:center;font-weight:700;font-family:'Plus Jakarta Sans';font-size:14px}
+  .partner-chip .pn{font-weight:600;font-size:13.5px}
+  .partner-chip .pt{font-size:11.5px;color:var(--gold);font-weight:600}
+
+  /* ---------- Main ---------- */
+  .main{padding:0 0 60px}
+  .topbar{
+    background:var(--white);border-bottom:1px solid var(--line);padding:16px 34px;
+    display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20
+  }
+  .topbar h1{font-size:21px;font-weight:800}
+  .topbar .sub{font-size:13px;color:var(--ink-400);margin-top:1px}
+  .top-actions{display:flex;gap:10px;align-items:center}
+  .content{padding:28px 34px;max-width:1180px}
+  .view{display:none}
+  .view.active{display:block;animation:fade .3s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:10px;
+    font-family:'DM Sans';font-weight:600;font-size:14px;cursor:pointer;border:1px solid transparent;transition:.15s;white-space:nowrap
+  }
+  .btn svg{width:16px;height:16px}
+  .btn-primary{background:var(--blue);color:#fff}
+  .btn-primary:hover{background:var(--blue-dark)}
+  .btn-ghost{background:var(--white);color:var(--ink-600);border-color:var(--line)}
+  .btn-ghost:hover{border-color:var(--blue);color:var(--blue)}
+  .btn-gold{background:var(--gold);color:#fff}
+  .btn-gold:hover{background:#BE680A}
+  .btn-sm{padding:7px 12px;font-size:13px}
+
+  /* ---------- Cards ---------- */
+  .card{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-sm)}
+  .card-p{padding:22px}
+  .section-head{display:flex;align-items:center;justify-content:space-between;margin:30px 0 15px}
+  .section-head:first-child{margin-top:6px}
+  .section-head h2{font-size:16px;font-weight:700}
+  .section-head .hint{font-size:12.5px;color:var(--ink-400)}
+
+  /* ---------- Stat cards ---------- */
+  .stat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+  .stat{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:16px 16px 15px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+  .stat .ico{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;margin-bottom:11px}
+  .stat .ico svg{width:18px;height:18px}
+  .stat .v{font-family:'Plus Jakarta Sans';font-weight:800;font-size:25px;line-height:1}
+  .stat .l{font-size:12.5px;color:var(--ink-400);margin-top:5px;font-weight:500}
+  .i-blue{background:var(--blue-050)} .i-blue svg{stroke:var(--blue)}
+  .i-gold{background:var(--gold-050)} .i-gold svg{stroke:var(--gold)}
+  .i-green{background:var(--green-bg)} .i-green svg{stroke:var(--green)}
+
+  /* ---------- Earnings ---------- */
+  .earn-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:18px}
+  .earn-rows{display:flex;flex-direction:column;gap:2px;margin-top:6px}
+  .earn-row{display:flex;align-items:center;justify-content:space-between;padding:14px 4px;border-bottom:1px dashed var(--line)}
+  .earn-row:last-child{border-bottom:none}
+  .earn-row .lft{display:flex;align-items:center;gap:12px}
+  .earn-row .dot{width:9px;height:9px;border-radius:50%}
+  .earn-row .en{font-weight:600;font-size:14.5px}
+  .earn-row .ed{font-size:12px;color:var(--ink-400)}
+  .earn-row .amt{font-family:'Plus Jakarta Sans';font-weight:700;font-size:16px}
+  .total-card{background:linear-gradient(135deg,var(--blue),#2E64F0);color:#fff;border-radius:var(--radius);padding:24px;display:flex;flex-direction:column;justify-content:space-between}
+  .total-card .lbl{font-size:13px;opacity:.85;font-weight:500}
+  .total-card .big{font-family:'Plus Jakarta Sans';font-weight:800;font-size:38px;margin:6px 0 2px;letter-spacing:-.02em}
+  .total-card .note{font-size:12.5px;opacity:.8;margin-top:auto;padding-top:18px;display:flex;align-items:center;gap:7px}
+  .payout-pill{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.16);padding:5px 11px;border-radius:20px;font-size:12px;font-weight:600;width:fit-content;margin-top:14px}
+
+  /* ---------- Referral link box ---------- */
+  .ref-box{display:flex;gap:12px;align-items:stretch;flex-wrap:wrap}
+  .ref-field{
+    flex:1;min-width:280px;display:flex;align-items:center;gap:10px;background:var(--blue-050);
+    border:1.5px dashed var(--blue-100);border-radius:11px;padding:13px 16px
+  }
+  .ref-field svg{width:18px;height:18px;stroke:var(--blue);flex-shrink:0}
+  .ref-field .code{font-family:'DM Sans';font-weight:600;color:var(--blue-dark);font-size:14.5px;word-break:break-all}
+  .copied-toast{
+    position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:#fff;padding:12px 22px;border-radius:10px;font-weight:600;font-size:14px;
+    box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:.3s;z-index:100;display:flex;gap:9px;align-items:center
+  }
+  .copied-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .copied-toast svg{width:17px;height:17px;stroke:var(--green)}
+
+  /* ---------- Table ---------- */
+  .tbl-wrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  thead th{
+    text-align:left;padding:12px 16px;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;
+    color:var(--ink-400);font-weight:700;border-bottom:1px solid var(--line);white-space:nowrap
+  }
+  tbody td{padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:middle}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover{background:var(--blue-050)}
+  .u-name{font-weight:600}
+  .u-mail{font-size:12.5px;color:var(--ink-400)}
+  .badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600}
+  .b-active{background:var(--green-bg);color:var(--green)}
+  .b-inactive{background:var(--grey-bg);color:var(--grey-tx)}
+  .b-pending{background:var(--amber-bg);color:var(--amber)}
+  .b-converted{background:var(--blue-050);color:var(--blue)}
+  .b-accepted{background:#EAF0FD;color:var(--blue-dark)}
+  .pkg-tag{display:inline-block;padding:3px 9px;border-radius:6px;font-size:12px;font-weight:600}
+  .pkg-999{background:var(--gold-050);color:var(--gold)}
+  .pkg-9999{background:var(--blue-050);color:var(--blue)}
+  .pkg-none{color:var(--ink-400);font-size:13px}
+  .earn-cell{font-family:'Plus Jakarta Sans';font-weight:700}
+
+  /* ---------- Filters/tabs ---------- */
+  .filter-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+  .chip{padding:8px 15px;border-radius:9px;border:1px solid var(--line);background:var(--white);font-size:13.5px;font-weight:600;color:var(--ink-600);cursor:pointer;transition:.15s}
+  .chip:hover{border-color:var(--blue)}
+  .chip.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+
+  /* ---------- Invite ---------- */
+  .invite-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  label.fl{display:block;font-size:13px;font-weight:600;margin-bottom:7px;color:var(--ink-600)}
+  textarea,input.ti{
+    width:100%;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-family:'DM Sans';font-size:14px;
+    color:var(--ink);resize:vertical;transition:.15s;background:var(--white)
+  }
+  textarea:focus,input.ti:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-050)}
+  .field-hint{font-size:12px;color:var(--ink-400);margin-top:6px}
+
+  /* ---------- Creatives ---------- */
+  .format-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px}
+  .creative-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+  .creative{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);transition:.18s}
+  .creative:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+  .creative-preview{position:relative;overflow:hidden}
+  .cv-sq{aspect-ratio:1/1}
+  .cv-story{aspect-ratio:9/16}
+  .cv-art{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:18px;color:#fff}
+  .cv-bg1{background:linear-gradient(150deg,#1B4FD8,#0C2E8A)}
+  .cv-bg2{background:linear-gradient(150deg,#D97706,#9A4E06)}
+  .cv-bg3{background:linear-gradient(150deg,#0F9D58,#0A6B3C)}
+  .cv-bg4{background:linear-gradient(150deg,#1E293B,#0F1729)}
+  .cv-top{display:flex;justify-content:space-between;align-items:flex-start}
+  .cv-logo{font-family:'Plus Jakarta Sans';font-weight:800;font-size:15px}
+  .cv-fmt{font-size:10px;background:rgba(255,255,255,.2);padding:3px 8px;border-radius:20px;font-weight:600}
+  .cv-head{font-family:'Plus Jakarta Sans';font-weight:800;font-size:19px;line-height:1.15;letter-spacing:-.01em}
+  .cv-sub{font-size:11.5px;opacity:.9;margin-top:5px}
+  .cv-brand{border-top:1px solid rgba(255,255,255,.25);padding-top:11px;margin-top:11px}
+  .cv-pname{font-weight:700;font-size:13px;font-family:'Plus Jakarta Sans'}
+  .cv-pphone{font-size:11.5px;opacity:.92;margin-top:1px}
+  .cv-plink{font-size:10.5px;opacity:.92;margin-top:5px;background:rgba(255,255,255,.16);padding:4px 8px;border-radius:6px;display:inline-block}
+  .cv-tag{position:absolute;top:11px;right:11px;background:rgba(15,23,41,.55);backdrop-filter:blur(4px);color:#fff;font-size:10px;font-weight:600;padding:4px 9px;border-radius:20px}
+  .creative-foot{padding:13px 15px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .creative-foot .cn{font-weight:600;font-size:13.5px}
+  .creative-foot .cd{font-size:11.5px;color:var(--ink-400)}
+  .cf-btns{display:flex;gap:6px}
+  .icon-btn{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer;transition:.15s}
+  .icon-btn svg{width:16px;height:16px;stroke:var(--ink-600)}
+  .icon-btn:hover{border-color:var(--blue);background:var(--blue-050)}
+  .icon-btn:hover svg{stroke:var(--blue)}
+
+  .auto-note{display:flex;gap:11px;align-items:flex-start;background:var(--gold-050);border:1px solid #F6E2C4;border-radius:11px;padding:14px 16px;margin-bottom:22px}
+  .auto-note svg{width:19px;height:19px;stroke:var(--gold);flex-shrink:0;margin-top:1px}
+  .auto-note .t{font-size:13.5px;color:#7A4B0C;font-weight:500}
+  .auto-note b{font-weight:700}
+
+  .commission-info{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:4px}
+  .ci{border:1px solid var(--line);border-radius:11px;padding:16px}
+  .ci .r{font-family:'Plus Jakarta Sans';font-weight:800;font-size:24px;color:var(--blue)}
+  .ci .n{font-size:13px;font-weight:600;margin-top:3px}
+  .ci .d{font-size:12px;color:var(--ink-400);margin-top:3px}
+
+  .mobile-note{display:none}
+  @media(max-width:920px){
+    .app{grid-template-columns:1fr}
+    .sidebar{display:none}
+    .stat-grid{grid-template-columns:repeat(2,1fr)}
+    .earn-grid,.invite-grid{grid-template-columns:1fr}
+    .commission-info{grid-template-columns:1fr}
+    .content,.topbar{padding-left:18px;padding-right:18px}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">B</div>
+      <div>
+        <div class="name">Boliwala</div>
+        <div class="tag">Partner Portal</div>
+      </div>
+    </div>
+
+    <div class="nav-label">Main</div>
+    <button class="nav-item active" onclick="go('dashboard',this)">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25A2.25 2.25 0 0113.5 8.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"/></svg>
+      Dashboard
+    </button>
+    <button class="nav-item" onclick="go('referrals',this)">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z"/></svg>
+      My Referrals
+    </button>
+    <button class="nav-item" onclick="go('invite',this)">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM3 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 019.374 21c-2.331 0-4.512-.645-6.374-1.766z"/></svg>
+      Invite People
+    </button>
+    <button class="nav-item" onclick="go('creatives',this)">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+      Marketing Creatives
+    </button>
+    <button class="nav-item" onclick="go('earnings',this)">
+      <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z"/></svg>
+      Earnings &amp; Payouts
+    </button>
+
+    <div class="sidebar-foot">
+      <div class="partner-chip">
+        <div class="avatar">RM</div>
+        <div>
+          <div class="pn">Rahul Mehta</div>
+          <div class="pt">● Gold Partner</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+    <div class="topbar">
+      <div>
+        <h1 id="pageTitle">Dashboard</h1>
+        <div class="sub" id="pageSub">Your referral network at a glance</div>
+      </div>
+      <div class="top-actions">
+        <button class="btn btn-ghost btn-sm" onclick="go('invite',document.querySelectorAll('.nav-item')[2])">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
+          Invite People
+        </button>
+        <button class="btn btn-primary btn-sm" onclick="copyRef()">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/></svg>
+          Copy Referral Link
+        </button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ========== DASHBOARD VIEW ========== -->
+      <section class="view active" id="dashboard">
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="ico i-blue"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg></div>
+            <div class="v">45</div><div class="l">Total Referrals</div>
+          </div>
+          <div class="stat">
+            <div class="ico i-green"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+            <div class="v">32</div><div class="l">Active Users</div>
+          </div>
+          <div class="stat">
+            <div class="ico i-gold"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z"/></svg></div>
+            <div class="v">8</div><div class="l">₹999 Subscribers</div>
+          </div>
+          <div class="stat">
+            <div class="ico i-blue"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25z"/></svg></div>
+            <div class="v">12</div><div class="l">₹9,999 Packages</div>
+          </div>
+          <div class="stat">
+            <div class="ico i-gold"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M7.73 9.728a6.726 6.726 0 002.748 1.35m8.272-6.842V4.5c0 2.108-.966 3.99-2.48 5.228m2.48-5.492a46.32 46.32 0 012.916.52 6.003 6.003 0 01-5.395 4.972m0 0a6.726 6.726 0 01-2.749 1.35m0 0a6.772 6.772 0 01-3.044 0"/></svg></div>
+            <div class="v">5</div><div class="l">Auction Wins</div>
+          </div>
+        </div>
+
+        <div class="section-head"><h2>Your referral link</h2><span class="hint">Share anywhere — every signup tracks back to you</span></div>
+        <div class="card card-p">
+          <div class="ref-box">
+            <div class="ref-field">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/></svg>
+              <span class="code" id="refLink">boliwala.com/join?ref=CP_rahul_m8x3</span>
+            </div>
+            <button class="btn btn-primary" onclick="copyRef()">Copy Link</button>
+            <button class="btn btn-ghost" onclick="go('invite',document.querySelectorAll('.nav-item')[2])">Invite by Email / Phone</button>
+          </div>
+        </div>
+
+        <div class="section-head"><h2>Earnings breakdown</h2><span class="hint">This month · updates as referrals convert</span></div>
+        <div class="earn-grid">
+          <div class="card card-p">
+            <div class="earn-rows">
+              <div class="earn-row">
+                <div class="lft"><span class="dot" style="background:var(--gold)"></span>
+                  <div><div class="en">₹999 Subscriptions</div><div class="ed">8 subscribers × ₹999 × 10%</div></div>
+                </div><div class="amt">₹799</div>
+              </div>
+              <div class="earn-row">
+                <div class="lft"><span class="dot" style="background:var(--blue)"></span>
+                  <div><div class="en">₹9,999 Packages</div><div class="ed">12 packages × ₹9,999 × 15%</div></div>
+                </div><div class="amt">₹17,998</div>
+              </div>
+              <div class="earn-row">
+                <div class="lft"><span class="dot" style="background:var(--green)"></span>
+                  <div><div class="en">Success Fees</div><div class="ed">5 wins × ₹50L avg × 1% × 5%</div></div>
+                </div><div class="amt">₹12,500</div>
+              </div>
+            </div>
+          </div>
+          <div class="total-card">
+            <div>
+              <div class="lbl">Total earnings this month</div>
+              <div class="big">₹31,297</div>
+              <div class="payout-pill">
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:14px;height:14px"><path stroke-linecap="round" stroke-linejoin="round" d="M6 2.25h12M6 21.75h12M6 2.25v6.75l6 4.5m0 0l6-4.5V2.25m-6 11.25v8.25"/></svg>
+                Next payout: 1 Aug 2026
+              </div>
+            </div>
+            <div class="note">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"/></svg>
+              Payouts are processed monthly to your registered account.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== REFERRALS VIEW ========== -->
+      <section class="view" id="referrals">
+        <div class="filter-row">
+          <button class="chip on" onclick="fchip(this,'all')">All Referrals</button>
+          <button class="chip" onclick="fchip(this,'active')">Active</button>
+          <button class="chip" onclick="fchip(this,'inactive')">Inactive</button>
+          <button class="chip" onclick="fchip(this,'999')">₹999 Subscribers</button>
+          <button class="chip" onclick="fchip(this,'9999')">₹9,999 Buyers</button>
+        </div>
+        <div class="card">
+          <div class="tbl-wrap">
+            <table id="refTable">
+              <thead><tr>
+                <th>Name</th><th>Status</th><th>Package</th><th>Your Earnings</th><th>Date Joined</th>
+              </tr></thead>
+              <tbody>
+                <tr data-f="active 9999"><td><div class="u-name">Priya Verma</div><div class="u-mail">priya.v@email.com</div></td><td><span class="badge b-active">● Active</span></td><td><span class="pkg-tag pkg-9999">₹9,999 Package</span></td><td class="earn-cell">₹1,499.85</td><td>1 Jul 2026</td></tr>
+                <tr data-f="active 999"><td><div class="u-name">Rajesh Sharma</div><div class="u-mail">raj.sharma@email.com</div></td><td><span class="badge b-active">● Active</span></td><td><span class="pkg-tag pkg-999">₹999 Annual</span></td><td class="earn-cell">₹99.90</td><td>2 Jul 2026</td></tr>
+                <tr data-f="active 9999"><td><div class="u-name">Sneha Iyer</div><div class="u-mail">sneha.iyer@email.com</div></td><td><span class="badge b-active">● Active</span></td><td><span class="pkg-tag pkg-9999">₹9,999 Package</span></td><td class="earn-cell">₹1,499.85</td><td>28 Jun 2026</td></tr>
+                <tr data-f="inactive none"><td><div class="u-name">Amit Patel</div><div class="u-mail">amit.p@email.com</div></td><td><span class="badge b-inactive">● Inactive</span></td><td><span class="pkg-none">— None yet</span></td><td class="earn-cell">₹0</td><td>28 Jun 2026</td></tr>
+                <tr data-f="active 999"><td><div class="u-name">Kavya Reddy</div><div class="u-mail">kavya.r@email.com</div></td><td><span class="badge b-active">● Active</span></td><td><span class="pkg-tag pkg-999">₹999 Annual</span></td><td class="earn-cell">₹99.90</td><td>25 Jun 2026</td></tr>
+                <tr data-f="active 9999"><td><div class="u-name">Arjun Nair</div><div class="u-mail">arjun.nair@email.com</div></td><td><span class="badge b-active">● Active</span></td><td><span class="pkg-tag pkg-9999">₹9,999 Package</span></td><td class="earn-cell">₹1,499.85</td><td>22 Jun 2026</td></tr>
+                <tr data-f="inactive none"><td><div class="u-name">Meera Joshi</div><div class="u-mail">meera.j@email.com</div></td><td><span class="badge b-inactive">● Inactive</span></td><td><span class="pkg-none">— None yet</span></td><td class="earn-cell">₹0</td><td>20 Jun 2026</td></tr>
+                <tr data-f="active 999"><td><div class="u-name">Vikram Singh</div><div class="u-mail">vikram.s@email.com</div></td><td><span class="badge b-active">● Active</span></td><td><span class="pkg-tag pkg-999">₹999 Annual</span></td><td class="earn-cell">₹99.90</td><td>18 Jun 2026</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== INVITE VIEW ========== -->
+      <section class="view" id="invite">
+        <div class="card card-p" style="margin-bottom:18px">
+          <div class="section-head" style="margin-top:0"><h2>Your referral link</h2><span class="hint">No limit — invite as many people as you like</span></div>
+          <div class="ref-box">
+            <div class="ref-field">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"/></svg>
+              <span class="code">boliwala.com/join?ref=CP_rahul_m8x3</span>
+            </div>
+            <button class="btn btn-primary" onclick="copyRef()">Copy Link</button>
+          </div>
+        </div>
+
+        <div class="invite-grid">
+          <div class="card card-p">
+            <div class="section-head" style="margin-top:0"><h2>Invite by email or phone</h2></div>
+            <label class="fl">Email addresses</label>
+            <textarea rows="3" class="ti" placeholder="priya@email.com, rajesh@email.com, ..."></textarea>
+            <div class="field-hint">Separate multiple emails with commas.</div>
+            <label class="fl" style="margin-top:16px">Phone numbers (SMS invite)</label>
+            <textarea rows="2" class="ti" placeholder="+91 98765 43210, +91 91234 56789, ..."></textarea>
+            <div class="field-hint">Indian mobile numbers. Separate with commas.</div>
+            <button class="btn btn-primary" style="margin-top:18px;width:100%;justify-content:center" onclick="sendInvites()">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"/></svg>
+              Send Invites
+            </button>
+          </div>
+
+          <div class="card card-p">
+            <div class="section-head" style="margin-top:0"><h2>How you earn</h2></div>
+            <div class="commission-info" style="grid-template-columns:1fr">
+              <div class="ci"><div class="r">10%</div><div class="n">On ₹999 subscriptions</div><div class="d">Each annual subscriber you refer</div></div>
+              <div class="ci"><div class="r">15%</div><div class="n">On ₹9,999 packages</div><div class="d">Each BidReady package purchased</div></div>
+              <div class="ci"><div class="r">5%</div><div class="n">On success fees</div><div class="d">5% of our 1% winning-bid fee</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-head"><h2>Invitation status</h2><span class="hint">Track everyone you've invited</span></div>
+        <div class="card">
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Recipient</th><th>Channel</th><th>Status</th><th>Sent</th><th>Converted</th></tr></thead>
+              <tbody>
+                <tr><td><div class="u-name">priya.v@email.com</div></td><td>Email</td><td><span class="badge b-converted">✓ Converted</span></td><td>1 Jul 2026</td><td>₹9,999 package</td></tr>
+                <tr><td><div class="u-name">+91 98765 43210</div></td><td>SMS</td><td><span class="badge b-accepted">● Accepted</span></td><td>30 Jun 2026</td><td>Signed up</td></tr>
+                <tr><td><div class="u-name">rajesh.sharma@email.com</div></td><td>Email</td><td><span class="badge b-converted">✓ Converted</span></td><td>29 Jun 2026</td><td>₹999 annual</td></tr>
+                <tr><td><div class="u-name">deepak.m@email.com</div></td><td>Email</td><td><span class="badge b-pending">● Pending</span></td><td>28 Jun 2026</td><td>—</td></tr>
+                <tr><td><div class="u-name">+91 91234 56789</div></td><td>SMS</td><td><span class="badge b-pending">● Pending</span></td><td>27 Jun 2026</td><td>—</td></tr>
+                <tr><td><div class="u-name">sneha.iyer@email.com</div></td><td>Email</td><td><span class="badge b-converted">✓ Converted</span></td><td>26 Jun 2026</td><td>₹9,999 package</td></tr>
+                <tr><td><div class="u-name">anil.kumar@email.com</div></td><td>Email</td><td><span class="badge b-accepted">● Accepted</span></td><td>25 Jun 2026</td><td>Signed up</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== CREATIVES VIEW ========== -->
+      <section class="view" id="creatives">
+        <div class="auto-note">
+          <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456z"/></svg>
+          <div class="t">Every creative is <b>automatically branded with your name, phone number, and referral link</b>. Just download and share — leads track straight back to you. No design work needed.</div>
+        </div>
+
+        <div class="format-tabs">
+          <button class="chip on" onclick="fmt(this,'all')">All Formats</button>
+          <button class="chip" onclick="fmt(this,'wa')">WhatsApp</button>
+          <button class="chip" onclick="fmt(this,'ig')">Instagram Post</button>
+          <button class="chip" onclick="fmt(this,'story')">Instagram Story</button>
+          <button class="chip" onclick="fmt(this,'fb')">Facebook</button>
+        </div>
+
+        <div class="creative-grid" id="creativeGrid">
+          <!-- WhatsApp square -->
+          <div class="creative" data-fmt="wa">
+            <div class="creative-preview cv-sq">
+              <span class="cv-tag">1080 × 1080</span>
+              <div class="cv-art cv-bg1">
+                <div class="cv-top"><span class="cv-logo">Boliwala</span><span class="cv-fmt">WhatsApp</span></div>
+                <div>
+                  <div class="cv-head">Bank Auction Flats up to 40% below market</div>
+                  <div class="cv-sub">Verified SARFAESI listings across India</div>
+                  <div class="cv-brand">
+                    <div class="cv-pname">Rahul Mehta</div>
+                    <div class="cv-pphone">📞 +91 98200 11223</div>
+                    <div class="cv-plink">boliwala.com/join?ref=CP_rahul_m8x3</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="creative-foot">
+              <div><div class="cn">Below-Market Deals</div><div class="cd">WhatsApp · Square</div></div>
+              <div class="cf-btns">
+                <button class="icon-btn" title="Share" onclick="toast('Opening share sheet…')"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"/></svg></button>
+                <button class="icon-btn" title="Download" onclick="toast('Downloading personalized image…')"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Instagram post -->
+          <div class="creative" data-fmt="ig">
+            <div class="creative-preview cv-sq">
+              <span class="cv-tag">1080 × 1080</span>
+              <div class="cv-art cv-bg2">
+                <div class="cv-top"><span class="cv-logo">Boliwala</span><span class="cv-fmt">Instagram</span></div>
+                <div>
+                  <div class="cv-head">Your dream home at a bank auction price</div>
+                  <div class="cv-sub">Free listings · Expert bid support</div>
+                  <div class="cv-brand">
+                    <div class="cv-pname">Rahul Mehta</div>
+                    <div class="cv-pphone">📞 +91 98200 11223</div>
+                    <div class="cv-plink">boliwala.com/join?ref=CP_rahul_m8x3</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="creative-foot">
+              <div><div class="cn">Dream Home Deal</div><div class="cd">Instagram · Post</div></div>
+              <div class="cf-btns">
+                <button class="icon-btn" title="Share" onclick="toast('Opening share sheet…')"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"/></svg></button>
+                <button class="icon-btn" title="Download" onclick="toast('Downloading personalized image…')"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Instagram story -->
+          <div class="creative" data-fmt="story">
+            <div class="creative-preview cv-story">
+              <span class="cv-tag">1080 × 1920</span>
+              <div class="cv-art cv-bg4">
+                <div class="cv-top"><span class="cv-logo">Boliwala</span><span class="cv-fmt">Story</span></div>
+                <div>
+                  <div class="cv-head">Swipe up to browse live bank auctions near you</div>
+                  <div class="cv-sub">₹0 to browse · Full address always visible</div>
+                  <div class="cv-brand">
+                    <div class="cv-pname">Rahul Mehta</div>
+                    <div class="cv-pphone">📞 +91 98200 11223</div>
+                    <div class="cv-plink">boliwala.com/join?ref=CP_rahul_m8x3</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="creative-foot">
+              <div><div class="cn">Swipe-Up Story</div><div class="cd">Instagram · Story</div></div>
+              <div class="cf-btns">
+                <button class="icon-btn" title="Share" onclick="toast('Opening share sheet…')"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"/></svg></button>
+                <button class="icon-btn" title="Download" onclick="toast('Downloading personalized image…')"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Facebook -->
+          <div class="creative" data-fmt="fb">
+            <div class="creative-preview cv-sq">
+              <span class="cv-tag">1200 × 1200</span>
+              <div class="cv-art cv-bg3">
+                <div class="cv-top"><span class="cv-logo">Boliwala</span><span class="cv-fmt">Facebook</span></div>
+                <div>
+                  <div class="cv-head">India's only dedicated bank auction platform</div>
+                  <div class="cv-sub">₹3.5 lakh crore of properties, one place</div>
+                  <div class="cv-brand">
+                    <div class="cv-pname">Rahul Mehta</div>
+                    <div class="cv-pphone">📞 +91 98200 11223</div>
+                    <div class="cv-plink">boliwala.com/join?ref=CP_rahul_m8x3</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="creative-foot">
+              <div><div class="cn">Platform Intro</div><div class="cd">Facebook · Post</div></div>
+              <div class="cf-btns">
+                <button class="icon-btn" title="Share" onclick="toast('Opening share sheet…')"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"/></svg></button>
+                <button class="icon-btn" title="Download" onclick="toast('Downloading personalized image…')"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- WhatsApp variant 2 -->
+          <div class="creative" data-fmt="wa">
+            <div class="creative-preview cv-sq">
+              <span class="cv-tag">1080 × 1080</span>
+              <div class="cv-art cv-bg4">
+                <div class="cv-top"><span class="cv-logo">Boliwala</span><span class="cv-fmt">WhatsApp</span></div>
+                <div>
+                  <div class="cv-head">We handle everything. You just bid &amp; win.</div>
+                  <div class="cv-sub">Due diligence · Legal · Possession support</div>
+                  <div class="cv-brand">
+                    <div class="cv-pname">Rahul Mehta</div>
+                    <div class="cv-pphone">📞 +91 98200 11223</div>
+                    <div class="cv-plink">boliwala.com/join?ref=CP_rahul_m8x3</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="creative-foot">
+              <div><div class="cn">Full-Service Pitch</div><div class="cd">WhatsApp · Square</div></div>
+              <div class="cf-btns">
+                <button class="icon-btn" title="Share" onclick="toast('Opening share sheet…')"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"/></svg></button>
+                <button class="icon-btn" title="Download" onclick="toast('Downloading personalized image…')"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Instagram post variant 2 -->
+          <div class="creative" data-fmt="ig">
+            <div class="creative-preview cv-sq">
+              <span class="cv-tag">1080 × 1080</span>
+              <div class="cv-art cv-bg1">
+                <div class="cv-top"><span class="cv-logo">Boliwala</span><span class="cv-fmt">Instagram</span></div>
+                <div>
+                  <div class="cv-head">₹999/year. Unlock every auction detail.</div>
+                  <div class="cv-sub">Membership that pays for itself</div>
+                  <div class="cv-brand">
+                    <div class="cv-pname">Rahul Mehta</div>
+                    <div class="cv-pphone">📞 +91 98200 11223</div>
+                    <div class="cv-plink">boliwala.com/join?ref=CP_rahul_m8x3</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="creative-foot">
+              <div><div class="cn">Membership Offer</div><div class="cd">Instagram · Post</div></div>
+              <div class="cf-btns">
+                <button class="icon-btn" title="Share" onclick="toast('Opening share sheet…')"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z"/></svg></button>
+                <button class="icon-btn" title="Download" onclick="toast('Downloading personalized image…')"><svg fill="none" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"/></svg></button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========== EARNINGS VIEW ========== -->
+      <section class="view" id="earnings">
+        <div class="earn-grid" style="margin-bottom:8px">
+          <div class="card card-p">
+            <div class="section-head" style="margin-top:0"><h2>Commission structure</h2><span class="hint">Set by Boliwala · applies to new commissions</span></div>
+            <div class="commission-info">
+              <div class="ci"><div class="r">10%</div><div class="n">₹999 Subscription</div><div class="d">Per annual subscriber</div></div>
+              <div class="ci"><div class="r">15%</div><div class="n">₹9,999 Package</div><div class="d">Per BidReady package</div></div>
+              <div class="ci"><div class="r">5%</div><div class="n">Success Fee</div><div class="d">Of our 1% winning-bid fee</div></div>
+            </div>
+          </div>
+          <div class="total-card">
+            <div>
+              <div class="lbl">Lifetime earnings</div>
+              <div class="big">₹1,84,620</div>
+              <div class="payout-pill">
+                <svg fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:14px;height:14px"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Monthly payout cycle
+              </div>
+            </div>
+            <div class="note">Paid on the 1st of every month.</div>
+          </div>
+        </div>
+
+        <div class="section-head"><h2>Payout history</h2><span class="hint">Monthly settlements to your account</span></div>
+        <div class="card">
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Period</th><th>Subscriptions</th><th>Packages</th><th>Success Fees</th><th>Total</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td class="u-name">July 2026</td><td>₹799</td><td>₹17,998</td><td>₹12,500</td><td class="earn-cell">₹31,297</td><td><span class="badge b-pending">● Pending</span></td></tr>
+                <tr><td class="u-name">June 2026</td><td>₹1,299</td><td>₹22,497</td><td>₹15,000</td><td class="earn-cell">₹38,796</td><td><span class="badge b-active">✓ Paid</span></td></tr>
+                <tr><td class="u-name">May 2026</td><td>₹999</td><td>₹13,498</td><td>₹10,000</td><td class="earn-cell">₹24,497</td><td><span class="badge b-active">✓ Paid</span></td></tr>
+                <tr><td class="u-name">April 2026</td><td>₹699</td><td>₹19,498</td><td>₹7,500</td><td class="earn-cell">₹27,697</td><td><span class="badge b-active">✓ Paid</span></td></tr>
+                <tr><td class="u-name">March 2026</td><td>₹499</td><td>₹11,999</td><td>₹5,000</td><td class="earn-cell">₹17,498</td><td><span class="badge b-active">✓ Paid</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<div class="copied-toast" id="toast">
+  <svg fill="none" viewBox="0 0 24 24" stroke-width="2.2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5"/></svg>
+  <span id="toastMsg">Referral link copied!</span>
+</div>
+
+<script>
+  const titles = {
+    dashboard:['Dashboard','Your referral network at a glance'],
+    referrals:['My Referrals','Everyone you\'ve brought to Boliwala'],
+    invite:['Invite People','Grow your network — no limit on invites'],
+    creatives:['Marketing Creatives','Auto-branded with your details, ready to share'],
+    earnings:['Earnings & Payouts','Commissions and monthly settlements']
+  };
+  function go(id,el){
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    if(el) el.classList.add('active');
+    document.getElementById('pageTitle').textContent=titles[id][0];
+    document.getElementById('pageSub').textContent=titles[id][1];
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function copyRef(){
+    navigator.clipboard && navigator.clipboard.writeText('boliwala.com/join?ref=CP_rahul_m8x3');
+    toast('Referral link copied!');
+  }
+  let toastTimer;
+  function toast(msg){
+    const t=document.getElementById('toast');
+    document.getElementById('toastMsg').textContent=msg;
+    t.classList.add('show');clearTimeout(toastTimer);
+    toastTimer=setTimeout(()=>t.classList.remove('show'),2200);
+  }
+  function sendInvites(){toast('Invites sent! Track them below.');}
+  function fchip(el,f){
+    el.parentElement.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+    el.classList.add('on');
+    document.querySelectorAll('#refTable tbody tr').forEach(tr=>{
+      tr.style.display = (f==='all'||tr.dataset.f.includes(f))?'':'none';
+    });
+  }
+  function fmt(el,f){
+    el.parentElement.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+    el.classList.add('on');
+    document.querySelectorAll('#creativeGrid .creative').forEach(c=>{
+      c.style.display=(f==='all'||c.dataset.fmt===f)?'':'none';
+    });
+  }
+</script>
+</body>
+</html>
