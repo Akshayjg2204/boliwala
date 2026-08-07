@@ -17,6 +17,7 @@ interface Property {
   status: string;
   emd: string;
   saved?: boolean;
+  views: number;
 }
 
 const properties: Property[] = [
@@ -31,7 +32,8 @@ const properties: Property[] = [
     location: "Sector-9, Airoli, Navi Mumbai",
     area: "~807 sq.ft",
     status: "SARFAESI",
-    emd: "₹6,12,000"
+    emd: "₹6,12,000",
+    views: 342
   },
   {
     id: "BARBNANDY401",
@@ -45,7 +47,8 @@ const properties: Property[] = [
     area: "~464 sq.ft",
     status: "SARFAESI",
     emd: "₹4,20,354",
-    saved: true
+    saved: true,
+    views: 128
   },
   {
     id: "SBI123",
@@ -58,7 +61,8 @@ const properties: Property[] = [
     location: "Andheri West, Mumbai",
     area: "1,240 sq.ft",
     status: "SARFAESI",
-    emd: "₹7,80,000"
+    emd: "₹7,80,000",
+    views: 512
   },
   {
     id: "PNB456",
@@ -71,7 +75,8 @@ const properties: Property[] = [
     location: "Whitefield, Bengaluru",
     area: "2,800 sq.ft",
     status: "SARFAESI",
-    emd: "₹11,20,000"
+    emd: "₹11,20,000",
+    views: 89
   },
   {
     id: "HDFC789",
@@ -84,7 +89,8 @@ const properties: Property[] = [
     location: "New Delhi",
     area: "620 sq.ft",
     status: "NPA",
-    emd: "₹14,50,000"
+    emd: "₹14,50,000",
+    views: 204
   },
   {
     id: "ICICI101",
@@ -97,7 +103,8 @@ const properties: Property[] = [
     location: "Hyderabad, Telangana",
     area: "985 sq.ft",
     status: "SARFAESI",
-    emd: "₹4,20,000"
+    emd: "₹4,20,000",
+    views: 67
   }
 ]
 
@@ -323,8 +330,13 @@ export function PropertyResults() {
 
                 {/* Footer */}
                 <div className="flex items-center justify-between p-3.5 border-t border-border bg-secondary/20 mt-auto">
-                  <div className="text-xs text-muted-foreground">
-                    EMD: <strong className="text-red-500 font-semibold">{p.emd}</strong>
+                  <div className="flex flex-col gap-0.5">
+                    <div className="text-xs text-muted-foreground">
+                      EMD: <strong className="text-red-500 font-semibold">{p.emd}</strong>
+                    </div>
+                    <div className="text-[10px] text-muted-foreground flex items-center gap-1 font-medium">
+                      <Eye className="w-3 h-3" /> <span className="text-orange-400 font-bold">{p.views}</span> views
+                    </div>
                   </div>
                   <div className="flex gap-2">
                     <button 

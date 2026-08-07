@@ -67,7 +67,7 @@ export function ServicesView() {
         </div>
         <h1 className="text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight mb-6 max-w-4xl mx-auto leading-[1.1]">
           Browse for free. <br />
-          <span className="inline-block">Pay only when <HighlightedText>you're serious.</HighlightedText></span>
+          <span className="inline-block whitespace-nowrap">Pay only when <HighlightedText>you're serious.</HighlightedText></span>
         </h1>
         <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto font-light leading-relaxed">
           Start with unlimited free listings. Upgrade to unlock every detail, or hand the whole auction to our experts — you only pay a success fee if you win.
@@ -156,7 +156,7 @@ export function ServicesView() {
                 <ul className="space-y-4 mb-4 flex-1">
                   {[
                     { text: "Everything in Free, plus:", included: true, bold: true },
-                    { text: <span className="font-semibold text-foreground">Unlimited</span>, suffix: " unlocking of all hidden fields", included: true },
+                    { text: <span className="font-semibold text-foreground">500 credits</span>, suffix: " to unlock hidden details", included: true },
                     { text: "Flat number, floor & inspection details", included: true },
                     { text: "Authorised officer & bank contact info", included: true },
                     { text: "Priority email & WhatsApp alerts", included: true },
@@ -350,7 +350,7 @@ export function ServicesView() {
                     <div className="text-[13px] text-muted-foreground mt-1">Flat no., floor, inspection, officer contact</div>
                   </td>
                   <td className="p-6 border-b border-border/50 text-center font-medium">5 credits</td>
-                  <td className="p-6 border-b border-border/50 text-center font-medium text-primary">Unlimited</td>
+                  <td className="p-6 border-b border-border/50 text-center font-medium text-primary">500 credits</td>
                   <td className="p-6 border-b border-border/50 text-center font-medium text-amber-600">Unlimited</td>
                 </tr>
                 <tr className="hover:bg-secondary/20 transition-colors">
@@ -461,7 +461,7 @@ export function ServicesView() {
           <AccordionItem value="item-3" className="border border-border/50 rounded-2xl bg-card px-6 py-2 data-[state=open]:shadow-sm transition-all">
             <AccordionTrigger className="text-[17px] font-medium hover:no-underline">What's the difference between credits and the annual membership?</AccordionTrigger>
             <AccordionContent className="text-muted-foreground text-[16px] leading-relaxed pt-2 pb-4">
-              Every free account gets 5 credits, and each credit unlocks the hidden fields on one property. The ₹999 annual membership removes the limit entirely — unlock as many properties as you want for a full year.
+              Every free account gets 5 credits, and each credit unlocks the hidden fields on one property. The ₹999 annual membership gives you 500 credits to unlock properties for a full year.
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-4" className="border border-border/50 rounded-2xl bg-card px-6 py-2 data-[state=open]:shadow-sm transition-all">

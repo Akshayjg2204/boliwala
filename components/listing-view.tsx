@@ -5,7 +5,14 @@ import { Building2, Share2, Download, ChevronLeft, ChevronRight, Check, Search, 
 
 export function ListingView() {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const totalSlides = 4
+  
+  const slides = [
+    { emoji: "🏢", from: "from-[#0f3d20]", to: "to-[#1a6b35]" },
+    { emoji: "🚪", from: "from-[#2a1a0f]", to: "to-[#5c3d1a]" },
+    { emoji: "🛋️", from: "from-[#0f1929]", to: "to-[#1a3352]" },
+    { emoji: "🏞️", from: "from-[#2a0f2a]", to: "to-[#5c1a5c]" },
+  ]
+  const totalSlides = slides.length
 
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % totalSlides)
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + totalSlides) % totalSlides)
@@ -44,9 +51,9 @@ export function ListingView() {
           </div>
 
           {/* Carousel */}
-          <div className="relative rounded-xl overflow-hidden h-[300px] md:h-[400px] mb-6 bg-slate-900 group">
+          <div className="relative rounded-xl overflow-hidden h-[300px] md:h-[400px] mb-4 bg-slate-900 group">
             <div className="absolute top-4 right-4 bg-black/60 text-white text-sm font-semibold px-3 py-1 rounded-full backdrop-blur-sm z-10">
-              <span>{currentSlide + 1}</span> / {totalSlides}
+              <span>{currentSlide + 1}</span> / {slides.length}
             </div>
             <div className="absolute bottom-4 left-4 bg-black/55 text-white/90 text-[11px] font-medium px-2.5 py-1 rounded-md backdrop-blur-sm z-10">
               Representative images
@@ -56,10 +63,11 @@ export function ListingView() {
               className="flex h-full transition-transform duration-500 ease-out" 
               style={{ transform: `translateX(-${currentSlide * 100}%)` }}
             >
-              <div className="min-w-full h-full flex items-center justify-center text-7xl md:text-9xl bg-gradient-to-br from-[#0f3d20] to-[#1a6b35]">🏢</div>
-              <div className="min-w-full h-full flex items-center justify-center text-7xl md:text-9xl bg-gradient-to-br from-[#2a1a0f] to-[#5c3d1a]">🚪</div>
-              <div className="min-w-full h-full flex items-center justify-center text-7xl md:text-9xl bg-gradient-to-br from-[#0f1929] to-[#1a3352]">🛋️</div>
-              <div className="min-w-full h-full flex items-center justify-center text-7xl md:text-9xl bg-gradient-to-br from-[#2a0f2a] to-[#5c1a5c]">🏞️</div>
+              {slides.map((slide, i) => (
+                <div key={i} className={`min-w-full h-full flex items-center justify-center text-7xl md:text-9xl bg-gradient-to-br ${slide.from} ${slide.to}`}>
+                  {slide.emoji}
+                </div>
+              ))}
             </div>
 
             <button onClick={prevSlide} className="absolute top-1/2 -translate-y-1/2 left-4 w-10 h-10 rounded-full bg-white/95 text-foreground flex items-center justify-center shadow-lg hover:bg-white hover:scale-105 transition-all z-10 opacity-0 group-hover:opacity-100 focus:opacity-100">
@@ -68,16 +76,25 @@ export function ListingView() {
             <button onClick={nextSlide} className="absolute top-1/2 -translate-y-1/2 right-4 w-10 h-10 rounded-full bg-white/95 text-foreground flex items-center justify-center shadow-lg hover:bg-white hover:scale-105 transition-all z-10 opacity-0 group-hover:opacity-100 focus:opacity-100">
               <ChevronRight className="w-5 h-5" />
             </button>
+          </div>
 
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-              {Array.from({ length: totalSlides }).map((_, i) => (
-                <button 
-                  key={i} 
-                  onClick={() => goToSlide(i)}
-                  className={`h-2 rounded-full transition-all ${i === currentSlide ? 'w-6 bg-white' : 'w-2 bg-white/50 hover:bg-white/80'}`}
-                />
-              ))}
-            </div>
+          {/* Thumbnails */}
+          <div className="flex gap-2.5 mb-6 overflow-x-auto pb-2 scrollbar-hide">
+            {slides.map((slide, i) => (
+              <button
+                key={i}
+                onClick={() => goToSlide(i)}
+                className={`relative w-20 h-20 md:w-24 md:h-24 rounded-lg overflow-hidden shrink-0 border-2 transition-all ${
+                  i === currentSlide 
+                    ? 'border-orange-400 opacity-100 ring-2 ring-orange-400/20' 
+                    : 'border-transparent opacity-60 hover:opacity-100 hover:border-border'
+                }`}
+              >
+                <div className={`w-full h-full flex items-center justify-center text-3xl bg-gradient-to-br ${slide.from} ${slide.to}`}>
+                  {slide.emoji}
+                </div>
+              </button>
+            ))}
           </div>
 
           {/* Tags */}
@@ -86,7 +103,7 @@ export function ListingView() {
               <Check className="w-3.5 h-3.5" /> Bank of Baroda — SARFAESI
             </span>
             <span className="inline-flex items-center gap-1.5 bg-amber-100/80 text-amber-700 border border-amber-200 text-[11px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-md">
-              📅 Auction: 07 Jul 2026
+              📅 Auction: <span className="blur-sm select-none">07 Jul 2026</span>
             </span>
             <span className="inline-flex items-center gap-1.5 bg-secondary/80 text-muted-foreground border border-border text-[11px] font-bold uppercase tracking-wide px-2.5 py-1 rounded-md">
               🔑 Physical Possession
@@ -164,7 +181,9 @@ export function ListingView() {
                 <tbody className="divide-y divide-border">
                   <tr className="hover:bg-secondary/20 transition-colors">
                     <td className="px-6 py-3.5 text-muted-foreground w-[40%] md:w-1/3">Auction Date</td>
-                    <td className="px-6 py-3.5 font-bold text-foreground">07 July 2026</td>
+                    <td className="px-6 py-3.5 font-bold text-foreground">
+                      <span className="inline-flex items-center gap-1.5 text-muted-foreground italic font-normal"><Lock className="w-3.5 h-3.5" /> <a className="text-orange-400 font-semibold cursor-pointer hover:underline not-italic">Sign up to view</a></span>
+                    </td>
                   </tr>
                   <tr className="hover:bg-secondary/20 transition-colors">
                     <td className="px-6 py-3.5 text-muted-foreground">Auction Time</td>
@@ -220,8 +239,16 @@ export function ListingView() {
                   <span className="text-muted-foreground font-semibold blur-sm select-none tracking-wider">02:00 PM</span>
                 </div>
                 <div className="flex items-center justify-between px-4 py-2.5 bg-secondary/30 border border-border rounded-lg text-sm">
-                  <span className="text-muted-foreground flex items-center gap-1.5">👤 Officer</span>
-                  <span className="text-muted-foreground font-semibold blur-sm select-none tracking-wider">98XXXXXXXX</span>
+                  <span className="text-muted-foreground flex items-center gap-1.5">👤 Authorised Officer</span>
+                  <span className="text-muted-foreground font-semibold blur-sm select-none tracking-wider">Ramesh Kumar</span>
+                </div>
+                <div className="flex items-center justify-between px-4 py-2.5 bg-secondary/30 border border-border rounded-lg text-sm">
+                  <span className="text-muted-foreground flex items-center gap-1.5">🏢 Bank Branch</span>
+                  <span className="text-muted-foreground font-semibold blur-sm select-none tracking-wider">Airoli Sector-9</span>
+                </div>
+                <div className="flex items-center justify-between px-4 py-2.5 bg-secondary/30 border border-border rounded-lg text-sm">
+                  <span className="text-muted-foreground flex items-center gap-1.5">📞 Phone</span>
+                  <span className="text-muted-foreground font-semibold blur-sm select-none tracking-wider">+91 9876543210</span>
                 </div>
               </div>
 
@@ -261,10 +288,6 @@ export function ListingView() {
             </div>
           </div>
 
-          {/* Disclaimer */}
-          <div className="bg-amber-50 border border-amber-200/60 rounded-xl p-5 text-sm text-amber-900/80 leading-relaxed">
-            <strong className="text-amber-600">⚠️ Important:</strong> This property is sold on an <strong>"As is where is", "As is what is"</strong> and <strong>"Whatever there is"</strong> basis. Intending bidders should make their own independent enquiries and verify the property, title, encumbrances, dues and statutory charges before bidding. The successful bidder must deposit 25% of the bid amount (including EMD) immediately and the balance 75% within 15 days. Applicable TDS under Section 194-IA and GST apply. Source: Bank of Baroda E-Auction Sale Notice dated 29 May 2026.
-          </div>
         </div>
 
         {/* RIGHT COLUMN (Action Card) */}
@@ -280,7 +303,7 @@ export function ListingView() {
             <div className="bg-amber-100/50 border border-amber-200/50 rounded-lg p-3 flex items-center gap-3 mb-3">
               <span className="text-2xl">📅</span>
               <div>
-                <strong className="block text-sm font-bold text-amber-600">Auction: 07 July 2026</strong>
+                <strong className="block text-sm font-bold text-amber-600">Auction: <span className="blur-sm select-none">07 July 2026</span></strong>
                 <span className="text-xs text-muted-foreground">02:00 PM – 04:00 PM · Online</span>
               </div>
             </div>
@@ -288,7 +311,7 @@ export function ListingView() {
             <div className="bg-blue-50/50 border border-blue-100 rounded-lg p-3 flex items-center gap-3 mb-6">
               <span className="text-xl text-blue-500"><Search className="w-6 h-6" /></span>
               <div>
-                <strong className="block text-sm font-bold text-blue-600">Inspection: 01 July 2026</strong>
+                <strong className="block text-sm font-bold text-blue-600">Inspection: <span className="blur-sm select-none">01 July 2026</span></strong>
                 <span className="text-xs text-muted-foreground">02:00 PM – 04:00 PM</span>
               </div>
             </div>
@@ -352,7 +375,6 @@ export function ListingView() {
       <div className="mt-16 pt-16 border-t border-border">
         <div className="flex items-end justify-between flex-wrap gap-4 mb-8">
           <div>
-            <span className="text-[11px] font-bold uppercase tracking-wider text-orange-400 block mb-2">Same Area · Same Building</span>
             <h2 className="text-2xl font-bold tracking-tight text-foreground">Other Auctions in Airoli</h2>
           </div>
           <a className="text-sm font-semibold text-orange-400 cursor-pointer hover:underline">View all Airoli auctions →</a>
@@ -364,7 +386,7 @@ export function ListingView() {
             <div className="h-40 bg-gradient-to-br from-[#0f1929] to-[#1a3352] flex items-center justify-center text-5xl relative">
               🏢
               <div className="absolute top-2.5 left-2.5 bg-amber-500 text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wide">Bank of Baroda</div>
-              <div className="absolute bottom-2.5 left-2.5 bg-black/60 text-white text-[10px] font-semibold px-2 py-1 rounded backdrop-blur-sm">📅 07 Jul 2026</div>
+              <div className="absolute bottom-2.5 left-2.5 bg-black/60 text-white text-[10px] font-semibold px-2 py-1 rounded backdrop-blur-sm">📅 <span className="blur-sm select-none">07 Jul 2026</span></div>
             </div>
             <div className="p-4 flex-1 flex flex-col">
               <div className="text-xl font-bold text-foreground tracking-tight">₹42,03,540</div>
@@ -376,6 +398,7 @@ export function ListingView() {
                 <span className="text-[10px] text-muted-foreground bg-secondary/50 px-2 py-1 rounded border border-border">🏢 Flat</span>
                 <span className="text-[10px] text-muted-foreground bg-secondary/50 px-2 py-1 rounded border border-border">📐 ~464 sq.ft</span>
                 <span className="text-[10px] text-muted-foreground bg-secondary/50 px-2 py-1 rounded border border-border">🔑 Physical</span>
+                <span className="text-[10px] text-muted-foreground bg-secondary/50 px-2 py-1 rounded border border-border flex items-center gap-1"><Eye className="w-3 h-3" /> <strong className="text-orange-400">128</strong> views</span>
               </div>
               
               <div className="mt-auto pt-3 border-t border-border flex items-center justify-between">
@@ -401,6 +424,7 @@ export function ListingView() {
               <div className="flex flex-wrap gap-1.5 mb-3">
                 <span className="text-[10px] text-muted-foreground bg-secondary/50 px-2 py-1 rounded border border-border">🏢 Flat</span>
                 <span className="text-[10px] text-muted-foreground bg-secondary/50 px-2 py-1 rounded border border-border">🔑 Physical</span>
+                <span className="text-[10px] text-muted-foreground bg-secondary/50 px-2 py-1 rounded border border-border flex items-center gap-1"><Eye className="w-3 h-3" /> <strong className="text-orange-400">54</strong> views</span>
               </div>
               
               <div className="mt-auto pt-3 border-t border-border flex items-center justify-between">
@@ -426,6 +450,7 @@ export function ListingView() {
               <div className="flex flex-wrap gap-1.5 mb-3">
                 <span className="text-[10px] text-muted-foreground bg-secondary/50 px-2 py-1 rounded border border-border">🏢 Flat</span>
                 <span className="text-[10px] text-muted-foreground bg-secondary/50 px-2 py-1 rounded border border-border">🔮 Symbolic</span>
+                <span className="text-[10px] text-muted-foreground bg-secondary/50 px-2 py-1 rounded border border-border flex items-center gap-1"><Eye className="w-3 h-3" /> <strong className="text-orange-400">210</strong> views</span>
               </div>
               
               <div className="mt-auto pt-3 border-t border-border flex items-center justify-between">
@@ -440,7 +465,7 @@ export function ListingView() {
         <div className="mt-6 bg-blue-50/50 border border-blue-100 rounded-xl p-5 flex items-start gap-4">
           <span className="text-2xl shrink-0">💡</span>
           <div className="text-sm text-muted-foreground leading-relaxed">
-            <strong className="text-orange-400 font-semibold">Same auction notice:</strong> Flat No. 401 (the first card above) is from the same Bank of Baroda auction notice as this property. Both properties go to auction on 07 July 2026 at 02:00 PM via baanknet.com. You could bid on either — or both — in the same session. <a className="text-orange-400 font-semibold cursor-pointer hover:underline">Read the full notice →</a>
+            <strong className="text-orange-400 font-semibold">Same auction notice:</strong> Flat No. 401 (the first card above) is from the same Bank of Baroda auction notice as this property. Both properties go to auction on <span className="blur-sm select-none">07 July 2026</span> at 02:00 PM via baanknet.com. You could bid on either — or both — in the same session. <a className="text-orange-400 font-semibold cursor-pointer hover:underline">Read the full notice →</a>
           </div>
         </div>
       </div>

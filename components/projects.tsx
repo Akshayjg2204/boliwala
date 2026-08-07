@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { ArrowUpRight, MapPin, Building2, Heart, FileDown } from "lucide-react"
+import { ArrowUpRight, MapPin, Building2, Heart, FileDown, Eye } from "lucide-react"
 
 const projects = [
   {
@@ -14,7 +14,8 @@ const projects = [
     emd: "₹18.5 Lakhs",
     auctionDate: "24 Aug 2026",
     possession: "Physical Possession",
-    image: "/images/hously-1.png", 
+    image: "/images/hously-1.png",
+    views: 450
   },
   {
     id: 2,
@@ -26,7 +27,8 @@ const projects = [
     emd: "₹42 Lakhs",
     auctionDate: "30 Aug 2026",
     possession: "Symbolic Possession",
-    image: "/images/hously-2.png", 
+    image: "/images/hously-2.png",
+    views: 231
   },
   {
     id: 3,
@@ -38,7 +40,8 @@ const projects = [
     emd: "₹31.5 Lakhs",
     auctionDate: "05 Sep 2026",
     possession: "Physical Possession",
-    image: "/images/hously-3.png", 
+    image: "/images/hously-3.png",
+    views: 618
   },
 ]
 
@@ -140,9 +143,15 @@ export function Projects() {
                 {/* Middle Area: Title, Location, Data Grid */}
                 <div className="mb-6">
                   <h3 className="text-2xl font-medium mb-2 group-hover:text-orange-400 transition-colors line-clamp-1">{project.title}</h3>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground mb-8">
-                    <MapPin className="w-4 h-4" />
-                    <span className="truncate">{project.location}</span>
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-muted-foreground mb-8">
+                    <div className="flex items-center gap-1.5">
+                      <MapPin className="w-4 h-4" />
+                      <span className="truncate">{project.location}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 text-xs bg-secondary/50 px-2 py-1 rounded-md border border-border">
+                      <Eye className="w-3.5 h-3.5" />
+                      <span><strong className="text-orange-400 font-bold">{project.views}</strong> views</span>
+                    </div>
                   </div>
                   
                   {/* 2x2 Data Grid */}

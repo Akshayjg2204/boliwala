@@ -1,16 +1,15 @@
 "use client"
 
-import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { SearchSection } from "@/components/search-section"
-import { PropertyResults } from "@/components/property-results"
 
 export default function SearchPage() {
-  const [hasSearched, setHasSearched] = useState(false)
+  const router = useRouter()
 
   const handleSearch = () => {
-    setHasSearched(true)
+    router.push('/search/results')
   }
 
   return (
@@ -18,7 +17,6 @@ export default function SearchPage() {
       <Header />
       <div className="flex-1 pt-24 md:pt-28">
         <SearchSection onSearch={handleSearch} />
-        {hasSearched && <PropertyResults />}
       </div>
       <Footer />
     </main>
