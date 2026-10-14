@@ -8,10 +8,29 @@ import { SmoothScrolling } from "@/components/smooth-scrolling"
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Boliwala.com — We Know Auctions!",
+  metadataBase: new URL("https://boliwala.netlify.app"),
+  title: "Boliwala — Bank Auction Real-Estate Platform",
   description:
-    "India's first dedicated platform for SARFAESI bank auction properties. Find, filter, and bid on bank auctions across India.",
-  generator: "v0.app",
+    "India's dedicated platform for SARFAESI bank auction properties. Find, filter, and bid on bank auctions across India.",
+  authors: [{ name: "Akshay Gaikwad", url: "https://stream-line.dev" }],
+  creator: "Akshay Gaikwad",
+  openGraph: {
+    title: "Boliwala — Bank Auction Real-Estate Platform",
+    description:
+      "Modern real-estate auction frontend showcase built with Next.js 16, React 19, and Tailwind CSS.",
+    url: "https://boliwala.netlify.app",
+    siteName: "Boliwala",
+    images: [
+      {
+        url: "/preview.png",
+        width: 1200,
+        height: 630,
+        alt: "Boliwala Platform Preview",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
   icons: {
     icon: [
       {
