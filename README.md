@@ -27,12 +27,12 @@
 
 <div align="center">
   <a href="https://boliwala.netlify.app/">
-    <img src="./public/demo.gif" alt="Boliwala Live Hero Section Preview" width="100%" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);" />
+    <img src="./public/boliwala_walkthrough.gif" alt="Boliwala Live Hero Section Preview" width="100%" style="border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);" />
   </a>
   <p align="center">
     <sub><b>✨ Autoplaying preview of the hero section interactions & smooth scroll dynamics.</b></sub><br>
     <b><a href="https://boliwala.netlify.app/">🚀 Launch Live Web App</a></b> &nbsp;•&nbsp; 
-    <b><a href="./public/demo.mp4">📥 Download Full 60 FPS HD Video (MP4)</a></b>
+    <b><a href="./public/demo.mp4">📥 Download / Watch Full 60 FPS HD Video (MP4)</a></b>
   </p>
 </div>
 
