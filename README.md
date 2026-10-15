@@ -1,4 +1,4 @@
-# 🏛️ Boliwala — Bank Auction Real-Estate Platform
+# 🏛️ Boliwala — Bank Auction Real-Estate Platform (Frontend Demo)
 
 <div align="center">
   <p align="center">
